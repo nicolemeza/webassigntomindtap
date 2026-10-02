@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap');
+.rail button{display:flex;align-items:center;justify-content:center}.rail button img{width:32px;height:32px;object-fit:contain}
+.brand{display:flex;align-items:center}.brand img{display:block;width:180px;height:32px;object-fit:contain;object-position:left center}.search svg{flex:none}.help{display:flex;align-items:center}.user svg{flex:none}
+.course-head{padding:0}.course-line{height:56px;padding:8px 16px}
+.view-tabs button:first-child{border-radius:8px 0 0 8px}.view-tabs button:last-child{border-radius:0 8px 8px 0}
+.rail button.selected{background:#5a5a5a}
+.toolbar .expand{border:1px solid #006298!important;border-radius:8px!important;padding:4px 8px!important;min-height:28px!important;text-transform:uppercase!important;letter-spacing:.32px}.toolbar .filter{display:inline-flex;align-items:center;gap:4px}.toolbar .filter svg{display:block}.folder-icon{display:flex;align-items:center}.folder-icon svg{display:block;width:24px;height:24px}
+.folder{height:56px}.folder-chevron{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;padding:8px!important;margin-left:-8px!important;margin-right:-2px!important}.folder-chevron svg{width:24px!important;height:24px!important;color:#006298}
+button{font-family:'Work Sans',Arial,sans-serif}.toolbar .add{background:#178037!important;border-radius:20px!important;padding:10px 16px!important;color:#fff!important}.toolbar .filter{margin-left:16px}.report .primary,.recent .gradebook{display:block;margin:16px auto 0}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:10}.toast.show{opacity:1}
