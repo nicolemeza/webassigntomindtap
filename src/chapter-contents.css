@@ -1,0 +1,44 @@
+.left{display:flex;flex-direction:column}
+.course-head,.toolbar{flex-shrink:0}
+.folders{flex:1;min-height:0;height:auto}
+.folder{padding-right:8px}
+.chapter-contents{display:flex;flex-direction:column;gap:8px;padding:8px 0 8px 52px;background:#fff}
+.chapter-reading{display:flex;align-items:center;min-height:56px;border:1px solid #dfdfdf;background:#fff}
+.chapter-reading-icon{display:flex;align-items:center;justify-content:center;align-self:stretch;width:40px;flex-shrink:0;background:#f7f7f7;border-right:1px solid #dfdfdf}
+.chapter-reading img,.chapter-section img{display:block;flex-shrink:0}
+.chapter-reading-link{flex:1;min-width:0;padding:8px;font-size:16px;line-height:24px;color:#006298;overflow-wrap:anywhere}
+.chapter-reading-link,.chapter-reading-link:visited{color:#006298!important}
+.chapter-reading-menu{align-self:stretch;display:flex;align-items:center;justify-content:center;border-left:1px solid #dfdfdf;padding:0 8px}
+.chapter-section-header{display:flex;align-items:center;gap:16px;height:44px;padding-right:8px;background:#fff}
+.chapter-section-toggle,.chapter-content-menu{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;padding:8px!important;flex-shrink:0}
+.chapter-section-icon{display:flex;align-items:center;flex-shrink:0;color:#454545}
+.chapter-section-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:18px;line-height:24px;font-weight:600;color:#454545}
+.chapter-section.is-open .chapter-section-toggle img{transform:rotate(180deg)}
+.chapter-section-panel{display:flex;flex-direction:column;gap:8px;margin:8px 0 0 48px;padding-bottom:8px}
+.chapter-section-panel[hidden]{display:none}
+.activity-menu{position:relative;flex-shrink:0}
+.chapter-content-menu.is-active{background:#babde9!important}
+.activity-menu-content{width:332px!important;border:1px solid #d4d4d4!important;border-radius:8px!important;padding:8px 0!important;box-shadow:0 2px 6px #0000002e!important;background:#fff!important}
+.activity-menu-content [role="menuitem"]{height:40px;min-height:40px;display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:16px;line-height:24px;font-weight:400;color:#454545}
+.activity-menu-content [role="menuitem"]>span{margin:0!important}
+.chapter-activity{display:flex;min-height:56px;border:1px solid #dfdfdf;background:#fff;min-width:0}
+.chapter-activity.is-assessment{background:#f7f7f7}
+.chapter-activity-icon{display:flex;align-items:center;justify-content:center;flex:0 0 39px;border-right:1px solid #dfdfdf;background:#f7f7f7}
+.chapter-activity-body{flex:1;min-width:0}
+.chapter-activity-main{display:flex;align-items:stretch;min-height:54px}
+.chapter-activity-title{display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:8px}
+.chapter-activity-title .chapter-reading-link{padding:0;flex:none;line-height:24px;font-size:16px}
+.chapter-activity-type{display:flex;align-items:center;gap:4px;line-height:16px;font-size:12px;font-weight:600;letter-spacing:.32px;color:#454545}
+.chapter-activity-stats{display:flex;flex-shrink:0}
+.chapter-activity-stats>span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:70px;padding:8px;border-left:1px solid #d4d4d4;background:#f5f5f5;color:#454545}
+.chapter-activity-stats>span:last-child{min-width:52px}
+.chapter-activity-stats strong{font-size:18px;line-height:18px;font-weight:700}
+.chapter-activity-stats small{font-size:12px;line-height:16px;white-space:nowrap}
+.chapter-activity-menu{display:flex;align-items:center;justify-content:center;flex:0 0 56px;border-left:1px solid #dfdfdf;background:#fff}
+.chapter-activity-time{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px;padding:7px 8px;border-top:1px solid #dfdfdf;background:#fff;color:#707070;font-size:14px;line-height:20px;letter-spacing:.16px}
+.activity-details-toggle{width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;padding:0!important}
+.activity-details-toggle.is-open img{transform:rotate(180deg)}
+.chapter-activity-details{padding:8px;border-top:1px solid #dfdfdf;background:#fff;color:#707070;font-size:14px;line-height:20px}
+.chapter-activity-details[hidden]{display:none}
+.chapter-activity-hidden{display:block;font-size:12px;line-height:16px;color:#707070}
+.chapter-activity.is-hidden .chapter-reading-link,.chapter-reading.is-hidden .chapter-reading-link{color:#707070!important}

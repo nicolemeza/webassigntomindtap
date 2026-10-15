@@ -1,0 +1,62 @@
+import React, { useId, useState } from 'react';
+import { ButtonColor, ButtonVariant, Hyperlink, IconButton } from 'react-magma-dom';
+import ActivityMenu from './ActivityMenu';
+import ChapterIcon from './ChapterIcon';
+import { getChapterAssignments } from './chapterAssignments';
+
+export const sectionActivities = {
+  'Learn It': [
+    { title: 'Check Your Understanding #.1', icon: 'assessment', type: 'PRACTICE', minutes: 10, points: 8 },
+    { title: 'Check Your Understanding #.2', icon: 'assessment', type: 'PRACTICE', minutes: 15, points: 10 },
+  ],
+  'Study It': [
+    { title: 'PowerPoints', icon: 'powerpoints' },
+    { title: 'Flashcards', icon: 'flashcards' },
+  ],
+  'Apply It': [
+    { title: 'Labeling', icon: 'assessment', type: 'COUNTS TOWARDS GRADE', minutes: 15, points: 10 },
+    { title: 'Video', icon: 'assessment', type: 'COUNTS TOWARDS GRADE', minutes: 10, points: 5 },
+    { title: 'Quiz', icon: 'assessment', type: 'COUNTS TOWARDS GRADE', minutes: 30, points: 20 },
+  ],
+};
+
+export function getSectionActivities(chapter) {
+  return getChapterAssignments(chapter) || sectionActivities;
+}
+
+export function getChapterActivityCount(chapter) {
+  return 1 + Object.values(getSectionActivities(chapter)).reduce((count, activities) => count + activities.length, 0);
+}
+
+export default function ActivityRow({ activity, chapter, onPreview, notify }) {
+  const [isHidden, setIsHidden] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const detailsId = useId();
+  const hasStats = activity.points !== undefined;
+  const preview = () => onPreview(activity);
+  return <div className={`chapter-activity ${hasStats ? 'is-assessment' : ''} ${isHidden ? 'is-hidden' : ''}`}>
+    <span className="chapter-activity-icon"><ChapterIcon name={activity.icon} /></span>
+    <div className="chapter-activity-body">
+      <div className="chapter-activity-main">
+        <div className="chapter-activity-title">
+          <Hyperlink className="chapter-reading-link" to={`#activity-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} hasUnderline={false} onClick={(event) => { event.preventDefault(); preview(); }}>{activity.title}</Hyperlink>
+          {activity.type && <span className="chapter-activity-type">{activity.type === 'COUNTS TOWARDS GRADE' && <ChapterIcon name="graded" />}{activity.type}</span>}
+          {isHidden && <span className="chapter-activity-hidden">Hidden from students</span>}
+        </div>
+        {hasStats && <div className="chapter-activity-stats">
+          <span><strong>0%</strong><small>submitted</small></span>
+          <span><strong>--</strong><small>avg score</small></span>
+          <span><strong>{activity.points}</strong><small>points</small></span>
+        </div>}
+        <span className="chapter-activity-menu"><ActivityMenu label={`${activity.title} in ${chapter}`} isHidden={isHidden} onHide={() => { setIsHidden(!isHidden); notify(`${activity.title} ${isHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={preview} notify={notify} /></span>
+      </div>
+      {hasStats && <>
+        <div className="chapter-activity-time">
+          <span>Estimated time: {activity.minutes} minutes</span>
+          <IconButton className={`activity-details-toggle ${detailsOpen ? 'is-open' : ''}`} variant={ButtonVariant.link} color={ButtonColor.primary} icon={<ChapterIcon name="expand-details" />} aria-label={`${detailsOpen ? 'Hide' : 'Show'} details for ${activity.title} in ${chapter}`} aria-expanded={detailsOpen} aria-controls={detailsId} onClick={() => setDetailsOpen(!detailsOpen)} />
+        </div>
+        <div id={detailsId} className="chapter-activity-details" hidden={!detailsOpen}>{activity.type === 'PRACTICE' ? 'Practice activity' : 'Counts towards grade'} · {activity.points} points · {chapter}</div>
+      </>}
+    </div>
+  </div>;
+}
