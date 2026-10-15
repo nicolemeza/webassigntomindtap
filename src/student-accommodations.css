@@ -1,0 +1,63 @@
+.student-accommodations{display:grid;grid-template-columns:minmax(0,826fr) minmax(0,394fr);gap:16px;align-items:start;color:var(--brand-navy);font:400 16px/24px var(--font-ui)}
+.student-accommodations[hidden]{display:none}
+.accommodation-roster{min-width:0;display:flex;flex-direction:column;gap:16px}
+.accommodation-filter{display:flex;align-items:center;gap:8px;font:500 14px/20px var(--font-ui);min-height:40px}
+.accommodation-filter>span{margin-left:auto;white-space:nowrap}
+.student-accommodations select,.accommodation-number input{box-sizing:border-box;width:100%;height:40px;border:1px solid #8b99aa!important;border-radius:8px!important;color:var(--text-subdued);background:white;font:400 16px/24px var(--font-ui)!important;padding:7px 8px!important;box-shadow:none!important}
+.student-accommodations select{appearance:none;background:white url('/rebrand/course-arrow.svg') right 8px center no-repeat;padding-right:36px!important}
+.accommodation-filter select{max-width:260px;min-width:140px;flex:1}
+.accommodation-table-frame{border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.accommodation-table-scroll{max-height:716px;overflow:auto;scroll-padding:8px}
+.accommodation-table-scroll table{width:100%;min-width:680px;border-collapse:separate;border-spacing:0;table-layout:fixed}
+.student-select-column{width:40px}.student-name-column{width:196px}
+.accommodation-table-scroll th,.accommodation-table-scroll td{text-align:left;padding:12px 16px;box-sizing:border-box;vertical-align:middle;border-bottom:1px solid var(--border);font-weight:400;overflow-wrap:anywhere}
+.accommodation-table-scroll th:first-child,.accommodation-table-scroll td:first-child{padding-left:16px;padding-right:0}
+.accommodation-table-scroll thead th{position:sticky;top:0;z-index:1;background:#f1f3f7;font-size:14px;line-height:20px;height:44px}
+.accommodation-table-scroll tbody tr{height:48px}
+.accommodation-table-scroll tbody tr.is-selected{background:var(--page-bg)}
+.accommodation-empty{color:var(--text-subdued);text-align:center!important;padding:24px!important}
+.accommodation-check{display:inline-flex;align-items:center;vertical-align:middle;min-width:24px;min-height:24px}
+.accommodation-check>div{margin:0!important;padding:0!important}
+.accommodation-check label{margin:0!important;padding:0!important;min-height:24px;display:flex;align-items:center;font:400 16px/24px var(--font-ui)!important;color:var(--brand-navy)!important}
+.accommodation-check label>span[aria-hidden="true"]{margin:0!important;border:0!important;width:24px;height:24px;background:transparent url('/rebrand/accommodation-checkbox.svg') center no-repeat!important;color:var(--brand-navy)!important}
+.accommodation-check label>span[aria-hidden="true"] svg{visibility:hidden}
+.accommodation-check input:checked+label>span[aria-hidden="true"]{background-image:none!important}
+.accommodation-check input:checked+label>span[aria-hidden="true"] svg{visibility:visible}
+.accommodation-check.is-remove label>span[aria-hidden="true"]{margin-right:8px!important;background-image:url('/rebrand/accommodation-remove-checkbox.svg')!important}
+.accommodation-check.is-remove input:checked+label>span[aria-hidden="true"]{background-image:none!important}
+.accommodation-check input:focus-visible+label>span[aria-hidden="true"]{outline:2px solid var(--brand-teal)!important;outline-offset:2px}
+.accommodation-pagination{display:flex;align-items:center;gap:16px;background:#f1f3f7;padding:8px 16px;font:600 14px/20px var(--font-ui)}
+.accommodation-pagination label{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.accommodation-pagination select{width:80px}
+.accommodation-pagination>span{white-space:nowrap}
+.accommodation-pagination>div{margin-left:auto;display:flex;gap:8px;border-left:1px solid var(--border);padding-left:16px}
+.accommodation-page-button{padding:0!important;width:40px!important;height:40px!important;min-width:40px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.accommodation-page-button:disabled{opacity:.5}
+.accommodation-editor{display:flex;flex-direction:column;gap:12px;min-width:0}
+.accommodation-editor section{display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--border);padding-bottom:16px}
+.accommodation-editor section:last-of-type{border-bottom:0;padding-bottom:8px}
+.accommodation-editor h3{margin:0;font:600 16px/24px 'Work Sans',Arial,sans-serif;color:#454545}
+.accommodation-editor p{font:400 16px/24px 'Work Sans',Arial,sans-serif;margin:0;color:#454545}
+.accommodation-editor p strong{font-weight:500}
+.accommodation-editor small{font:400 14px/20px var(--font-ui);color:var(--text-subdued)}
+.accommodation-editor label{font:600 14px/20px var(--font-ui)!important;letter-spacing:.16px;color:var(--brand-navy)!important}
+.accommodation-number-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.accommodation-number{position:relative;min-width:0}
+.accommodation-number [class*="UpperWrapper"]{margin-bottom:8px!important}
+.accommodation-number label{padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
+.accommodation-editor .accommodation-check label{font-family:var(--font-ui)!important;font-size:16px!important;font-weight:400!important;letter-spacing:0!important}
+.accommodation-number input{appearance:textfield;padding-right:30px!important}
+.accommodation-number input::-webkit-inner-spin-button{appearance:none}
+.accommodation-number input:disabled,.accommodation-editor select:disabled{background-color:var(--page-bg);color:#8b99aa}
+.accommodation-number [class*="InputWrapper"],.accommodation-number [class*="InputContainer"]{background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible}
+.accommodation-stepper{position:absolute;right:8px;bottom:12px;width:16px;height:16px}
+.accommodation-stepper button{display:block;position:relative;border:0;padding:0;background:var(--border);width:16px;height:8px;overflow:hidden;cursor:pointer}
+.accommodation-stepper img{position:absolute;left:0;top:-4px}
+.student-accommodations :is(input,select,button):focus-visible{outline:2px solid var(--brand-teal);outline-offset:2px}
+.accommodation-apply{width:100%;font-size:16px!important;padding:8px!important;min-height:40px;white-space:normal}
+.accommodation-apply>span{display:flex;gap:8px;align-items:center}
+.accommodation-apply:disabled{color:#8b99aa!important}
+.accommodation-apply:disabled img{opacity:.5}
+.accommodation-editor .accommodation-message{font-size:14px;color:var(--brand-teal)}
+@media(max-width:1100px){.student-accommodations{grid-template-columns:minmax(0,1fr)}.accommodation-editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}.accommodation-editor>.accommodation-apply,.accommodation-editor>p{grid-column:1/-1}}
+@media(max-width:800px){.accommodation-editor{grid-template-columns:minmax(0,1fr)}.accommodation-pagination{gap:8px;flex-wrap:wrap}.accommodation-filter{flex-wrap:wrap}}

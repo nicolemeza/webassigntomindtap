@@ -3,6 +3,9 @@ import { ButtonColor, ButtonVariant, Hyperlink, IconButton } from 'react-magma-d
 import ActivityMenu from './ActivityMenu';
 import ChapterIcon from './ChapterIcon';
 import { getChapterAssignments } from './chapterAssignments';
+import { SelectionCheckbox } from './Selection';
+import { useActivitySettings } from './ActivitySettingsModal';
+import { activityDueDateTime, formatActivityDue } from './activityDates';
 
 export const sectionActivities = {
   'Learn It': [
@@ -21,41 +24,52 @@ export const sectionActivities = {
 };
 
 export function getSectionActivities(chapter) {
-  return getChapterAssignments(chapter) || sectionActivities;
+  const activities = getChapterAssignments(chapter) || sectionActivities;
+  return Object.fromEntries(Object.entries(activities).map(([section, rows]) => [section, rows.map((activity) => ({
+    dueDate: '2026-12-06',
+    dueTime: '23:58',
+    dueTimeZone: 'CST',
+    dueUtcOffset: '-06:00',
+    countsTowardsGrade: true,
+    ...activity,
+  }))]));
 }
 
 export function getChapterActivityCount(chapter) {
   return 1 + Object.values(getSectionActivities(chapter)).reduce((count, activities) => count + activities.length, 0);
 }
 
-export default function ActivityRow({ activity, chapter, onPreview, notify }) {
+export default function ActivityRow({ activity: originalActivity, chapter, section, onPreview, notify }) {
+  const [activity, setSavedActivity] = useActivitySettings(`${chapter}/${section}/${originalActivity.title}`, originalActivity);
   const [isHidden, setIsHidden] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const detailsId = useId();
   const hasStats = activity.points !== undefined;
   const preview = () => onPreview(activity);
-  return <div className={`chapter-activity ${hasStats ? 'is-assessment' : ''} ${isHidden ? 'is-hidden' : ''}`}>
+  return <div className={`chapter-activity ${activity.type ? 'is-assessment' : ''} ${isHidden ? 'is-hidden' : ''}`}>
+    <span className="row-selection"><SelectionCheckbox id={`chapter:${chapter}/${section}/${originalActivity.title}`} label={`Select ${activity.title} in ${chapter}`} /></span>
     <span className="chapter-activity-icon"><ChapterIcon name={activity.icon} /></span>
     <div className="chapter-activity-body">
       <div className="chapter-activity-main">
         <div className="chapter-activity-title">
           <Hyperlink className="chapter-reading-link" to={`#activity-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} hasUnderline={false} onClick={(event) => { event.preventDefault(); preview(); }}>{activity.title}</Hyperlink>
-          {activity.type && <span className="chapter-activity-type">{activity.type === 'COUNTS TOWARDS GRADE' && <ChapterIcon name="graded" />}{activity.type}</span>}
+          {activity.dueDate && <span className="chapter-activity-due">Due <time dateTime={activityDueDateTime(activity)}>{formatActivityDue(activity)}</time></span>}
+          {activity.countsTowardsGrade ? <span className="chapter-activity-type is-graded"><ChapterIcon name="graded" />COUNTS TOWARDS GRADE</span> : <span className="chapter-activity-type">PRACTICE</span>}
           {isHidden && <span className="chapter-activity-hidden">Hidden from students</span>}
         </div>
         {hasStats && <div className="chapter-activity-stats">
-          <span><strong>0%</strong><small>submitted</small></span>
-          <span><strong>--</strong><small>avg score</small></span>
+          <span><strong>{activity.submitted ?? '0%'}</strong><small>submitted</small></span>
+          <span><strong>{activity.averageScore ?? '--'}</strong><small>avg score</small></span>
           <span><strong>{activity.points}</strong><small>points</small></span>
         </div>}
-        <span className="chapter-activity-menu"><ActivityMenu label={`${activity.title} in ${chapter}`} isHidden={isHidden} onHide={() => { setIsHidden(!isHidden); notify(`${activity.title} ${isHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={preview} notify={notify} /></span>
+        <span className="chapter-activity-menu"><ActivityMenu label={`${activity.title} in ${chapter}`} activity={activity} onSave={setSavedActivity} isHidden={isHidden} onHide={() => { setIsHidden(!isHidden); notify(`${activity.title} ${isHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={preview} notify={notify} /></span>
       </div>
-      {hasStats && <>
+      {hasStats && activity.minutes !== undefined && <>
         <div className="chapter-activity-time">
           <span>Estimated time: {activity.minutes} minutes</span>
           <IconButton className={`activity-details-toggle ${detailsOpen ? 'is-open' : ''}`} variant={ButtonVariant.link} color={ButtonColor.primary} icon={<ChapterIcon name="expand-details" />} aria-label={`${detailsOpen ? 'Hide' : 'Show'} details for ${activity.title} in ${chapter}`} aria-expanded={detailsOpen} aria-controls={detailsId} onClick={() => setDetailsOpen(!detailsOpen)} />
         </div>
-        <div id={detailsId} className="chapter-activity-details" hidden={!detailsOpen}>{activity.type === 'PRACTICE' ? 'Practice activity' : 'Counts towards grade'} · {activity.points} points · {chapter}</div>
+        <div id={detailsId} className="chapter-activity-details" hidden={!detailsOpen}>{activity.countsTowardsGrade ? 'Counts towards grade' : 'Practice activity'} · {activity.points} points · {chapter}</div>
       </>}
     </div>
   </div>;

@@ -1,4 +1,5 @@
 .left{display:flex;flex-direction:column}
+.shell{grid-template-columns:minmax(0,1fr)}
 .course-head,.toolbar{flex-shrink:0}
 .folders{flex:1;min-height:0;height:auto}
 .folder{padding-right:8px}
