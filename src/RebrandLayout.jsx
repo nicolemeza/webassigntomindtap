@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, ButtonColor, ButtonVariant, IconButton } from 'react-magma-dom';
 import BrandIcon from './BrandIcon';
-import { SelectionCheckbox } from './Selection';
+import { SelectionCheckbox, useSelection } from './Selection';
+import BulkSelectionToolbar from './BulkSelectionToolbar';
 
 const navigation = [
   ['dashboard', 'Dashboard'], ['learning-path', 'Learning Path'],
@@ -12,6 +13,7 @@ const navigation = [
 export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify }) {
   const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { selectedIds } = useSelection();
   return <div className={`rebrand-app ${collapsed ? 'nav-collapsed' : ''}`}>
     <aside className="rebrand-sidebar" aria-label="Course navigation">
       <div className="rebrand-logo"><img src="/rebrand/logo.svg" width="123" height="40" alt="Cengage MindTap" /></div>
@@ -21,7 +23,7 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
         <button className={`sidebar-link ${icon === 'learning-path' ? 'active' : ''}`} aria-current={icon === 'learning-path' ? 'page' : undefined} title={collapsed ? label : undefined} onClick={() => icon !== 'learning-path' && notify(`${label} opened`)}><BrandIcon name={icon} /><span>{label}</span></button>
       </React.Fragment>)}</nav>
     </aside>
-    <main className="rebrand-main">
+    <main className={`rebrand-main${selectedIds.length ? ' has-selection' : ''}`}>
       <header className="rebrand-topbar">
         <label className="course-selector"><span className="visually-hidden">Current course</span><select defaultValue="current"><option value="current">Contemporary Mathematics for Business &amp; Consumers</option></select><BrandIcon name="course-arrow" /></label>
         <div className="rebrand-top-actions">
@@ -44,6 +46,7 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
         <Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed="false" onClick={() => notify('Week view is not connected in this prototype')}><BrandIcon name="calendar" />Week View</Button>
       </div></div>
       <section className="left" aria-label="Learning path chapters">{children}</section>
+      <BulkSelectionToolbar notify={notify} />
     </main>
   </div>;
 }

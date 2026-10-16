@@ -17,7 +17,7 @@ body{min-width:760px;background:var(--page-bg)}
 .sidebar-separator{height:16px;overflow:hidden}
 .sidebar-separator img{display:block}
 .sidebar-toggle{position:absolute!important;top:20px;right:-13px;width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;padding:2px!important;border:1px solid var(--border-strong)!important;border-radius:8px!important;background:white!important;overflow:visible!important}
-.rebrand-main{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
+.rebrand-main{position:relative;container-type:inline-size;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
 .rebrand-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;height:65px;flex-shrink:0;padding:12px 24px;border-bottom:1px solid var(--border);background:white}
 .course-selector{position:relative;width:561px;max-width:calc(100% - 132px);height:40px;flex-shrink:1}
 .course-selector select{appearance:none;width:100%;height:40px;padding:7px 38px 7px 8px;border:1px solid #8b99aa;border-radius:8px;background:white;color:var(--brand-navy);font-size:16px;line-height:24px;text-overflow:ellipsis}
