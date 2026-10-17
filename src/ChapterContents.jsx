@@ -1,5 +1,5 @@
 import React, { useId, useState } from 'react';
-import { ButtonColor, ButtonSize, ButtonVariant, Hyperlink, IconButton, Modal, ModalSize } from 'react-magma-dom';
+import { ButtonColor, ButtonSize, ButtonVariant, Hyperlink, IconButton } from 'react-magma-dom';
 import ChapterIcon from './ChapterIcon';
 import ActivityMenu from './ActivityMenu';
 import ActivityRow, { getSectionActivities } from './ActivityRows';
@@ -12,7 +12,7 @@ const sections = ['Learn It', 'Study It', 'Apply It'];
 
 export { default as ChapterIcon } from './ChapterIcon';
 
-function ChapterSection({ title, chapter, notify, onPreview, reading }) {
+function ChapterSection({ title, chapter, notify, reading }) {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
   const count = getSectionActivities(chapter)[title].length + (reading ? 1 : 0);
@@ -36,14 +36,13 @@ function ChapterSection({ title, chapter, notify, onPreview, reading }) {
     </div>
     <div id={panelId} className="chapter-section-panel" hidden={!isOpen}>
       {reading}
-      {getSectionActivities(chapter)[title].map((activity) => <ActivityRow key={activity.title} activity={activity} chapter={chapter} section={title} onPreview={onPreview} notify={notify} />)}
+      {getSectionActivities(chapter)[title].map((activity) => <ActivityRow key={activity.title} activity={activity} chapter={chapter} section={title} notify={notify} />)}
     </div>
   </div>;
 }
 
 export default function ChapterContents({ chapter, onRead, notify }) {
   const [readingHidden, setReadingHidden] = useState(false);
-  const [previewActivity, setPreviewActivity] = useState(null);
   const separator = chapter.indexOf('. ');
   const chapterNumber = chapter.slice(0, separator);
   const chapterTitle = chapter.slice(separator + 2);
@@ -58,11 +57,6 @@ export default function ChapterContents({ chapter, onRead, notify }) {
       <span className="chapter-reading-menu"><ActivityMenu label={`${chapterNumber} reading`} activity={readingActivity} onSave={saveReadingActivity} isHidden={readingHidden} onHide={() => { setReadingHidden(!readingHidden); notify(`Reading ${readingHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={() => onRead(chapter)} notify={notify} /></span>
     </div>;
   return <div className="chapter-contents">
-    {sections.map((title) => <ChapterSection key={title} title={title} chapter={chapter} notify={notify} onPreview={setPreviewActivity} reading={title === 'Learn It' ? reading : null} />)}
-    <Modal header={previewActivity?.title || 'Activity preview'} headerLevel={2} isOpen={Boolean(previewActivity)} size={ModalSize.medium} onClose={() => setPreviewActivity(null)}>
-      <p>{chapter}</p>
-      {previewActivity?.type && <p>{previewActivity.type}{previewActivity.points !== undefined && ` · ${previewActivity.points} points`}{previewActivity.minutes !== undefined && ` · Estimated time: ${previewActivity.minutes} minutes`}</p>}
-      <p>Activity content is not connected in this prototype.</p>
-    </Modal>
+    {sections.map((title) => <ChapterSection key={title} title={title} chapter={chapter} notify={notify} reading={title === 'Learn It' ? reading : null} />)}
   </div>;
 }

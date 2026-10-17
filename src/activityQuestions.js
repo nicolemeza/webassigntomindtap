@@ -1,0 +1,40 @@
+import { remainingR5Questions } from './r5Questions';
+
+// Fallback sample content for activities that have not yet been populated.
+// Answers are intentionally not graded or submitted by this prototype.
+export const sampleActivityQuestions = Array.from({ length: 10 }, (_, index) => ({
+  id: `sample-question-${index + 1}`,
+  points: 1,
+  opening: index === 0 ? 'When GDP is' : `Sample question ${index + 1}: Enter a response`,
+  ending: index === 0 ? ', businesses are generally better off than when it is not.' : 'to complete this statement.',
+  statement: index === 0
+    ? 'GDP is calculated by subtracting the value of all goods and services produced, plus the value of all goods and services used to produce them.'
+    : `This is placeholder content for question ${index + 1}. We can replace the statement and answer choices next.`,
+  choices: ['True', 'False'],
+}));
+
+const factoringQuestionOne = {
+  id: 'r5-factoring-question-1',
+  kind: 'greatest-common-factor',
+  points: 1,
+  prompt: 'The prime factorizations of three terms are shown below. Find their greatest common factor.',
+  terms: [
+    { coefficient: 28, xPower: 3, yPower: 2, factors: ['2', '2', '7', 'x', 'x', 'x', 'y', 'y'] },
+    { coefficient: 42, xPower: 1, yPower: 4, factors: ['2', '3', '7', 'x', 'y', 'y', 'y', 'y'] },
+    { coefficient: 70, xPower: 2, yPower: 3, factors: ['2', '5', '7', 'x', 'x', 'y', 'y', 'y'] },
+  ],
+};
+
+export function getActivityQuestions(chapter, title) {
+  if (chapter === 'Chapter R. A Review of Basic Algebra' && title === 'R.5 HW Factoring') {
+    return [factoringQuestionOne, ...remainingR5Questions];
+  }
+  return sampleActivityQuestions;
+}
+
+export function isQuestionAnswered(question, response) {
+  if (question.kind === 'math-response') {
+    return question.inputs.length > 0 && question.inputs.every((input) => response?.values?.[input.id]?.trim());
+  }
+  return Boolean(response?.text?.trim() && (question.kind === 'greatest-common-factor' || response.choice));
+}

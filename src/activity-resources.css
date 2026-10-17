@@ -1,0 +1,11 @@
+.activity-resources{box-sizing:border-box;width:100%;margin-top:32px;padding:16px;border:1px solid #d4d4d4;border-radius:8px;background:white;color:#454545}
+.activity-resources h3{margin:0 0 16px;font-family:'Work Sans',var(--font-ui);font-size:14px;font-weight:500;line-height:20px;letter-spacing:.16px}
+.activity-resource-actions{display:flex;align-items:center;justify-content:flex-start;gap:16px;flex-wrap:wrap}
+.activity-resource-actions button{height:32px!important;min-height:32px!important;padding:6px 8px!important;border:1px solid #d4d4d4!important;border-radius:8px!important;background:white!important;color:#454545!important;font-size:12px!important;font-weight:500!important;line-height:16px!important;letter-spacing:.32px!important;text-transform:none!important;box-shadow:none!important}
+.activity-resource-actions button>span{display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.activity-resource-actions button svg{display:block;width:20px;height:20px;margin:0!important;color:#707070!important;flex-shrink:0}
+.activity-resource-actions .activity-resource-assistant{margin-left:auto;color:#3942b0!important;border-color:#8b91da!important}
+.activity-resource-actions .activity-resource-assistant svg{color:#3942b0!important}
+.activity-resource-actions button:hover{background:#f7f9fc!important}
+.activity-resource-actions button:focus-visible{outline:2px solid var(--brand-teal)!important;outline-offset:3px}
+@container(max-width:680px){.activity-resources{padding:16px}.activity-resource-actions .activity-resource-assistant{margin-left:0}}

@@ -1,0 +1,27 @@
+.activity-overview-page{flex:1;min-height:0;overflow:auto;background:var(--page-bg);color:var(--brand-navy)}
+.overview-secondary-nav{display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:100%;margin:0;padding:8px 24px}
+.overview-secondary-nav h1{margin:0;font-size:18px;font-weight:600;line-height:24px;overflow-wrap:anywhere}
+.overview-secondary-nav h1:focus{outline:none}
+.overview-back img{display:block}
+.overview-content{display:flex;flex-direction:column;align-items:center;gap:48px;width:100%;max-width:1372px;margin:0 auto;padding:0 24px 48px}
+.overview-review-header{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.overview-review-header h2{margin:0;font-size:24px;font-weight:600;line-height:32px;text-align:center}
+.overview-stats{display:flex;align-items:center;justify-content:center;gap:8px;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
+.overview-stat{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.overview-stat>img{display:block;flex-shrink:0}
+.overview-stat dt,.overview-stat dd{margin:0;font-size:12px;line-height:16px;letter-spacing:.32px;white-space:nowrap}
+.overview-stat dt{font-weight:400;color:var(--text-subdued)}
+.overview-stat dd{font-weight:700}
+.overview-stat-divider{position:relative;display:block;width:0;height:32px;flex:0 0 0}
+.overview-stat-divider img{position:absolute;left:-16px;top:15px;transform:rotate(90deg)}
+.overview-stat-divider.reversed img{transform:rotate(-90deg)}
+.overview-attempts{width:775px;max-width:100%;overflow:auto}
+.overview-attempts table{border-collapse:collapse;table-layout:fixed;width:100%;min-width:600px;background:white;text-align:left}
+.overview-attempts th,.overview-attempts td{padding:12px 16px;font-size:16px;line-height:24px;vertical-align:top;color:var(--brand-navy)}
+.overview-attempts th{height:48px;background:#f1f3f7;border-bottom:2px solid var(--border);font-family:'Work Sans',var(--font-ui);font-weight:700}
+.overview-attempts th:nth-child(4){width:187px}
+.overview-attempts td{border-bottom:1px solid var(--border);font-weight:400}
+.overview-start{width:100%!important}
+.overview-back:focus-visible,.overview-start:focus-visible{outline:2px solid var(--brand-teal)!important;outline-offset:3px}
+.rebrand-main .left[hidden]{display:none}
+@container(max-width:1050px){.overview-stats{flex-wrap:wrap;row-gap:16px}.overview-stat-divider{display:none}.overview-stat{padding:0 8px}.overview-content{gap:32px}}

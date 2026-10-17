@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   AlertVariant,
@@ -25,6 +25,9 @@ import { getChapterActivityCount, getSectionActivities } from './ActivityRows';
 import RebrandLayout from './RebrandLayout';
 import BrandIcon from './BrandIcon';
 import { SelectionCheckbox, SelectionProvider } from './Selection';
+import ActivityOverview from './ActivityOverview';
+import ActivityPlayer from './ActivityPlayer';
+import { resolveActivityRoute } from './activityNavigation';
 import './rebrand.css';
 
 const chapters = [
@@ -49,6 +52,31 @@ const folderMenuItems = [
 
 function Toast({ message }) { return <div className={`toast ${message ? 'show' : ''}`}>{message}</div>; }
 function App() {
+  const [pageHash, setPageHash] = useState(window.location.hash);
+  const previousActivityHash = useRef(null);
+  const activityRoute = resolveActivityRoute(pageHash, chapters, getSectionActivities);
+  useEffect(() => {
+    if (pageHash.startsWith('#/activity/')) {
+      previousActivityHash.current = pageHash.replace(/\/play$/, '');
+      return undefined;
+    }
+    if (!previousActivityHash.current) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      Array.from(document.querySelectorAll('.chapter-reading-link[href]')).find((link) => link.getAttribute('href') === previousActivityHash.current)?.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [pageHash]);
+  useEffect(() => {
+    const syncLocation = () => {
+      setPageHash(window.location.hash);
+    };
+    window.addEventListener('hashchange', syncLocation);
+    return () => window.removeEventListener('hashchange', syncLocation);
+  }, []);
+  const returnToLearningPath = () => {
+    if (!activityRoute) return;
+    window.location.hash = '';
+  };
   const [hiddenChapters, setHiddenChapters] = useState(() => new Set());
   const [openFolders, setOpenFolders] = useState(() => new Set());
   const [readingChapter, setReadingChapter] = useState(null);
@@ -106,7 +134,7 @@ function App() {
   };
   return <>
     <SelectionProvider itemIds={selectionIds}>
-      <RebrandLayout anyFoldersOpen={anyFoldersOpen} onToggleAll={toggleAllFolders} showHidden={hidden} onToggleHidden={() => setHidden(!hidden)} notify={notify}>
+      <RebrandLayout anyFoldersOpen={anyFoldersOpen} onToggleAll={toggleAllFolders} showHidden={hidden} onToggleHidden={() => setHidden(!hidden)} notify={notify} onLearningPath={returnToLearningPath} detailPage={activityRoute && (activityRoute.page === 'player' ? <ActivityPlayer key={pageHash} {...activityRoute} /> : <ActivityOverview key={pageHash} {...activityRoute} onBack={returnToLearningPath} />)}>
 <div className="folders">{displayedChapters.map((chapter) => { const isOpen = openFolders.has(chapter); const isMenuOpen = openMenu === chapter; const isHidden = hiddenChapters.has(chapter); return <div className={`folder-group ${isOpen ? 'is-open' : ''} ${isHidden ? 'is-hidden' : ''}`} key={chapter}><div className="folder"><SelectionCheckbox id={`chapter:${chapter}`} label={`Select ${chapter}`} group /><IconButton className={`folder-chevron ${isOpen ? 'is-open' : ''}`} color={ButtonColor.primary} variant={ButtonVariant.link} size={ButtonSize.small} icon={<BrandIcon name={isOpen ? 'chevron-up' : 'chevron-down'} />} aria-expanded={isOpen} onClick={() => toggleFolder(chapter)} aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${chapter}`} /><span className="folder-name">{chapter}</span><span className="activity-count">{getChapterActivityCount(chapter)} activities</span><span className="folder-menu-anchor"><IconButton className="chapter-content-menu" variant={ButtonVariant.link} color={ButtonColor.primary} icon={<ChapterIcon name="more-vert" />} aria-label={`More actions for ${chapter}`} aria-haspopup="menu" aria-expanded={isMenuOpen} onClick={() => setOpenMenu(isMenuOpen ? null : chapter)} />{isMenuOpen && <div className="folder-menu" role="menu">{folderMenuItems.map(({ label, icon: MenuIcon }) => <button className="folder-menu-item" type="button" role="menuitem" key={label} onClick={() => selectFolderMenuItem(chapter, label)}><MenuIcon aria-hidden="true" /><span>{label}</span></button>)}</div>}</span></div>{isOpen && <ChapterContents chapter={chapter} onRead={setReadingChapter} notify={notify} />}</div>; })}</div>
       </RebrandLayout>
     </SelectionProvider>

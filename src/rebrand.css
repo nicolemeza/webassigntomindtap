@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root{--brand-navy:#0b1f3a;--brand-teal:#007d95;--page-bg:#f7f9fc;--surface:#fff;--border:#dee5ee;--border-strong:#c5cedb;--text-subdued:#3d4a60;--font-ui:'Inter',Arial,sans-serif;font-family:var(--font-ui);color:var(--brand-navy);background:var(--page-bg)}
 body{min-width:760px;background:var(--page-bg)}

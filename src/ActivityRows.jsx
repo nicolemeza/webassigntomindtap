@@ -6,6 +6,7 @@ import { getChapterAssignments } from './chapterAssignments';
 import { SelectionCheckbox } from './Selection';
 import { useActivitySettings } from './ActivitySettingsModal';
 import { activityDueDateTime, formatActivityDue } from './activityDates';
+import { activityHref } from './activityNavigation';
 
 export const sectionActivities = {
   'Learn It': [
@@ -39,20 +40,21 @@ export function getChapterActivityCount(chapter) {
   return 1 + Object.values(getSectionActivities(chapter)).reduce((count, activities) => count + activities.length, 0);
 }
 
-export default function ActivityRow({ activity: originalActivity, chapter, section, onPreview, notify }) {
+export default function ActivityRow({ activity: originalActivity, chapter, section, notify }) {
   const [activity, setSavedActivity] = useActivitySettings(`${chapter}/${section}/${originalActivity.title}`, originalActivity);
   const [isHidden, setIsHidden] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const detailsId = useId();
   const hasStats = activity.points !== undefined;
-  const preview = () => onPreview(activity);
+  const overviewHref = activityHref(chapter, section, originalActivity.title);
+  const preview = () => { window.location.hash = overviewHref; };
   return <div className={`chapter-activity ${activity.type ? 'is-assessment' : ''} ${isHidden ? 'is-hidden' : ''}`}>
     <span className="row-selection"><SelectionCheckbox id={`chapter:${chapter}/${section}/${originalActivity.title}`} label={`Select ${activity.title} in ${chapter}`} /></span>
     <span className="chapter-activity-icon"><ChapterIcon name={activity.icon} /></span>
     <div className="chapter-activity-body">
       <div className="chapter-activity-main">
         <div className="chapter-activity-title">
-          <Hyperlink className="chapter-reading-link" to={`#activity-${activity.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} hasUnderline={false} onClick={(event) => { event.preventDefault(); preview(); }}>{activity.title}</Hyperlink>
+          <Hyperlink className="chapter-reading-link" to={overviewHref} hasUnderline={false}>{activity.title}</Hyperlink>
           {activity.dueDate && <span className="chapter-activity-due">Due <time dateTime={activityDueDateTime(activity)}>{formatActivityDue(activity)}</time></span>}
           {activity.countsTowardsGrade ? <span className="chapter-activity-type is-graded"><ChapterIcon name="graded" />COUNTS TOWARDS GRADE</span> : <span className="chapter-activity-type">PRACTICE</span>}
           {isHidden && <span className="chapter-activity-hidden">Hidden from students</span>}
