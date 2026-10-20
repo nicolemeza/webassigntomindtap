@@ -7,7 +7,7 @@ function VariablePower({ variable, power }) {
   return power === 1 ? <mi mathvariant="normal">{variable}</mi> : <msup><mi mathvariant="normal">{variable}</mi><mn>{power}</mn></msup>;
 }
 
-export default function FactoringQuestion({ question, value, onChange, onOpenMathKeyboard }) {
+export default function FactoringQuestion({ question, value, onChange, onOpenMathKeyboard, disabled = false, invalid = false }) {
   const answerId = `answer-${question.id}`;
   const inputRef = useRef(null);
   const [mathPadOpen, setMathPadOpen] = useState(false);
@@ -21,10 +21,10 @@ export default function FactoringQuestion({ question, value, onChange, onOpenMat
         </mrow>
       </math>)}
     </div>
-    <div className="player-factoring-answer">
-      <input ref={inputRef} id={answerId} type="text" aria-label="Greatest common factor" value={value} onChange={(event) => onChange(event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} aria-describedby={`${question.id}-prompt`} />
+    <fieldset disabled={disabled} className="player-factoring-answer r5-graded-field">
+      <input ref={inputRef} id={answerId} type="text" aria-label="Greatest common factor" aria-invalid={invalid || undefined} value={value} onChange={(event) => onChange(event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} aria-describedby={`${question.id}-prompt${invalid ? ` grade-feedback-${question.id}` : ''}`} />
       <IconButton className="player-math-keyboard-button" type="button" aria-label={mathPadOpen ? 'Close math keyboard' : 'Open math keyboard'} aria-expanded={mathPadOpen} aria-controls={mathPadOpen ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { setMathPadOpen(!mathPadOpen); if (mathPadOpen) inputRef.current?.focus(); else onOpenMathKeyboard?.(); }} />
-    </div>
-    {mathPadOpen && <MathPad id={padId} value={value} onChange={onChange} onClose={() => { setMathPadOpen(false); inputRef.current?.focus(); }} />}
+    </fieldset>
+    {mathPadOpen && !disabled && <MathPad id={padId} value={value} onChange={onChange} onClose={() => { setMathPadOpen(false); inputRef.current?.focus(); }} />}
   </div>;
 }

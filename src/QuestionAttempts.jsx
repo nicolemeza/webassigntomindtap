@@ -1,46 +1,53 @@
-import React, { useId, useState } from 'react';
-import { Button, ButtonVariant, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from 'react-magma-dom';
+import React, { useContext, useId, useState } from 'react';
+import { Button, ButtonSize, ButtonVariant, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell, ThemeContext, Tooltip } from 'react-magma-dom';
 import './question-attempts.css';
+import { earnedPoints, MAX_ATTEMPTS } from './questionGrading';
 
-function AttemptIndicators() {
-  return <div className="question-attempt-indicators" role="img" aria-label="0 of 5 attempts used">
-    {Array.from({ length: 5 }, (_, index) => <img key={index} src="/rebrand/attempt-unused.svg" alt="" />)}
+function AttemptIndicators({ history = [] }) {
+  return <div className="question-attempt-indicators" role="group" aria-label={`${history.length} of ${MAX_ATTEMPTS} attempts used`}>
+    {Array.from({ length: MAX_ATTEMPTS }, (_, index) => {
+      const state = index >= history.length ? 'unused' : history[index] ? 'correct' : 'incorrect';
+      return <Tooltip key={index} content={`Attempt ${index + 1}`}><img src={`/rebrand/attempt-${state}.svg`} width="24.0001" height="24" tabIndex={0} alt={`Attempt ${index + 1}: ${state === 'unused' ? 'not used' : state}`} /></Tooltip>;
+    })}
   </div>;
 }
 
-export default function QuestionAttempts({ question, variant }) {
+export default function QuestionAttempts({ question, variant, history = {} }) {
+  const theme = useContext(ThemeContext);
   const headingId = useId();
   const tableId = useId();
   const [expanded, setExpanded] = useState(false);
   const fields = question.inputs || [];
   const multiField = fields.length > 1;
-  // Preview-only equal weighting; assign rounding remainder to the last field.
+  // Equal prototype weighting; assign rounding remainder to the last field.
   const totalHundredths = Math.round(question.points * 100);
   const fieldHundredths = multiField ? Math.floor(totalHundredths / fields.length) : totalHundredths;
-  return <section className={`question-attempts${multiField ? ' question-attempts-multi' : ''}`} aria-labelledby={headingId}>
+  return <section className={`question-attempts${multiField ? ' question-attempts-multi' : ''}`} aria-labelledby={headingId} style={{ '--attempt-toggle-size': theme.spaceScale.spacing07 }}>
     <div className="question-attempts-summary">
     <div className="question-attempts-heading">
       <h3 id={headingId}>Attempts</h3>
       <p>Your grade is based on your <strong>best attempt</strong>.</p>
     </div>
-    {!multiField && <>{variant === 'sidebar' && <p className="question-attempt-availability">5 attempts available</p>}<AttemptIndicators /></>}
+    {!multiField && <>{variant === 'sidebar' && <p className="question-attempt-availability">{MAX_ATTEMPTS - (history[fields[0]?.id || 'answer']?.length || 0)} attempts available</p>}<AttemptIndicators history={history[fields[0]?.id || 'answer']} /></>}
     {multiField && variant === 'sidebar' && <p className="question-attempt-availability">5 attempts per field</p>}
-    <p className="question-attempt-score"><span>Earned Score:</span><strong>0/ {question.points} {question.points === 1 ? 'pt' : 'pts'}</strong></p>
-    {multiField && <Button className="question-attempt-toggle" variant={ButtonVariant.link} aria-label={expanded ? 'Collapse attempts details' : 'Expand attempts details'} aria-expanded={expanded} aria-controls={tableId} onClick={() => setExpanded(!expanded)}><img src="/rebrand/attempt-collapse.svg" alt="" /></Button>}
+    <p className="question-attempt-score"><span>Earned Score:</span><strong>{earnedPoints(question, history)} / {question.points} {question.points === 1 ? 'pt' : 'pts'}</strong></p>
+    {multiField && <Button className="question-attempt-toggle" size={ButtonSize.small} variant={ButtonVariant.link} aria-label={expanded ? 'Collapse attempts details' : 'Expand attempts details'} aria-expanded={expanded} aria-controls={tableId} onClick={() => setExpanded(!expanded)}><img src="/rebrand/attempt-collapse.svg" alt="" /></Button>}
     </div>
     {multiField && <div id={tableId} hidden={!expanded} className="question-attempt-table-wrapper">
       {variant === 'sidebar' ? <ul className="question-attempt-field-list" aria-label="Attempts by answer field">{fields.map((field, index) => {
         const points = (index === fields.length - 1 ? totalHundredths - fieldHundredths * index : fieldHundredths) / 100;
-        return <li key={field.id}><div className="question-attempt-field-title"><strong>Field {index + 1}</strong><span>0 / {points} pt</span></div><AttemptIndicators /><p>0 of 5 attempts used</p></li>;
+        const attempts = history[field.id] || [];
+        return <li key={field.id}><div className="question-attempt-field-title"><strong>Field {index + 1}</strong><span>{attempts.includes(true) ? points : 0} / {points} pt</span></div><AttemptIndicators history={attempts} /><p>{attempts.length} of 5 attempts used</p></li>;
       })}</ul> : <Table className="question-attempt-table" minWidth={476} aria-label="Attempts by answer field">
-        <TableHead><TableRow>{['Field', 'Score per attempt', 'Attempts used', 'Points'].map(label => <TableHeaderCell key={label}>{label}</TableHeaderCell>)}</TableRow></TableHead>
+        <TableHead><TableRow>{['Attempts by field', 'Score per attempt', 'Attempts used', 'Points'].map(label => <TableHeaderCell key={label}>{label}</TableHeaderCell>)}</TableRow></TableHead>
         <TableBody>{fields.map((field, index) => {
           const points = (index === fields.length - 1 ? totalHundredths - fieldHundredths * index : fieldHundredths) / 100;
+          const attempts = history[field.id] || [];
           return <TableRow key={field.id}>
             <TableHeaderCell isRowHeader scope="row">Field {index + 1}</TableHeaderCell>
-            <TableCell><AttemptIndicators /></TableCell>
-            <TableCell><span className="question-attempt-used">0 of 5</span></TableCell>
-            <TableCell>0 / {points}</TableCell>
+            <TableCell><AttemptIndicators history={attempts} /></TableCell>
+            <TableCell><span className={`question-attempt-used${attempts.length === MAX_ATTEMPTS ? ' is-exhausted' : ''}`}>{attempts.length} of 5</span></TableCell>
+            <TableCell>{attempts.includes(true) ? points : 0} / {points}</TableCell>
           </TableRow>;
         })}</TableBody>
       </Table>}

@@ -13,7 +13,7 @@ export default function ActivityResources({ activity, question, variant }) {
       <div className={`activity-resource-actions${variant === 'sidebar' || variant === 'integrated' ? ' activity-resource-actions-magma' : ''}`}>
         <IconButton className="activity-resource-read" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoStoriesIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('reading')}>Read it</IconButton>
         {question?.hasWatchIt && <IconButton className="activity-resource-watch" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<PlayCircleOutlineIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('video')}>Watch it</IconButton>}
-        <IconButton className="activity-resource-assistant" color={ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoAwesomeIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('assistant')}>Ask Student assistant</IconButton>
+        <IconButton className="activity-resource-assistant" color={variant === 'integrated' ? ButtonColor.subtle : ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoAwesomeIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('assistant')}>Ask Student assistant</IconButton>
       </div>
     </section>
     <Modal isOpen={Boolean(resource)} header={resource === 'reading' ? `Read it · ${activity.title}` : resource === 'video' ? `Watch it · ${activity.title}` : 'Student assistant'} headerLevel={2} size={ModalSize.medium} onClose={() => setResource(null)}>

@@ -13,7 +13,7 @@
 .player-details-button img{display:block}
 .player-activity-details{padding:12px 16px;border:1px solid var(--border);border-radius:8px;background:var(--page-bg);font-size:14px;line-height:20px}
 .player-activity-details p{margin:4px 0}
-.player-body{position:relative;display:flex;gap:17px;min-height:380px}
+.player-body{position:relative;display:flex;flex-shrink:0;gap:17px;min-height:380px}
 .player-question-main{flex:1;min-width:0}
 .player-progress{display:flex;flex-direction:column;gap:4px}
 .player-question-counter{display:flex;align-items:center;min-height:24px;font-size:16px;font-weight:400;line-height:24px}
@@ -41,8 +41,13 @@
 .player-factorizations :is(mn,mo,mi){font-family:'Work Sans',Arial,sans-serif;font-weight:400;font-style:normal}
 .player-factorizations mi{font-style:italic;text-transform:none}
 .player-factoring-answer{position:relative;width:240px;max-width:100%;font-family:var(--font-ui);color:var(--brand-navy)}
+.r5-graded-field{min-width:0;margin:0;padding:0;border:0}
+.r5-graded-field:disabled input{background:var(--page-bg);color:var(--text-subdued);cursor:default}
+.player-grade-feedback{margin:8px 0 0;color:var(--text-subdued);font-size:12px;line-height:18px}
+.player-grade-feedback:empty{display:none}
 .player-factoring-answer input{box-sizing:border-box;width:100%;height:40px;padding:8px 44px 8px 8px;border:1px solid #8b99aa;border-radius:8px;background:white;color:var(--brand-navy);font-family:var(--font-ui);font-size:16px}
 .player-factoring-answer input:focus-visible{outline:2px solid var(--brand-teal);outline-offset:3px}
+.player-factoring-answer input[aria-invalid="true"]{border-color:var(--field-validation-color)}
 .player-factoring-answer .player-math-keyboard-button{position:absolute;top:4px;right:4px;width:32px!important;min-width:32px!important;height:32px!important;min-height:32px!important;padding:6px!important;border:0!important;border-radius:4px!important;background:transparent!important;color:var(--text-subdued)!important}
 .player-factoring-answer .player-math-keyboard-button svg{display:block;width:20px;height:20px}
 .player-factoring-answer .player-math-keyboard-button:hover{background:var(--page-bg)!important}
@@ -72,5 +77,5 @@
 .player-next img{filter:brightness(0) invert(1)}
 .player-workspace button:focus-visible,.player-fill-question input:focus-visible{outline:2px solid var(--brand-teal)!important;outline-offset:3px}
 .player-previous:disabled{opacity:.45}
-@container(max-width:850px){.player-view-switch{margin-right:0}.player-toolbar{flex-wrap:wrap}.player-details-button{margin-left:auto}.player-question-content{margin-top:32px}.player-workspace{padding:16px 24px}.player-pagination{justify-content:center}.player-page-number{width:32px}.player-fill-question{display:block}.player-fill-question input{margin:4px 6px}}
+@container(max-width:850px){.player-view-switch{margin-right:0}.player-toolbar{flex-wrap:wrap}.player-details-button{margin-left:auto}.player-question-content{margin-top:32px}.player-workspace{padding:16px 24px 32px}.player-pagination{justify-content:center}.player-page-number{width:32px}.player-fill-question{display:block}.player-fill-question input{margin:4px 6px}}
 @media print{.rebrand-sidebar,.rebrand-topbar,.overview-back,.player-toolbar,.player-tools,.player-pagination,.player-tool-panel{display:none!important}.rebrand-app{display:block}.rebrand-main,#app,.activity-player-page{height:auto;overflow:visible}.player-workspace{border:0}.player-question-content{margin-top:24px}}

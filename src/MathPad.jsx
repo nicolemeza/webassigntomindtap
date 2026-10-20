@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { mathPadCategories, mathPadKeys, insertMathPadKey } from './mathPadKeys';
 import './math-pad.css';
+import './math-entry.css';
 
 function PadIcon({ name }) {
   const size = ['settings', 'done', 'previous', 'next'].includes(name) ? 24 : name === 'help' ? 16 : 20;

@@ -1,0 +1,16 @@
+/* Use italic glyphs only for letters; digits and operators fall through to the
+   normal UI face. This preserves plain-text values, selection and grading. */
+@font-face{
+  font-family:'Math Variables';
+  src:url('/rebrand/work-sans-math-italic.ttf') format('truetype');
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  unicode-range:U+0041-005A,U+0061-007A;
+}
+#app .player-factoring-answer input,
+.math-pad-input-area textarea,
+.math-pad .math-pad-keys button{
+  font-family:'Math Variables',var(--font-ui);
+  font-style:normal;
+}

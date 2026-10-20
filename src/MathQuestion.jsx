@@ -4,8 +4,9 @@ import { KeyboardIcon } from 'react-magma-icons';
 import MathExpression from './MathExpression';
 import MathPad from './MathPad';
 import './math-question.css';
+import { fieldComplete } from './questionGrading';
 
-export default function MathQuestion({ question, values = {}, onChange }) {
+export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [] }) {
   const [activeInput, setActiveInput] = useState(null);
   const [begun, setBegun] = useState(false);
   const inputRefs = useRef({});
@@ -13,10 +14,10 @@ export default function MathQuestion({ question, values = {}, onChange }) {
   const inputIndex = question.inputs.findIndex((item) => item.id === activeInput);
   const renderInput = (part) => {
     const inputId = `${question.id}-${part.input}`;
-    return <span className="player-factoring-answer r5-answer-field" key={part.input}>
-      <input ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" aria-label={part.label} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
+    return <fieldset disabled={fieldComplete(history[part.input])} className="player-factoring-answer r5-answer-field r5-graded-field" key={part.input}>
+      <input ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" aria-label={part.label} aria-invalid={invalidFields.includes(part.input) || undefined} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
       <IconButton className="player-math-keyboard-button" type="button" aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />
-    </span>;
+    </fieldset>;
   };
   return <div className="r5-question">
     {question.blocks.map((block, index) => {
@@ -32,6 +33,6 @@ export default function MathQuestion({ question, values = {}, onChange }) {
       </section>;
       return null;
     })}
-    {inputIndex >= 0 && <MathPad id={padId} value={values[activeInput] || ''} onChange={(value) => onChange(activeInput, value)} inputCount={question.inputs.length} inputIndex={inputIndex} onInputChange={(index) => setActiveInput(question.inputs[index].id)} onClose={() => { inputRefs.current[activeInput]?.focus(); setActiveInput(null); }} />}
+    {inputIndex >= 0 && !fieldComplete(history[activeInput]) && <MathPad id={padId} value={values[activeInput] || ''} onChange={(value) => onChange(activeInput, value)} inputCount={question.inputs.length} inputIndex={inputIndex} onInputChange={(index) => setActiveInput(question.inputs[index].id)} onClose={() => { inputRefs.current[activeInput]?.focus(); setActiveInput(null); }} />}
   </div>;
 }

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, ButtonColor, ButtonSize, ButtonVariant, Modal, ModalSize } from 'react-magma-dom';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Button, ButtonColor, ButtonSize, ButtonVariant, Modal, ModalSize, ThemeContext } from 'react-magma-dom';
 import ActivitySettingsModal, { useActivitySettings } from './ActivitySettingsModal';
 import { activityHref } from './activityNavigation';
 import { formatActivityDue } from './activityDates';
@@ -10,6 +10,7 @@ import QuestionAttempts from './QuestionAttempts';
 import MathQuestion from './MathQuestion';
 import './activity-player.css';
 import './activity-question-integrated.css';
+import { gradingFields, fieldComplete, submitQuestion } from './questionGrading';
 
 const playerSessions = new Map();
 const iconSizes = { selected: [16, 16], print: [16, 16], edit: [16, 16], details: [16, 16], radioChecked: [24, 24], radioUnchecked: [24, 24], accessibility: [24, 26.0321], previous: [20, 20], next: [20, 20], pageMarker: [4.41421, 4.41421] };
@@ -19,6 +20,7 @@ function PlayerIcon({ name }) {
 }
 
 export default function ActivityPlayer({ chapter, section, activity: originalActivity }) {
+  const theme = useContext(ThemeContext);
   const activityKey = `${chapter}/${section}/${originalActivity.title}`;
   const [activity, saveActivity] = useActivitySettings(activityKey, originalActivity);
   const [session, setSession] = useState(() => playerSessions.get(activityKey) || { current: 0, answers: {}, flags: [] });
@@ -29,12 +31,15 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const [largeText, setLargeText] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [finishOpen, setFinishOpen] = useState(false);
-  const [gradeOpen, setGradeOpen] = useState(false);
   const headingRef = useRef(null);
   const questions = getActivityQuestions(chapter, originalActivity.title);
   const question = questions[session.current];
-  const alternativeLayout = [1, 3, 11].some(number => question.id === `r5-factoring-question-${number}`);
+  const alternativeLayout = question.id.startsWith('r5-factoring-question-');
   const answer = session.answers[question.id] || { text: '', choice: '' };
+  const history = session.grades?.[question.id] || {};
+  const invalidFields = [...(session.feedback?.[question.id]?.emptyFields || []), ...(session.feedback?.[question.id]?.unchangedFields || [])];
+  const fields = gradingFields(question);
+  const gradeUnavailable = !fields.length || fields.every((field) => fieldComplete(history[field.id]));
   const flagged = session.flags.includes(question.id);
   const answered = questions.filter((item) => isQuestionAnswered(item, session.answers[item.id])).length;
   const updateSession = (change) => setSession((current) => {
@@ -42,7 +47,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     playerSessions.set(activityKey, next);
     return next;
   });
-  const updateAnswer = (field, value) => updateSession((current) => ({ answers: { ...current.answers, [question.id]: { ...current.answers[question.id], [field]: value } } }));
+  const updateAnswer = (field, value) => updateSession((current) => ({ answers: { ...current.answers, [question.id]: { ...current.answers[question.id], [field]: value } }, feedback: { ...current.feedback, [question.id]: null } }));
   const goToQuestion = (current) => {
     updateSession(() => ({ current }));
     setTool(null);
@@ -55,7 +60,11 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     return () => { document.title = previous; };
   }, [activity.title]);
   const back = () => { window.location.hash = activityHref(chapter, section, originalActivity.title); };
-  const gradeButton = <Button className={alternativeLayout ? 'player-grade-question-magma' : 'player-grade-question'} color={ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.medium} onClick={() => setGradeOpen(true)}>Grade Question</Button>;
+  const gradeQuestion = () => updateSession((current) => {
+    const result = submitQuestion(question, current.answers[question.id], current.grades?.[question.id], current.lastSubmitted?.[question.id]);
+    return { grades: { ...current.grades, [question.id]: result.history }, lastSubmitted: { ...current.lastSubmitted, [question.id]: result.lastSubmitted }, feedback: { ...current.feedback, [question.id]: { message: result.message, emptyFields: result.emptyFields, unchangedFields: result.unchangedFields } } };
+  });
+  const gradeButton = <><Button className={alternativeLayout ? 'player-grade-question-magma' : 'player-grade-question'} color={ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.medium} disabled={gradeUnavailable || view === 'instructor'} onClick={gradeQuestion}>Grade Question</Button><p id={`grade-feedback-${question.id}`} className="player-grade-feedback" style={{ color: theme.colors.danger }} role="alert">{session.feedback?.[question.id]?.message || ''}</p></>;
 
   return <section className="activity-player-page" aria-labelledby="player-title">
     <div className="overview-secondary-nav">
@@ -69,21 +78,21 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
         </div><Button className="rebrand-button compact player-icon-button" variant={ButtonVariant.link} aria-label="Print activity" onClick={() => window.print()}><PlayerIcon name="print" /></Button><Button className="rebrand-button compact player-icon-button" variant={ButtonVariant.link} aria-label="Edit activity settings" onClick={() => setSettingsOpen(true)}><PlayerIcon name="edit" /></Button></div>
         <button className="player-details-button" type="button" aria-expanded={detailsOpen} aria-controls="player-details" onClick={() => setDetailsOpen(!detailsOpen)}>Activity Details<PlayerIcon name="details" /></button>
       </div>
-      {detailsOpen && <div className="player-activity-details" id="player-details"><p><strong>Due:</strong> {formatActivityDue(activity)}</p><p><strong>Points possible:</strong> {activity.points ?? '--'}</p><p>{activity.countsTowardsGrade === false ? 'Practice activity' : 'Counts toward grade'} · Responses are kept for this session and are not graded.</p></div>}
+      {detailsOpen && <div className="player-activity-details" id="player-details"><p><strong>Due:</strong> {formatActivityDue(activity)}</p><p><strong>Points possible:</strong> {activity.points ?? '--'}</p><p>{activity.countsTowardsGrade === false ? 'Practice activity' : 'Counts toward grade'} · Scores and responses are kept locally for this session only, not sent to a gradebook.</p></div>}
       <div className="player-body">
-        <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}`}>
+        <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}`} style={{ '--border': theme.colors.border, '--field-validation-color': theme.colors.danger }}>
           <div className="player-progress"><div ref={headingRef} tabIndex={-1} className="player-question-counter" role="heading" aria-level={2} aria-live="polite"><span>{session.current + 1} of {questions.length}</span><span className="player-counter-divider" aria-hidden="true">|</span><span>{question.points} {question.points === 1 ? 'Point' : 'Points'}</span></div><div className="player-progress-track" role="progressbar" aria-label="Question position" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={session.current + 1}><span style={{ width: `${(session.current + 1) / questions.length * 100}%` }} /></div></div>
           <div className={alternativeLayout ? 'question-surface' : undefined}>
-          <QuestionAttempts key={`attempts-${question.id}`} question={question} />
+          <QuestionAttempts key={`attempts-${question.id}`} question={question} history={history} />
           <div className={`player-question-content${largeText ? ' large-text' : ''}`}>
             {view === 'instructor' && <p className="player-instructor-note">Instructor preview · Responses are not graded.</p>}
-            {question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
+            {question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
             {alternativeLayout && gradeButton}
           </div>
           {!alternativeLayout && <ActivityResources key={question.id} activity={activity} question={question} />}
           {!alternativeLayout && gradeButton}
-          {alternativeLayout && <ActivityResources activity={activity} question={question} variant="integrated" />}
+          {alternativeLayout && <ActivityResources key={`resources-${question.id}`} activity={activity} question={question} variant="integrated" />}
           </div>
         </div>
         <aside className={`player-tools${railOpen ? '' : ' is-collapsed'}`} aria-label="Question tools">
@@ -101,7 +110,6 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
         <Button className="rebrand-button rebrand-button-primary player-next" onClick={() => session.current < questions.length - 1 ? goToQuestion(session.current + 1) : setFinishOpen(true)}>{session.current === questions.length - 1 ? 'Finish' : 'Next'}<PlayerIcon name="next" /></Button>
       </nav>
     {settingsOpen && <ActivitySettingsModal activity={activity} onSave={(updated) => { saveActivity(updated); setSettingsOpen(false); }} onClose={() => setSettingsOpen(false)} />}
-    <Modal isOpen={gradeOpen} header="Grade Question" headerLevel={2} size={ModalSize.medium} onClose={() => setGradeOpen(false)}><p>Question grading is not connected in this prototype. Your answer is preserved, and no attempt or score has been recorded.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setGradeOpen(false)}>Back to question</Button></Modal>
-    <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Responses are kept for this session only. No grades or submissions are recorded.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={back}>Back to overview</Button></Modal>
+    <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Scores and responses are kept locally for this session only. Nothing is submitted to a gradebook.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={back}>Back to overview</Button></Modal>
   </section>;
 }
