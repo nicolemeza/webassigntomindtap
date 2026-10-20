@@ -1,4 +1,5 @@
 .math-pad{position:fixed;bottom:24px;right:24px;z-index:50;box-sizing:border-box;display:flex;flex-direction:column;width:500px;max-width:calc(100vw - 48px);max-height:min(50dvh,calc(100dvh - 48px));min-height:min(300px,50dvh);overflow:auto;border:1px solid var(--border);border-radius:8px;box-shadow:0 2px 6px #0000002e;background:var(--surface);color:var(--brand-navy);font-family:var(--font-ui)}
+body:has(.activity-player-page) .math-pad{bottom:97px}
 .math-pad>header,.math-pad-toolbar,.math-pad-divider,.math-pad-footer,.math-pad-popover{flex-shrink:0}
 .math-pad *{box-sizing:border-box}
 .math-pad button{font-family:var(--font-ui);font-weight:500;cursor:pointer}

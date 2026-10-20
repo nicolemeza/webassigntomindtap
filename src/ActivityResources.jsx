@@ -3,13 +3,14 @@ import { ButtonColor, ButtonIconPosition, ButtonSize, ButtonVariant, IconButton,
 import { AutoStoriesIcon, AutoAwesomeIcon, PlayCircleOutlineIcon } from 'react-magma-icons';
 import './activity-resources.css';
 
-export default function ActivityResources({ activity, question }) {
+export default function ActivityResources({ activity, question, variant }) {
   const headingId = useId();
   const [resource, setResource] = useState(null);
   return <>
     <section className="activity-resources" aria-labelledby={headingId}>
       <h3 id={headingId}>Resources</h3>
-      <div className="activity-resource-actions">
+      {variant === 'sidebar' && <p className="activity-resource-intro">Review the reading or get guided help.</p>}
+      <div className={`activity-resource-actions${variant === 'sidebar' || variant === 'integrated' ? ' activity-resource-actions-magma' : ''}`}>
         <IconButton className="activity-resource-read" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoStoriesIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('reading')}>Read it</IconButton>
         {question?.hasWatchIt && <IconButton className="activity-resource-watch" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<PlayCircleOutlineIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('video')}>Watch it</IconButton>}
         <IconButton className="activity-resource-assistant" color={ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoAwesomeIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('assistant')}>Ask Student assistant</IconButton>

@@ -30,7 +30,7 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
     </aside>
     <main className={`rebrand-main${selectedIds.length ? ' has-selection' : ''}`}>
       <header className="rebrand-topbar">
-        <label className="course-selector"><span className="visually-hidden">Current course</span><select defaultValue="current"><option value="current">Contemporary Mathematics for Business &amp; Consumers</option></select><BrandIcon name="course-arrow" /></label>
+        <label className="course-selector"><span className="visually-hidden">Current course</span><select defaultValue="current"><option value="current">College Algebra</option></select><BrandIcon name="course-arrow" /></label>
         <div className="rebrand-top-actions">
           {searchOpen && <input autoFocus className="course-search-input" type="search" aria-label="Search this course" placeholder="Search this course" onKeyDown={(event) => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter') notify(`Search: ${event.target.value}`); }} />}
           <IconButton className="rebrand-search" variant={ButtonVariant.link} icon={<BrandIcon name="search" />} aria-label="Search this course" aria-expanded={searchOpen} onClick={() => setSearchOpen(!searchOpen)} />

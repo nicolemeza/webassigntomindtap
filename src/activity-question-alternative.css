@@ -1,0 +1,20 @@
+/* Alternative examples: question 1, multi-input question 3, video-resource question 11. */
+.player-question-alternative{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px 40px;align-content:start;align-items:start}
+.player-question-alternative>.player-progress{grid-column:1/-1}
+.player-question-alternative>.question-attempts{grid-column:1/-1;grid-row:2;margin-top:8px}
+.player-question-alternative>.player-question-content{grid-column:1;grid-row:3;margin-top:16px;max-width:100%;padding:8px 0 0}
+.question-support-panel{grid-column:2;grid-row:3;display:flex;flex-direction:column;gap:16px;margin-top:16px;min-width:0}
+.player-question-alternative .question-support-panel>.activity-resources{margin:0;padding:24px;background:var(--surface);border-color:var(--border);border-radius:8px;box-shadow:none}
+.question-attempt-field-list{list-style:none;margin:0;padding:0}
+.question-attempt-field-list li{padding:16px 0;border-top:1px solid var(--border)}
+.question-attempt-field-list li:last-child{padding-bottom:0}
+.question-attempt-field-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px;font-size:12px;line-height:18px;color:var(--brand-navy)}
+.question-attempt-field-title>span{color:var(--text-subdued)}
+.player-question-alternative .question-attempt-field-list .question-attempt-indicators{margin:0}
+.question-attempt-field-list p{margin:8px 0 0;font-size:12px;line-height:18px;color:var(--text-subdued)}
+.player-question-alternative .activity-resources h3{font-size:16px;line-height:24px;font-weight:600;color:var(--brand-navy);margin-bottom:8px}
+.player-question-alternative .activity-resource-intro{margin:0 0 20px;font-family:'Work Sans',var(--font-ui);font-size:12px;line-height:18px;color:var(--text-subdued)}
+.player-question-alternative .activity-resource-actions{flex-direction:column;align-items:stretch;gap:4px}
+.player-question-alternative .activity-resource-actions button{width:100%}
+.player-question-alternative .player-grade-question-magma{margin-top:24px}
+@container(max-width:1000px){.player-question-alternative{grid-template-columns:minmax(0,1fr);gap:24px}.player-question-alternative>.player-progress{grid-column:1}.player-question-alternative>.player-question-content{grid-row:3;margin:0}.question-support-panel{grid-column:1;grid-row:4;margin:0}}
