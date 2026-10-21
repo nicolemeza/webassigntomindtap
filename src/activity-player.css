@@ -50,6 +50,9 @@
 .player-factoring-answer input[aria-invalid="true"]{border-color:var(--field-validation-color)}
 /* Keep the connected Magma Input flush with the existing answer-field shell.
    Its hidden label and empty help slot must not offset the keyboard/status icons. */
+.math-answer-input{position:relative}
+.math-answer-input[data-numbered] input{padding-left:36px}
+.math-answer-number{box-sizing:border-box;position:absolute;left:1px;top:1px;z-index:1;display:flex;align-items:center;justify-content:center;width:28px;height:38px;border-right:1px solid var(--border);border-radius:7px 0 0 7px;background:var(--table-header-background,#f5f6f8);pointer-events:none;color:var(--text-subdued);font-family:var(--font-ui);font-size:12px;font-style:normal;font-weight:500;line-height:16px}
 .math-answer-input>div>div:first-of-type{margin-bottom:0}
 .math-answer-input span:empty{margin:0}
 .math-answer-input div:has(>input){border:0!important;box-shadow:none!important;background:transparent}
@@ -79,6 +82,7 @@
 .player-question-select{box-sizing:border-box;appearance:none;min-width:104px;max-width:100%;height:40px;padding:8px 44px 8px 12px;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface) url('/rebrand/course-arrow.svg') right 12px center no-repeat;color:var(--brand-navy);font-family:var(--font-ui);font-size:14px;font-weight:500;line-height:24px;cursor:pointer}
 .player-question-select:focus-visible{outline:2px solid var(--brand-teal);outline-offset:3px}
 .player-pagination .player-previous{width:40px!important;min-width:40px!important;padding:8px!important}
+.player-pagination .player-next{box-sizing:border-box;width:104px;min-width:104px!important;flex-shrink:0}
 .player-page-number{position:relative;width:40px;height:40px;padding:8px;background:white;color:var(--brand-navy);font-family:'Work Sans',var(--font-ui)!important;font-size:16px;line-height:24px;cursor:pointer;border-bottom:2px solid transparent}
 .player-page-number.current{background:#e8fbfe;border-bottom-color:#008eba}
 .player-page-marker{position:absolute;bottom:-2px;left:calc(50% - 2.207px);transform:rotate(-45deg);line-height:0}

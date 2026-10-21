@@ -27,6 +27,7 @@ import BrandIcon from './BrandIcon';
 import { SelectionCheckbox, SelectionProvider } from './Selection';
 import ActivityOverview from './ActivityOverview';
 import ActivityPlayer from './ActivityPlayer';
+import EdgeCases from './EdgeCases';
 import { resolveActivityRoute } from './activityNavigation';
 import './rebrand.css';
 
@@ -132,6 +133,7 @@ function App() {
     setPendingHideChapter(null);
     setSuccessChapter(chapterToHide);
   };
+  if (pageHash === '#/edge-cases') return <EdgeCases />;
   return <>
     <SelectionProvider itemIds={selectionIds}>
       <RebrandLayout anyFoldersOpen={anyFoldersOpen} onToggleAll={toggleAllFolders} showHidden={hidden} onToggleHidden={() => setHidden(!hidden)} notify={notify} onLearningPath={returnToLearningPath} detailPage={activityRoute && (activityRoute.page === 'player' ? <ActivityPlayer key={pageHash} {...activityRoute} /> : <ActivityOverview key={pageHash} {...activityRoute} onBack={returnToLearningPath} />)}>

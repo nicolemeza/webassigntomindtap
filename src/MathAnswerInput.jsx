@@ -5,10 +5,12 @@ const hiddenMessage = { position: 'absolute', width: 1, height: 1, padding: 0, m
 
 // Compose the Figma-connected Magma Input without changing the plain-text
 // editor, Math Pad integration, or the question's existing dimensions.
-export default forwardRef(function MathAnswerInput({ label, gradeState, invalid = false, ...props }, ref) {
+export default forwardRef(function MathAnswerInput({ label, inputNumber, gradeState, invalid = false, ...props }, ref) {
   const theme = useContext(ThemeContext);
   const error = invalid ? 'Check the validation message below.' : gradeState === 'incorrect' ? 'Incorrect answer.' : undefined;
-  return <div className="math-answer-input"><Input {...props} ref={ref} labelText={label} isLabelVisuallyHidden
+  return <div className="math-answer-input" data-numbered={inputNumber !== undefined ? true : undefined}>
+    {inputNumber !== undefined && <span className="math-answer-number" aria-hidden="true">{inputNumber}</span>}
+    <Input {...props} ref={ref} labelText={inputNumber !== undefined ? `Input ${inputNumber}, ${label}` : label} isLabelVisuallyHidden
     data-grade-state={gradeState}
     errorMessage={error}
     helperMessage={!invalid && gradeState === 'correct' ? 'Correct answer.' : undefined}

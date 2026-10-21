@@ -17,8 +17,9 @@ export default function MathQuestion({ question, values = {}, onChange, history 
     const inputId = `${question.id}-${part.input}`;
     const gradeState = gradedAnswerState(values[part.input], history[part.input], lastSubmitted[part.input]);
     const disabled = fieldComplete(history[part.input]);
+    const inputNumber = question.inputs.length > 1 ? question.inputs.findIndex((field) => field.id === part.input) + 1 : undefined;
     return <fieldset disabled={disabled} className="player-factoring-answer r5-answer-field r5-graded-field" data-grade-state={gradeState} key={part.input}>
-      <MathAnswerInput ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" label={part.label} gradeState={gradeState} disabled={disabled} invalid={invalidFields.includes(part.input)} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
+      <MathAnswerInput ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" label={part.label} inputNumber={inputNumber} gradeState={gradeState} disabled={disabled} invalid={invalidFields.includes(part.input)} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
       <GradedAnswerIcon state={gradeState} />
       <IconButton className="player-math-keyboard-button" type="button" aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />
     </fieldset>;
