@@ -1,5 +1,6 @@
 import React, { useContext, useId, useState } from 'react';
-import { Button, ButtonSize, ButtonVariant, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell, ThemeContext, Tooltip } from 'react-magma-dom';
+import { ButtonColor, ButtonIconPosition, ButtonSize, ButtonTextTransform, ButtonVariant, IconButton, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell, ThemeContext, Tooltip } from 'react-magma-dom';
+import { ExpandLessIcon, ExpandMoreIcon } from 'react-magma-icons';
 import './question-attempts.css';
 import { earnedPoints, MAX_ATTEMPTS } from './questionGrading';
 
@@ -22,7 +23,7 @@ export default function QuestionAttempts({ question, variant, history = {} }) {
   // Equal prototype weighting; assign rounding remainder to the last field.
   const totalHundredths = Math.round(question.points * 100);
   const fieldHundredths = multiField ? Math.floor(totalHundredths / fields.length) : totalHundredths;
-  return <section className={`question-attempts${multiField ? ' question-attempts-multi' : ''}`} aria-labelledby={headingId} style={{ '--attempt-toggle-size': theme.spaceScale.spacing07 }}>
+  return <section className={`question-attempts${multiField ? ' question-attempts-multi' : ''}`} aria-labelledby={headingId}>
     <div className="question-attempts-summary">
     <div className="question-attempts-heading">
       <h3 id={headingId}>Attempts</h3>
@@ -30,8 +31,8 @@ export default function QuestionAttempts({ question, variant, history = {} }) {
     </div>
     {!multiField && <>{variant === 'sidebar' && <p className="question-attempt-availability">{MAX_ATTEMPTS - (history[fields[0]?.id || 'answer']?.length || 0)} attempts available</p>}<AttemptIndicators history={history[fields[0]?.id || 'answer']} /></>}
     {multiField && variant === 'sidebar' && <p className="question-attempt-availability">5 attempts per field</p>}
+    {multiField && <IconButton className="question-attempt-toggle" size={ButtonSize.small} color={ButtonColor.primary} variant={ButtonVariant.link} textTransform={ButtonTextTransform.none} style={{ fontFamily: theme.bodyFont }} icon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />} iconPosition={ButtonIconPosition.right} aria-expanded={expanded} aria-controls={tableId} onClick={() => setExpanded(!expanded)}>Attempts</IconButton>}
     <p className="question-attempt-score"><span>Earned Score:</span><strong>{earnedPoints(question, history)} / {question.points} {question.points === 1 ? 'pt' : 'pts'}</strong></p>
-    {multiField && <Button className="question-attempt-toggle" size={ButtonSize.small} variant={ButtonVariant.link} aria-label={expanded ? 'Collapse attempts details' : 'Expand attempts details'} aria-expanded={expanded} aria-controls={tableId} onClick={() => setExpanded(!expanded)}><img src="/rebrand/attempt-collapse.svg" alt="" /></Button>}
     </div>
     {multiField && <div id={tableId} hidden={!expanded} className="question-attempt-table-wrapper">
       {variant === 'sidebar' ? <ul className="question-attempt-field-list" aria-label="Attempts by answer field">{fields.map((field, index) => {

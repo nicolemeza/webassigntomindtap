@@ -4,9 +4,10 @@ import { KeyboardIcon } from 'react-magma-icons';
 import MathExpression from './MathExpression';
 import MathPad from './MathPad';
 import './math-question.css';
-import { fieldComplete } from './questionGrading';
+import { fieldComplete, gradedAnswerState } from './questionGrading';
+import MathAnswerInput, { GradedAnswerIcon } from './MathAnswerInput';
 
-export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [] }) {
+export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [], lastSubmitted = {} }) {
   const [activeInput, setActiveInput] = useState(null);
   const [begun, setBegun] = useState(false);
   const inputRefs = useRef({});
@@ -14,8 +15,11 @@ export default function MathQuestion({ question, values = {}, onChange, history 
   const inputIndex = question.inputs.findIndex((item) => item.id === activeInput);
   const renderInput = (part) => {
     const inputId = `${question.id}-${part.input}`;
-    return <fieldset disabled={fieldComplete(history[part.input])} className="player-factoring-answer r5-answer-field r5-graded-field" key={part.input}>
-      <input ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" aria-label={part.label} aria-invalid={invalidFields.includes(part.input) || undefined} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
+    const gradeState = gradedAnswerState(values[part.input], history[part.input], lastSubmitted[part.input]);
+    const disabled = fieldComplete(history[part.input]);
+    return <fieldset disabled={disabled} className="player-factoring-answer r5-answer-field r5-graded-field" data-grade-state={gradeState} key={part.input}>
+      <MathAnswerInput ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" label={part.label} gradeState={gradeState} disabled={disabled} invalid={invalidFields.includes(part.input)} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
+      <GradedAnswerIcon state={gradeState} />
       <IconButton className="player-math-keyboard-button" type="button" aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />
     </fieldset>;
   };

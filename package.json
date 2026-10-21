@@ -11,9 +11,10 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-magma-dom": "latest"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-magma-dom": "7.0.0",
+    "react-magma-icons": "3.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "latest",

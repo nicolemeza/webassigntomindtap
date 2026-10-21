@@ -1,10 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { remainingR5Questions } from './r5Questions.js';
-import { matchesAnswer, gradingFields, submitQuestion, earnedPoints, fieldComplete } from './questionGrading.js';
+import { matchesAnswer, gradingFields, submitQuestion, earnedPoints, fieldComplete, gradedAnswerState } from './questionGrading.js';
 
 const one = { id: 'r5-factoring-question-1', kind: 'greatest-common-factor', points: 1 };
 const question = (n) => n === 1 ? one : remainingR5Questions.find((q) => q.id === `r5-factoring-question-${n}`);
+
+test('graded input state follows the latest submission, not the best score', () => {
+  assert.equal(gradedAnswerState('2', [], undefined), undefined);
+  assert.equal(gradedAnswerState('2', [false], '2'), 'incorrect');
+  assert.equal(gradedAnswerState('14xy^2', [false, true], '14xy^2'), 'correct');
+  assert.equal(gradedAnswerState('2', [true, false], '2'), 'incorrect');
+  assert.equal(earnedPoints(one, { answer: [true, false] }), 1);
+});
+test('editing clears graded input state; restoring a submitted value restores its state', () => {
+  assert.equal(gradedAnswerState('3', [false], '2'), undefined);
+  assert.equal(gradedAnswerState('', [false], '2'), undefined);
+  assert.equal(gradedAnswerState(' 2 ', [false], '2'), 'incorrect');
+  assert.equal(gradedAnswerState('2', [false], '2'), 'incorrect');
+});
 
 test('every available R.5 field has a working solution; missing source content stays ungradable', () => {
   for (let n = 1; n <= 29; n++) {

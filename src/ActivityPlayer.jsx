@@ -10,7 +10,7 @@ import QuestionAttempts from './QuestionAttempts';
 import MathQuestion from './MathQuestion';
 import './activity-player.css';
 import './activity-question-integrated.css';
-import { gradingFields, fieldComplete, submitQuestion } from './questionGrading';
+import { gradingFields, fieldComplete, gradedAnswerState, submitQuestion } from './questionGrading';
 
 const playerSessions = new Map();
 const iconSizes = { selected: [16, 16], print: [16, 16], edit: [16, 16], details: [16, 16], radioChecked: [24, 24], radioUnchecked: [24, 24], accessibility: [24, 26.0321], previous: [20, 20], next: [20, 20], pageMarker: [4.41421, 4.41421] };
@@ -86,7 +86,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
           <QuestionAttempts key={`attempts-${question.id}`} question={question} history={history} />
           <div className={`player-question-content${largeText ? ' large-text' : ''}`}>
             {view === 'instructor' && <p className="player-instructor-note">Instructor preview · Responses are not graded.</p>}
-            {question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
+            {question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
             {alternativeLayout && gradeButton}
           </div>

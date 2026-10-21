@@ -139,6 +139,10 @@ export function gradingFields(question) {
   return fields.map((field, index) => ({ ...field, expected: answers[field.id], requireFactored: number !== 2 && !(number === 16 && ['gcf', 'factor', 'inside'].includes(field.id)), points: (index === fields.length - 1 ? total - share * index : share) / 100 }));
 }
 export function fieldComplete(history = []) { return history.length >= MAX_ATTEMPTS; }
+export function gradedAnswerState(value = '', history = [], lastSubmitted) {
+  if (!history.length || lastSubmitted === undefined || !value.trim() || value.replace(/\s+/g, '') !== lastSubmitted) return undefined;
+  return history[history.length - 1] ? 'correct' : 'incorrect';
+}
 export function earnedPoints(question, history = {}) {
   return Math.round(gradingFields(question).reduce((sum, field) => sum + (history[field.id]?.includes(true) ? field.points : 0), 0) * 100) / 100;
 }
