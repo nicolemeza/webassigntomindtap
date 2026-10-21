@@ -41,8 +41,7 @@ export const remainingR5Questions = [
   single(26, 'Factor the indicated monomial from the given expression.', '7x^2 − 2x − 9; 7'),
   single(27, 'Factor completely and simplify the algebraic expression. Write your answer using positive exponents.', '5x^{3/7} − 10x^{1/7}'),
   question(28, [
-    { type: 'notice', text: 'This question has several parts that must be completed sequentially. If you skip a part of the question, you will not receive any points for the skipped part, and you will not be able to come back to the skipped part.' },
-    { type: 'fix-it', title: 'Fix It', prompt: 'The following solution is incorrect. You will be asked to determine which steps are incorrect and fix the solution.', expression: '2x^2 − 2xy − 18x + 18y', steps: ['2(x^2 − xy − 9x + 9y)', '2[x(x − y) + 9(x − y)]', '2(x − y)(x + 9)'] },
+    { type: 'fix-it', title: 'Fix It', notice: 'This question has several parts that must be completed sequentially. If you skip a part of the question, you will not receive any points for the skipped part, and you will not be able to come back to the skipped part.', prompt: 'The following solution is incorrect. You will be asked to determine which steps are incorrect and fix the solution.', expression: '2x^2 − 2xy − 18x + 18y', steps: ['2(x^2 − xy − 9x + 9y)', '2[x(x − y) + 9(x − y)]', '2(x − y)(x + 9)'] },
   ], { followUpUnavailable: true }),
   question(29, [text('The formula that gives the distance a stuntwoman is above the ground t seconds after she falls over the side of a 256-foot tall building is s = 256 − 16t². Factor the right side.'), { type: 'image', src: '/rebrand/r5-stuntwoman-diagram.png', alt: 'A stuntwoman falls from a 256-foot building toward a safety cushion. The distance to the ground is s.', width: 340, height: 280 }, row({ math: 's =' }, input('answer', 'Question 29, factored expression for s'))]),
 ];

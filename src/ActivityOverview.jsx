@@ -6,6 +6,17 @@ import { defaultActivitySettings } from './ActivityBehaviorSettings';
 import { activityDueDateTime, formatActivityDue, formatDueTime } from './activityDates';
 import './activity-overview.css';
 
+const factoringObjectives = [
+  'Factor out the greatest common factor.',
+  'Factor by grouping.',
+  'Factor the difference of two squares.',
+  'Factor trinomials.',
+  'Factor trinomials by grouping.',
+  'Factor the sum and difference of two cubes.',
+  'Factor miscellaneous polynomials.',
+  'Factor expressions containing negative and fractional exponents.',
+];
+
 function OverviewIcon({ name, size = 32 }) {
   return <img src={`/rebrand/overview-${name}.svg`} width={name === 'attempts' ? 33.2203 : size} height={size} alt="" aria-hidden="true" />;
 }
@@ -48,6 +59,15 @@ export default function ActivityOverview({ chapter, section, activity: originalA
           </React.Fragment>)}
         </dl>
       </div>
+      {originalActivity.title === 'R.5 HW Factoring' && <section className="overview-instructions" aria-labelledby="overview-instructions-title">
+        <h3 id="overview-instructions-title">Instructions</h3>
+        <p>This assignment is intended to help you gain proficiency with the following learning objectives:</p>
+        <ul>{factoringObjectives.map(objective => <li key={objective}>{objective}</li>)}</ul>
+        <h3>Assignment Submission</h3>
+        <p>For this assignment, you submit answers by question parts. The number of submissions remaining for each question part only changes if you submit or change the answer.</p>
+        <h3>Assignment Scoring</h3>
+        <p>Your last submission is used for your score.</p>
+      </section>}
       <div className="overview-attempts">
         <table aria-label={`Attempts for ${activity.title}`}>
           <thead><tr>{['Attempt (of #)', 'Submitted on', 'Status', 'Score', 'Actions'].map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead>

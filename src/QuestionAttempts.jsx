@@ -1,5 +1,5 @@
 import React, { useContext, useId, useState } from 'react';
-import { ButtonColor, ButtonIconPosition, ButtonSize, ButtonTextTransform, ButtonVariant, IconButton, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell, ThemeContext, Tooltip } from 'react-magma-dom';
+import { ButtonIconPosition, ButtonSize, ButtonTextTransform, ToggleButton, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell, ThemeContext, Tooltip } from 'react-magma-dom';
 import { ExpandLessIcon, ExpandMoreIcon } from 'react-magma-icons';
 import './question-attempts.css';
 import { earnedPoints, MAX_ATTEMPTS } from './questionGrading';
@@ -13,7 +13,7 @@ function AttemptIndicators({ history = [], maxAttempts = MAX_ATTEMPTS }) {
   </div>;
 }
 
-export default function QuestionAttempts({ question, variant, history = {}, defaultExpanded = false, earnedScore, maxAttempts = MAX_ATTEMPTS }) {
+export default function QuestionAttempts({ question, variant, history = {}, defaultExpanded = false, earnedScore, maxAttempts = MAX_ATTEMPTS, children }) {
   const theme = useContext(ThemeContext);
   const headingId = useId();
   const tableId = useId();
@@ -23,24 +23,23 @@ export default function QuestionAttempts({ question, variant, history = {}, defa
   // Equal prototype weighting; assign rounding remainder to the last field.
   const totalHundredths = Math.round(question.points * 100);
   const fieldHundredths = multiField ? Math.floor(totalHundredths / fields.length) : totalHundredths;
-  return <section className={`question-attempts${multiField ? ' question-attempts-multi' : ''}`} aria-labelledby={headingId}>
-    <div className="question-attempts-summary">
+  const summary = <div className="question-attempts-summary">
     <div className="question-attempts-heading">
       <h3 id={headingId}>Attempts</h3>
       <p>Your grade is based on your <strong>best attempt</strong>.</p>
     </div>
     {!multiField && <>{variant === 'sidebar' && <p className="question-attempt-availability">{maxAttempts - (history[fields[0]?.id || 'answer']?.length || 0)} attempts available</p>}<AttemptIndicators history={history[fields[0]?.id || 'answer']} maxAttempts={maxAttempts} /></>}
     {multiField && variant === 'sidebar' && <p className="question-attempt-availability">{maxAttempts} attempts per field</p>}
-    {multiField && <IconButton className="question-attempt-toggle" size={ButtonSize.small} color={ButtonColor.primary} variant={ButtonVariant.link} textTransform={ButtonTextTransform.none} style={{ fontFamily: theme.bodyFont }} icon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />} iconPosition={ButtonIconPosition.right} aria-expanded={expanded} aria-controls={tableId} onClick={() => setExpanded(!expanded)}>Attempts</IconButton>}
+    {multiField && <ToggleButton className="question-attempt-toggle" value="attempts" isChecked={expanded} size={ButtonSize.small} textTransform={ButtonTextTransform.none} style={{ fontFamily: theme.bodyFont }} icon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />} iconPosition={ButtonIconPosition.right} aria-expanded={expanded} aria-controls={tableId} onClick={() => setExpanded(current => !current)}>Attempts</ToggleButton>}
     <p className="question-attempt-score"><span>Earned Score:</span><strong>{earnedScore ?? earnedPoints(question, history)} / {question.points} {question.points === 1 ? 'pt' : 'pts'}</strong></p>
-    </div>
-    {multiField && <div id={tableId} hidden={!expanded} className="question-attempt-table-wrapper"
+    </div>;
+  const details = multiField && <div id={tableId} hidden={!expanded} className="question-attempt-table-wrapper"
       role="region" aria-label="Scrollable attempts by field" tabIndex={0}>
       {variant === 'sidebar' ? <ul className="question-attempt-field-list" aria-label="Attempts by answer field">{fields.map((field, index) => {
         const points = (index === fields.length - 1 ? totalHundredths - fieldHundredths * index : fieldHundredths) / 100;
         const attempts = history[field.id] || [];
         return <li key={field.id}><div className="question-attempt-field-title"><strong>Field {index + 1}</strong><span>{attempts.includes(true) ? points : 0} / {points} pt</span></div><AttemptIndicators history={attempts} maxAttempts={maxAttempts} /><p>{attempts.length} of {maxAttempts} attempts used</p></li>;
-      })}</ul> : <Table className="question-attempt-table" minWidth={476} aria-label="Attempts by answer field">
+      })}</ul> : <Table className="question-attempt-table" style={{ '--table-header-background': theme.colors.neutral100 }} minWidth={476} aria-label="Attempts by answer field">
         <TableHead><TableRow>{['Attempts by field', 'Score per attempt', 'Attempts used', 'Points'].map(label => <TableHeaderCell key={label}>{label}</TableHeaderCell>)}</TableRow></TableHead>
         <TableBody>{fields.map((field, index) => {
           const points = (index === fields.length - 1 ? totalHundredths - fieldHundredths * index : fieldHundredths) / 100;
@@ -53,6 +52,7 @@ export default function QuestionAttempts({ question, variant, history = {}, defa
           </TableRow>;
         })}</TableBody>
       </Table>}
-    </div>}
-  </section>;
+    </div>;
+  if (children) return children({ summary, details });
+  return <section className={`question-attempts${multiField ? ' question-attempts-multi' : ''}`} aria-labelledby={headingId}>{summary}{details}</section>;
 }

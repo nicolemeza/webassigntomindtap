@@ -43,8 +43,7 @@
 .player-factoring-answer{position:relative;width:240px;max-width:100%;font-family:var(--font-ui);color:var(--brand-navy)}
 .r5-graded-field{min-width:0;margin:0;padding:0;border:0}
 .r5-graded-field:disabled input{background:var(--page-bg);color:var(--text-subdued);cursor:default}
-.player-grade-feedback{margin:8px 0 0;color:var(--text-subdued);font-size:12px;line-height:18px}
-.player-grade-feedback:empty{display:none}
+.player-question-content .player-grade-feedback{margin-top:24px}
 .player-factoring-answer input{box-sizing:border-box;width:100%;height:40px;padding:8px 44px 8px 8px;border:1px solid #8b99aa;border-radius:8px;background:white;color:var(--brand-navy);font-family:var(--font-ui);font-size:16px}
 .player-factoring-answer input:focus-visible{outline:2px solid var(--brand-teal);outline-offset:3px}
 .player-factoring-answer input[aria-invalid="true"]{border-color:var(--field-validation-color)}
