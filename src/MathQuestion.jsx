@@ -4,6 +4,7 @@ import { KeyboardIcon } from 'react-magma-icons';
 import MathExpression from './MathExpression';
 import MathPad from './MathPad';
 import GraphingPad from './GraphingPad';
+import NumberLinePad from './NumberLinePad';
 import './math-question.css';
 import { fieldComplete, gradedAnswerState } from './questionGrading';
 import MathAnswerInput, { GradedAnswerIcon } from './MathAnswerInput';
@@ -36,12 +37,25 @@ export default function MathQuestion({ question, values = {}, onChange, history 
       if (block.type === 'selections') {
         let selected = [];
         try { selected = JSON.parse(values[block.id] || '[]'); } catch { /* Empty response. */ }
-        return <fieldset key={index} className="question-selection-group"><legend>{block.label}</legend>{block.options.map((option, optionIndex) => block.multiple
-          ? <Checkbox key={option} labelText={option} name={`${question.id}-${block.id}`} checked={selected.includes(optionIndex)} containerStyle={{ margin: '8px 0' }} onChange={() => onChange(block.id, JSON.stringify(selected.includes(optionIndex) ? selected.filter(value => value !== optionIndex) : [...selected, optionIndex]))} />
-          : <label key={option}><input type="radio" name={`${question.id}-${block.id}`} checked={values[block.id] === String(optionIndex)} onChange={() => onChange(block.id, String(optionIndex))} />{option}</label>)}</fieldset>;
+        const gradeState = gradedAnswerState(values[block.id], history[block.id], lastSubmitted[block.id]);
+        return <fieldset key={index} className="question-selection-group"><legend>{block.label}</legend>{block.options.map((option, optionIndex) => {
+          const optionText = typeof option === 'string' ? option : option.label;
+          const optionDisplay = block.mathOptions ? <MathExpression expression={optionText} /> : optionText;
+          const isSelected = block.multiple ? selected.includes(optionIndex) : values[block.id] === String(optionIndex);
+          return <div className="question-selection-option" data-grade-state={isSelected ? gradeState : undefined} key={optionText}>{block.multiple
+            ? <Checkbox labelText={optionDisplay} aria-label={optionText} name={`${question.id}-${block.id}`} checked={isSelected} containerStyle={{ margin: '8px 0' }} onChange={() => onChange(block.id, JSON.stringify(isSelected ? selected.filter(value => value !== optionIndex) : [...selected, optionIndex]))} />
+            : <label><input type="radio" name={`${question.id}-${block.id}`} checked={isSelected} onChange={() => onChange(block.id, String(optionIndex))} />{optionDisplay}</label>}<span className="graded-answer-indicator" aria-hidden="true">{isSelected && <GradedAnswerIcon state={gradeState} />}</span></div>;
+        })}</fieldset>;
       }
-      if (block.type === 'graph-choices') return <fieldset key={index} className="question-graph-choices"><legend>{block.label}</legend><div>{block.options.map((option, optionIndex) => <label key={option.src} className={values[block.id] === String(optionIndex) ? 'is-selected' : ''}><img src={option.src} width="328" height="350" alt={option.description} /><span><input type="radio" name={`${question.id}-${block.id}`} checked={values[block.id] === String(optionIndex)} onChange={() => onChange(block.id, String(optionIndex))} />{option.label}</span></label>)}</div></fieldset>;
+      if (block.type === 'graph-choices') {
+        const gradeState = gradedAnswerState(values[block.id], history[block.id], lastSubmitted[block.id]);
+        return <fieldset key={index} className="question-graph-choices"><legend>{block.label}</legend><div>{block.options.map((option, optionIndex) => {
+          const selected = values[block.id] === String(optionIndex);
+          return <label key={option.src} className={selected ? 'is-selected' : ''} data-grade-state={selected ? gradeState : undefined}><img src={option.src} width="328" height="350" alt={option.description} /><span><input type="radio" name={`${question.id}-${block.id}`} checked={selected} onChange={() => onChange(block.id, String(optionIndex))} />{option.label}{selected && <GradedAnswerIcon state={gradeState} />}</span></label>;
+        })}</div></fieldset>;
+      }
       if (block.type === 'graph-pad') return <GraphingPad key={index} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
+      if (block.type === 'number-line') return <NumberLinePad key={index} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
       if (block.type === 'fix-it') return <section className="r5-fix-it" key={index} aria-label="Fix It">
         <h3>{block.title}</h3>{block.notice && <p className="r5-sequence-notice">{block.notice}</p>}<p>{block.prompt}</p><div className="r5-incorrect-solution"><p>{block.solutionPrompt || 'Factor completely.'}</p>{block.expression && <MathExpression expression={block.expression} />}<ol>{block.steps.map((step, stepIndex) => <li key={step}><span>STEP {stepIndex + 1}: </span><MathExpression expression={step} /></li>)}</ol></div>
         <Button className="rebrand-button" variant={ButtonVariant.outline} onClick={() => setBegun(true)}>Click here to begin</Button>

@@ -1,5 +1,6 @@
 // Local, deterministic grading for the transcribed R.5 exercise only.
 // No expression is evaluated as JavaScript or sent to a gradebook.
+import { graphGradingFields } from './graphQuestionGrading.js';
 export const MAX_ATTEMPTS = 5;
 const solutions = {
   1: { answer: '14xy^2' }, 2: { answer: '8x^4(y-2)^2' },
@@ -131,6 +132,7 @@ export function matchesAnswer(value, expected, requireFactored = true) {
   } catch { return false; }
 }
 export function gradingFields(question) {
+  if (question.id.startsWith('graphs-circles-question-')) return graphGradingFields(question);
   const number = Number(question.id.replace('r5-factoring-question-', ''));
   const answers = solutions[number];
   if (!answers || !question.id.startsWith('r5-factoring-question-')) return [];
@@ -162,12 +164,13 @@ export function submitQuestion(question, response = {}, history = {}, lastSubmit
     // Whitespace-only edits do not constitute a new mathematical response.
     const normalized = value.replace(/\s+/g, '');
     if (normalized === lastSubmitted[field.id]) { unchangedFields.push(field.id); continue; }
-    const result = matchesAnswer(value, field.expected, field.requireFactored);
+    const result = field.validate ? field.validate(value) : matchesAnswer(value, field.expected, field.requireFactored);
     next[field.id] = [...previous, result];
     nextSubmitted[field.id] = normalized;
     submitted++;
   }
   const unchangedMessage = unchangedFields.length ? fields.length === 1 ? 'The input was not changed.' : `The input was not changed for ${unchangedFields.map((id) => `Field ${fields.findIndex((field) => field.id === id) + 1}`).join(', ')}.` : '';
-  const message = [unchangedMessage, emptyFields.length ? 'Enter an answer in the empty field(s). Blank fields do not use an attempt.' : ''].filter(Boolean).join(' ');
+  // Empty fields are simply skipped: they do not use an attempt and do not need corrective feedback.
+  const message = unchangedMessage;
   return { history: next, lastSubmitted: nextSubmitted, message, emptyFields, unchangedFields, submitted };
 }

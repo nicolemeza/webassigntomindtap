@@ -9,7 +9,10 @@
 .question-surface .question-attempt-table :is(th,td):first-child{padding-left:var(--question-card-inset)!important}
 .question-surface .question-attempt-table :is(th,td):last-child{padding-right:var(--question-card-inset)!important}
 .question-surface .player-question-grading-footer{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin:24px calc(-1 * var(--question-card-inset)) -12px;padding:16px var(--question-card-inset);border-top:1px solid var(--border);border-radius:0 0 7px 7px}
-.player-question-grade-action{flex:0 1 auto;min-width:0}
+.player-question-grade-action{display:flex;align-items:center;gap:16px;flex:0 1 auto;min-width:0}
+.player-save-confirmation{color:#2c415f;font-size:.875rem;white-space:nowrap}
+.player-save-spinner{display:inline-block;width:12px;height:12px;margin-right:7px;border:2px solid #71829a;border-right-color:transparent;border-radius:50%;vertical-align:-2px;animation:player-save-spin .7s linear infinite}
+@keyframes player-save-spin{to{transform:rotate(360deg)}}
 .player-question-grading-footer .question-attempts-summary{flex:1 1 480px;width:auto;min-width:0}
 .question-surface .player-grade-question-magma{display:flex;width:fit-content;max-width:100%;margin:0}
 #app .question-surface .player-grade-question-magma{margin-bottom:0}

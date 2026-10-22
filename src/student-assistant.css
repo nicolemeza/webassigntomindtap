@@ -1,0 +1,40 @@
+.student-assistant{--sa-border:#d4d4d4;--sa-primary:#3942b0;box-sizing:border-box;position:fixed;right:24px;bottom:24px;z-index:1000;display:flex;flex-direction:column;width:600px;height:700px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 48px);overflow:hidden;border:1px solid var(--sa-border);border-radius:8px;background:white;box-shadow:0 2px 6px #0000002e;color:#454545;font:400 16px/24px 'Work Sans',var(--font-ui)}
+.student-assistant *{box-sizing:border-box}
+.sa-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none;min-height:64px;padding:12px 16px;background:white}
+.sa-brand{display:flex;align-items:center;gap:12px;padding:4px 8px;min-width:0}
+.sa-brand h2{margin:0;font:600 18px/24px 'Work Sans',var(--font-ui);background:linear-gradient(90deg,#3942b0,#178037);background-clip:text;color:transparent;white-space:nowrap}
+.sa-header-tools,.sa-composer-tools,.sa-composer-tools>div,.sa-reactions{display:flex;align-items:center;gap:8px}
+.student-assistant .sa-icon-button{display:inline-flex;align-items:center;justify-content:center;flex:none;width:40px;height:40px;min-width:40px;min-height:40px;margin:0;padding:8px;border:0;border-radius:8px;background:transparent;color:#454545;box-shadow:none;cursor:pointer}
+.student-assistant .sa-icon-button img{display:block;flex:none}
+.student-assistant .sa-icon-button:hover,.student-assistant .sa-icon-button[aria-pressed=true]{background:#e8e9f8}
+.student-assistant .sa-icon-button:focus-visible,.sa-symbols button:focus-visible{outline:2px solid var(--sa-primary);outline-offset:2px}
+.student-assistant .sa-icon-small{width:28px;min-width:28px;height:28px;min-height:28px;padding:4px}
+.sa-log-wrap{position:relative;flex:1;min-height:0}
+.sa-messages{height:100%;overflow:auto;overscroll-behavior:contain;padding:16px;scrollbar-gutter:stable}
+.student-assistant .sa-jump{position:absolute;right:16px;bottom:0;border-radius:50%;background:var(--sa-primary)}
+.student-assistant .sa-jump:hover{background:#292f7c}
+.sa-message{padding:8px;overflow-wrap:anywhere}
+.sa-message p{margin:0;white-space:pre-wrap;font:inherit}
+.sa-message-assistant{display:flex;flex-direction:column;gap:8px}
+.sa-message-user{display:flex;justify-content:flex-end}
+.sa-message-user>p{max-width:400px;padding:8px 12px;border-radius:8px;background:#e8e9f8;color:#292f7c}
+.sa-reactions{gap:4px}
+.sa-message .sa-prototype-note{color:#707070;font-size:12px;line-height:18px}
+.sa-thinking{display:flex;align-items:center;gap:8px;padding:8px}
+.sa-compose-area{flex:none;padding:16px;background:linear-gradient(#ffffff00,#ffffffbf);backdrop-filter:blur(2.6px)}
+.sa-composer{display:flex;flex-direction:column;gap:8px;padding:12px 12px 12px 16px;border:1px solid var(--sa-border);border-radius:8px;background:white;box-shadow:0 2px 3px #0000002e}
+.sa-composer:focus-within{outline:1px solid var(--sa-primary);outline-offset:2px}
+.student-assistant .sa-composer div:has(>input){border:0;outline:none;box-shadow:none;background:transparent}
+.student-assistant .sa-composer input:focus{outline:none;box-shadow:none}
+.sa-composer-tools{justify-content:space-between}
+.student-assistant .sa-send{background:var(--sa-primary)}
+.student-assistant .sa-send:not(:disabled) img{filter:brightness(0) invert(1)}
+.student-assistant .sa-send:hover:not(:disabled){background:#292f7c}
+.student-assistant .sa-send:disabled{background:#d4d4d4;cursor:default;opacity:1}
+.sa-symbols{display:flex;flex-wrap:wrap;gap:4px}
+.sa-symbols button{width:36px;height:36px;border:1px solid var(--sa-border);border-radius:4px;background:white;color:#454545;font:inherit;cursor:pointer}
+.sa-panel{flex:none;max-height:45%;overflow:auto;padding:16px 24px;border-block:1px solid var(--sa-border);background:#f7f9fc}
+.sa-panel h3{margin:0 0 8px;font-size:16px}
+.sa-panel p{margin:0 0 12px}
+.sa-notice{display:flex;gap:8px;align-items:center;padding:8px 24px;color:#707070;font-size:14px;line-height:20px}
+@media(max-width:650px){.student-assistant{right:16px;bottom:16px;max-height:calc(100dvh - 32px)}.sa-header{padding-inline:8px}.sa-brand{gap:8px;padding-inline:4px}.sa-header-tools{gap:0}.sa-brand h2{font-size:16px}}

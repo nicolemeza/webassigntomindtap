@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { graphsQuestions, hasGraphQuestionResponse, hasAnyGraphQuestionResponse } from './graphsQuestions.js';
 import { circleRadius, graphCoordinates, graphScale, readGraph } from './graphingGeometry.js';
+import { gradingFields, submitQuestion, earnedPoints } from './questionGrading.js';
 
 test('graphs activity has 30 distinct, sequential questions and all graph-choice assets', () => {
   assert.equal(graphsQuestions.length, 30);
@@ -47,4 +48,18 @@ test('graph coordinates, circle radii, and responsive canvas scale are consisten
   assert.deepEqual(graphCoordinates(260, 270, rect), [0, 0]);
   assert.deepEqual(graphCoordinates(260 + 2 * scale, 270 - 3 * scale, rect), [2, 3]);
   assert.deepEqual(readGraph(undefined), { objects: [], noSolution: false });
+});
+test('graph activity questions have local answer keys and award scores', () => {
+  for (const question of graphsQuestions) {
+    const fields = gradingFields(question);
+    assert.equal(fields.length, question.id.endsWith('-28') ? 0 : question.inputs.length, question.id);
+  }
+  const graphChoice = submitQuestion(graphsQuestions[5], { values: { graph: '0' } });
+  assert.equal(earnedPoints(graphsQuestions[5], graphChoice.history), 1);
+  const symmetry = submitQuestion(graphsQuestions[7], { values: { symmetries: '[3]' } });
+  assert.equal(earnedPoints(graphsQuestions[7], symmetry.history), 1);
+  const drawing = submitQuestion(graphsQuestions[25], { values: {
+    center: '-2,3', radius: '6', drawing: JSON.stringify({ objects: [{ type: 'circle', points: [[-2, 3], [4, 3]] }] }),
+  } });
+  assert.equal(earnedPoints(graphsQuestions[25], drawing.history), 1);
 });

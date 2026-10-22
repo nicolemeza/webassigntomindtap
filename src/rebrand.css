@@ -57,7 +57,7 @@ body{min-width:760px;background:var(--page-bg)}
 .chapter-section-toggle{width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;padding:0!important}
 .chapter-content-menu img{display:block}
 .chapter-content-menu.is-active{background:var(--border)!important}
-.chapter-contents{gap:8px;padding:0 24px 4px 49px;background:white}
+.chapter-contents{gap:8px;padding:8px 24px;background:white}
 .chapter-reading{min-height:36px;border:1px solid var(--border);border-radius:4px;overflow:visible}
 .row-selection{display:flex;align-items:center;justify-content:center;align-self:stretch;flex:0 0 30px;background:var(--page-bg);border-right:1px solid var(--border)}
 .chapter-reading-icon{width:38px;border-color:var(--border);background:var(--page-bg)}

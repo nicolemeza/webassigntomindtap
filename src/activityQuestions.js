@@ -1,5 +1,6 @@
 import { remainingR5Questions } from './r5Questions';
 import { graphsQuestions, hasGraphQuestionResponse } from './graphsQuestions';
+import { chapterRTestQuestions } from './chapterRTestQuestions';
 
 // Fallback sample content for activities that have not yet been populated.
 // Answers are intentionally not graded or submitted by this prototype.
@@ -29,6 +30,7 @@ export function getActivityQuestions(chapter, title) {
   if (chapter === 'Chapter R. A Review of Basic Algebra' && title === 'R.5 HW Factoring') {
     return [factoringQuestionOne, ...remainingR5Questions];
   }
+  if (chapter === 'Chapter R. A Review of Basic Algebra' && title === 'Chapter R Test') return chapterRTestQuestions;
   return sampleActivityQuestions;
 }
 
