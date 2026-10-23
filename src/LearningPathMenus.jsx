@@ -13,11 +13,11 @@ function ActionIcon({ name }) {
   return <span className="learning-action-icon"><img src={`/rebrand/action-${name}.svg`} width={size} height={size} alt="" /></span>;
 }
 
-function ActionItems({ items, notify }) {
-  return items.map(([icon, label]) => <DropdownMenuItem className="learning-action-item" key={label} icon={<ActionIcon name={icon} />} onClick={() => notify(`${label} is not connected in this prototype`)}>{label}</DropdownMenuItem>);
+function ActionItems({ items, notify, onCreateActivity }) {
+  return items.map(([icon, label]) => <DropdownMenuItem className="learning-action-item" key={label} icon={<ActionIcon name={icon} />} onClick={() => icon === 'create' && onCreateActivity ? onCreateActivity() : notify(`${label} is not connected in this prototype`)}>{label}</DropdownMenuItem>);
 }
 
-export default function LearningPathMenus({ notify }) {
+export default function LearningPathMenus({ notify, onCreateActivity }) {
   return <>
     <Dropdown className="learning-path-action-dropdown" alignment={DropdownAlignment.start} width={321} maxHeight={529}>
       <DropdownButton className="rebrand-button" variant={ButtonVariant.link} color={ButtonColor.primary}>Add to Learning Path</DropdownButton>
@@ -33,7 +33,7 @@ export default function LearningPathMenus({ notify }) {
     <Dropdown className="learning-path-action-dropdown" alignment={DropdownAlignment.end} width={309} maxHeight={529}>
       <DropdownButton className="rebrand-button rebrand-button-primary" variant={ButtonVariant.solid} color={ButtonColor.primary}>Create New Activity</DropdownButton>
       <DropdownContent className="learning-path-action-menu learning-path-create-menu" aria-label="Create New Activity">
-        <ActionItems items={createItems} notify={notify} />
+        <ActionItems items={createItems} notify={notify} onCreateActivity={onCreateActivity} />
       </DropdownContent>
     </Dropdown>
   </>;

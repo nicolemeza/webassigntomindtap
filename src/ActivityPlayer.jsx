@@ -8,6 +8,7 @@ import FactoringQuestion from './FactoringQuestion';
 import ActivityResources from './ActivityResources';
 import QuestionAttempts from './QuestionAttempts';
 import MathQuestion from './MathQuestion';
+import ChoiceQuestion from './ChoiceQuestion';
 import './activity-player.css';
 import './activity-question-integrated.css';
 import { gradingFields, fieldComplete, gradedAnswerState, submitQuestion } from './questionGrading';
@@ -19,11 +20,16 @@ function PlayerIcon({ name }) {
   return <img src={`/rebrand/player-${name}.svg`} width={width} height={height} alt="" aria-hidden="true" />;
 }
 
-export default function ActivityPlayer({ chapter, section, activity: originalActivity }) {
+export default function ActivityPlayer({ chapter, section, activity: originalActivity, onBack, backLabel = 'Back', onActivityChange, sessionKey }) {
   const theme = useContext(ThemeContext);
-  const activityKey = `${chapter}/${section}/${originalActivity.title}`;
-  const [activity, saveActivity] = useActivitySettings(activityKey, originalActivity);
-  const [session, setSession] = useState(() => playerSessions.get(activityKey) || { current: 0, answers: {}, flags: [] });
+  const activityKey = sessionKey || `${chapter}/${section}/${originalActivity.id || originalActivity.title}`;
+  const [storedActivity, saveActivity] = useActivitySettings(activityKey, originalActivity);
+  const activity = onActivityChange ? originalActivity : storedActivity;
+  const questions = activity.questions || getActivityQuestions(chapter, originalActivity.title);
+  const [session, setSession] = useState(() => {
+    const previous = playerSessions.get(activityKey) || { current: 0, answers: {}, flags: [] };
+    return { ...previous, current: Math.min(previous.current, questions.length - 1) };
+  });
   const [view, setView] = useState('student');
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [tool, setTool] = useState(null);
@@ -32,9 +38,8 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [finishOpen, setFinishOpen] = useState(false);
   const headingRef = useRef(null);
-  const questions = getActivityQuestions(chapter, originalActivity.title);
   const question = questions[session.current];
-  const alternativeLayout = question.id.startsWith('r5-factoring-question-');
+  const alternativeLayout = question.id.startsWith('r5-factoring-question-') || question.kind === 'choice';
   const answer = session.answers[question.id] || { text: '', choice: '' };
   const history = session.grades?.[question.id] || {};
   const invalidFields = [...(session.feedback?.[question.id]?.emptyFields || []), ...(session.feedback?.[question.id]?.unchangedFields || [])];
@@ -59,7 +64,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     document.title = `${activity.title} · Activity · MindTap`;
     return () => { document.title = previous; };
   }, [activity.title]);
-  const back = () => { window.location.hash = activityHref(chapter, section, originalActivity.title); };
+  const back = onBack || (() => { window.location.hash = activityHref(chapter, section, originalActivity.id || originalActivity.title); });
   const gradeQuestion = () => updateSession((current) => {
     const result = submitQuestion(question, current.answers[question.id], current.grades?.[question.id], current.lastSubmitted?.[question.id]);
     return { grades: { ...current.grades, [question.id]: result.history }, lastSubmitted: { ...current.lastSubmitted, [question.id]: result.lastSubmitted }, feedback: { ...current.feedback, [question.id]: { message: result.message, emptyFields: result.emptyFields, unchangedFields: result.unchangedFields } } };
@@ -68,7 +73,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
 
   return <section className="activity-player-page" aria-labelledby="player-title">
     <div className="overview-secondary-nav">
-      <Button className="rebrand-button compact overview-back" variant={ButtonVariant.link} onClick={back}><img src="/rebrand/overview-back.svg" width="16" height="16" alt="" />Back</Button>
+      <Button className="rebrand-button compact overview-back" variant={ButtonVariant.link} onClick={back}><img src="/rebrand/overview-back.svg" width="16" height="16" alt="" />{backLabel}</Button>
       <h1 id="player-title">{activity.title}</h1>
     </div>
     <div className="player-workspace">
@@ -86,7 +91,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
           <QuestionAttempts key={`attempts-${question.id}`} question={question} history={history} />
           <div className={`player-question-content${largeText ? ' large-text' : ''}`}>
             {view === 'instructor' && <p className="player-instructor-note">Instructor preview · Responses are not graded.</p>}
-            {question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
+            {question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor'} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
             {alternativeLayout && gradeButton}
           </div>
@@ -109,7 +114,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
         </select>
         <Button className="rebrand-button rebrand-button-primary player-next" onClick={() => session.current < questions.length - 1 ? goToQuestion(session.current + 1) : setFinishOpen(true)}>{session.current === questions.length - 1 ? 'Finish' : 'Next'}<PlayerIcon name="next" /></Button>
       </nav>
-    {settingsOpen && <ActivitySettingsModal activity={activity} onSave={(updated) => { saveActivity(updated); setSettingsOpen(false); }} onClose={() => setSettingsOpen(false)} />}
-    <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Scores and responses are kept locally for this session only. Nothing is submitted to a gradebook.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={back}>Back to overview</Button></Modal>
+    {settingsOpen && <ActivitySettingsModal activity={activity} onSave={(updated) => { if (onActivityChange) onActivityChange(updated); else saveActivity(updated); setSettingsOpen(false); }} onClose={() => setSettingsOpen(false)} />}
+    <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Scores and responses are kept locally for this session only. Nothing is submitted to a gradebook.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={back}>{onBack ? backLabel : 'Back to overview'}</Button></Modal>
   </section>;
 }

@@ -44,6 +44,7 @@ body{min-width:760px;background:var(--page-bg)}
 .rebrand-view-tabs .selected img{filter:brightness(0) invert(1)}
 .rebrand-button[aria-pressed="true"]:not(.selected){background:var(--border)!important}
 .rebrand-main .left{display:flex;flex:1;flex-direction:column;min-height:0;min-width:0;border:0;background:var(--page-bg);overflow:hidden}
+.rebrand-main .left[hidden]{display:none}
 .folders{width:100%;background:var(--surface);overflow:auto;scrollbar-gutter:stable;scrollbar-color:#c5cedb transparent}
 .folder{height:40px;gap:4px;padding:0 24px;background:white;border-bottom:1px solid var(--border)}
 .folder-name{font-family:var(--font-ui);font-size:14px;font-weight:600;line-height:20px;color:var(--brand-navy)}

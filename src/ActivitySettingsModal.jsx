@@ -3,14 +3,19 @@ import { Button, ButtonVariant, IconButton, Input, Modal, ModalSize, Textarea } 
 import './activity-settings.css';
 import ActivityBehaviorSettings, { defaultActivitySettings } from './ActivityBehaviorSettings';
 import StudentAccommodations from './StudentAccommodations';
+import { saveCreatedActivity } from './createdActivities';
+import { scaleQuestionPoints } from './activityAuthoring';
 
 const sessionSettings = new Map();
 
 export function useActivitySettings(key, originalActivity) {
   const [edits, setEdits] = useState(() => sessionSettings.get(key));
-  return [{ ...originalActivity, ...edits }, (updated) => {
-    sessionSettings.set(key, updated);
-    setEdits(updated);
+  const persisted = originalActivity.id && !key.startsWith('builder-preview/');
+  return [persisted ? originalActivity : { ...originalActivity, ...edits }, (updated) => {
+    const next = updated.questions ? { ...updated, questions: scaleQuestionPoints(updated.questions, updated.points) } : updated;
+    if (persisted) saveCreatedActivity({ ...originalActivity, ...next });
+    sessionSettings.set(key, next);
+    setEdits(next);
   }];
 }
 
@@ -24,7 +29,7 @@ const tabIcons = {
   accommodations: ['accommodation-assignment', 'accommodation-settings', 'accommodation-student'],
 };
 
-export default function ActivitySettingsModal({ activity, onClose, onSave }) {
+export default function ActivitySettingsModal({ activity, onClose, onSave, saveLabel = 'Confirm' }) {
   const id = useId();
   const [draft, setDraft] = useState({ description: '', availableDate: '', dueDate: '', password: '', academicIntegrity: 'none', accommodations: {}, ...activity, settings: { ...defaultActivitySettings, creditType: activity.countsTowardsGrade === false ? 'practice' : 'graded', ...activity.settings } });
   const accommodationRef = useRef(null);
@@ -71,7 +76,7 @@ export default function ActivitySettingsModal({ activity, onClose, onSave }) {
       <StudentAccommodations ref={accommodationRef} activity={draft} value={draft.accommodations} onChange={(accommodations) => { setError(''); setDraft((previous) => ({ ...previous, accommodations })); }} hidden={activeTab !== 'accommodations'} panelId={`${id}-accommodations`} tabId={`${id}-accommodations-tab`} />
       {error && <p className="settings-error" role="alert">{error}</p>}
       </div>
-      <div className="settings-actions"><Button type="button" className="rebrand-button" variant={ButtonVariant.link} onClick={onClose}>Cancel</Button><Button className="rebrand-button rebrand-button-primary" type="submit">Confirm</Button></div>
+      <div className="settings-actions"><Button type="button" className="rebrand-button" variant={ButtonVariant.link} onClick={onClose}>Cancel</Button><Button className="rebrand-button rebrand-button-primary" type="submit">{saveLabel}</Button></div>
     </form>
   </Modal>;
 }

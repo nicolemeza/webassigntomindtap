@@ -11,7 +11,7 @@ const navigation = [
   ['tools', 'More Tools'], ['support', 'Support'],
 ];
 
-export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath }) {
+export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity }) {
   const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { selectedIds, setSelected } = useSelection();
@@ -38,7 +38,7 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
         </div>
       </header>
       {!detailPage && <><div className="learning-path-title"><h1>Learning Path</h1><div className="page-title-actions">
-        <LearningPathMenus notify={notify} />
+        <LearningPathMenus notify={notify} onCreateActivity={onCreateActivity} />
       </div></div>
       <div className="learning-path-actions"><div className="learning-path-filters">
         <SelectionCheckbox all label="Select all learning path items" />

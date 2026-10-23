@@ -29,7 +29,7 @@ function SwitchField({ field, label, help, assistant }) {
 export default function ActivityBehaviorSettings({ value, onChange, hidden, panelId, tabId }) {
   const id = useId();
   const [advancedOpen, setAdvancedOpen] = useState(false);
-  const set = (field, next) => onChange({ ...value, [field]: next });
+  const set = (field, next) => onChange({ ...value, [field]: next, ...(field === 'creditType' && next === 'practice' ? { attempts: 'Unlimited' } : {}) });
   return <BehaviorContext.Provider value={{ value, set }}><div className="activity-behavior-settings" id={panelId} role="tabpanel" aria-labelledby={tabId} hidden={hidden}>
     <div className="behavior-template"><label htmlFor={`${id}-template`}>Activity Settings Template *</label><select id={`${id}-template`} required value={value.template} onChange={(event) => set('template', event.target.value)}>{['Learn It', 'Study It', 'Apply It', 'Quiz', 'Custom'].map((name) => <option key={name}>{name}</option>)}</select><div className="behavior-helper">Apply a settings template and customize as needed</div></div>
     <div className="settings-columns behavior-main">

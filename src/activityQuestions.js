@@ -33,6 +33,7 @@ export function getActivityQuestions(chapter, title) {
 }
 
 export function isQuestionAnswered(question, response) {
+  if (question.kind === 'choice') return Boolean(response?.selections?.length);
   if (question.kind === 'math-response') {
     return question.inputs.length > 0 && question.inputs.every((input) => response?.values?.[input.id]?.trim());
   }

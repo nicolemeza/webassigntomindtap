@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { ButtonColor, ButtonSize, ButtonVariant, Hyperlink, IconButton } from 'react-magma-dom';
 import ChapterIcon from './ChapterIcon';
 import ActivityMenu from './ActivityMenu';
@@ -12,8 +12,9 @@ const sections = ['Learn It', 'Study It', 'Apply It'];
 
 export { default as ChapterIcon } from './ChapterIcon';
 
-function ChapterSection({ title, chapter, notify, reading }) {
-  const [isOpen, setIsOpen] = useState(false);
+function ChapterSection({ title, chapter, notify, reading, revealSection }) {
+  const [isOpen, setIsOpen] = useState(title === revealSection);
+  useEffect(() => { if (title === revealSection) setIsOpen(true); }, [title, revealSection]);
   const panelId = useId();
   const count = getSectionActivities(chapter)[title].length + (reading ? 1 : 0);
   return <div className={`chapter-section ${isOpen ? 'is-open' : ''}`}>
@@ -36,12 +37,12 @@ function ChapterSection({ title, chapter, notify, reading }) {
     </div>
     <div id={panelId} className="chapter-section-panel" hidden={!isOpen}>
       {reading}
-      {getSectionActivities(chapter)[title].map((activity) => <ActivityRow key={activity.title} activity={activity} chapter={chapter} section={title} notify={notify} />)}
+      {getSectionActivities(chapter)[title].map((activity) => <ActivityRow key={activity.id || activity.title} activity={activity} chapter={chapter} section={title} notify={notify} />)}
     </div>
   </div>;
 }
 
-export default function ChapterContents({ chapter, onRead, notify }) {
+export default function ChapterContents({ chapter, onRead, notify, revealSection }) {
   const [readingHidden, setReadingHidden] = useState(false);
   const separator = chapter.indexOf('. ');
   const chapterNumber = chapter.slice(0, separator);
@@ -57,6 +58,8 @@ export default function ChapterContents({ chapter, onRead, notify }) {
       <span className="chapter-reading-menu"><ActivityMenu label={`${chapterNumber} reading`} activity={readingActivity} onSave={saveReadingActivity} isHidden={readingHidden} onHide={() => { setReadingHidden(!readingHidden); notify(`Reading ${readingHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={() => onRead(chapter)} notify={notify} /></span>
     </div>;
   return <div className="chapter-contents">
-    {sections.map((title) => <ChapterSection key={title} title={title} chapter={chapter} notify={notify} reading={title === 'Learn It' ? reading : null} />)}
+    {getSectionActivities(chapter).chapter?.filter((activity) => activity.placement === 'start').map((activity) => <ActivityRow key={activity.id} activity={activity} chapter={chapter} section="chapter" notify={notify} />)}
+    {sections.map((title) => <ChapterSection key={title} title={title} chapter={chapter} notify={notify} reading={title === 'Learn It' ? reading : null} revealSection={revealSection} />)}
+    {getSectionActivities(chapter).chapter?.filter((activity) => activity.placement !== 'start').map((activity) => <ActivityRow key={activity.id} activity={activity} chapter={chapter} section="chapter" notify={notify} />)}
   </div>;
 }

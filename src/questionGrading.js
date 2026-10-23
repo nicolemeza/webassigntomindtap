@@ -131,6 +131,7 @@ export function matchesAnswer(value, expected, requireFactored = true) {
   } catch { return false; }
 }
 export function gradingFields(question) {
+  if (question.kind === 'choice' && question.correctChoices?.length) return [{ id: 'answer', expected: [...question.correctChoices].sort().join('\u001f'), points: question.points }];
   const number = Number(question.id.replace('r5-factoring-question-', ''));
   const answers = solutions[number];
   if (!answers || !question.id.startsWith('r5-factoring-question-')) return [];
@@ -156,13 +157,13 @@ export function submitQuestion(question, response = {}, history = {}, lastSubmit
   const unchangedFields = [];
   for (const field of fields) {
     const previous = history[field.id] || [];
-    const value = question.kind === 'greatest-common-factor' ? response.text : response.values?.[field.id];
+    const value = question.kind === 'choice' ? [...(response.selections || [])].sort().join('\u001f') : question.kind === 'greatest-common-factor' ? response.text : response.values?.[field.id];
     if (fieldComplete(previous)) continue;
     if (!value?.trim()) { emptyFields.push(field.id); continue; }
     // Whitespace-only edits do not constitute a new mathematical response.
-    const normalized = value.replace(/\s+/g, '');
+    const normalized = question.kind === 'choice' ? value : value.replace(/\s+/g, '');
     if (normalized === lastSubmitted[field.id]) { unchangedFields.push(field.id); continue; }
-    const result = matchesAnswer(value, field.expected, field.requireFactored);
+    const result = question.kind === 'choice' ? value === field.expected : matchesAnswer(value, field.expected, field.requireFactored);
     next[field.id] = [...previous, result];
     nextSubmitted[field.id] = normalized;
     submitted++;

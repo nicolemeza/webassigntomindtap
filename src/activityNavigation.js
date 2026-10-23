@@ -9,7 +9,7 @@ export function resolveActivityRoute(hash, chapters, getActivities) {
     if (parts.length !== 3 && !(parts.length === 4 && parts[3] === 'play')) return null;
     const [chapter, section, title] = parts;
     if (!chapters.includes(chapter)) return null;
-    const activity = getActivities(chapter)[section]?.find((item) => item.title === title);
+    const activity = getActivities(chapter)[section]?.find((item) => (item.id || item.title) === title);
     return activity ? { chapter, section, activity, page: parts[3] === 'play' ? 'player' : 'overview' } : null;
   } catch {
     return null;

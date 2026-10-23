@@ -21,7 +21,9 @@ import {
 } from 'react-magma-icons';
 import './magma-overrides.css';
 import ChapterContents, { ChapterIcon } from './ChapterContents';
-import { getChapterActivityCount, getSectionActivities } from './ActivityRows';
+import ActivityRow, { getChapterActivityCount, getSectionActivities } from './ActivityRows';
+import ActivityCreation, { ActivityLocationModal } from './ActivityCreation';
+import { clearActivityDraft, saveCreatedActivity, useCreatedActivities } from './createdActivities';
 import RebrandLayout from './RebrandLayout';
 import BrandIcon from './BrandIcon';
 import { SelectionCheckbox, SelectionProvider } from './Selection';
@@ -53,9 +55,13 @@ const folderMenuItems = [
 
 function Toast({ message }) { return <div className={`toast ${message ? 'show' : ''}`}>{message}</div>; }
 function App() {
+  const createdActivities = useCreatedActivities();
+  const [creatingActivity, setCreatingActivity] = useState(false);
+  const [pendingPlacement, setPendingPlacement] = useState(null);
+  const [revealedActivity, setRevealedActivity] = useState(null);
   const [pageHash, setPageHash] = useState(window.location.hash);
   const previousActivityHash = useRef(null);
-  const activityRoute = resolveActivityRoute(pageHash, chapters, getSectionActivities);
+  const activityRoute = resolveActivityRoute(pageHash, [...chapters, 'Learning Path'], getSectionActivities);
   useEffect(() => {
     if (pageHash.startsWith('#/activity/')) {
       previousActivityHash.current = pageHash.replace(/\/play$/, '');
@@ -75,6 +81,8 @@ function App() {
     return () => window.removeEventListener('hashchange', syncLocation);
   }, []);
   const returnToLearningPath = () => {
+    setCreatingActivity(false);
+    setPendingPlacement(null);
     if (!activityRoute) return;
     window.location.hash = '';
   };
@@ -98,8 +106,10 @@ function App() {
   const displayedChapters = hidden ? chapters : chapters.filter((chapter) => !hiddenChapters.has(chapter));
   const selectionIds = displayedChapters.flatMap((chapter) => {
     const root = `chapter:${chapter}`;
-    return [root, `${root}/Learn It/reading`, ...Object.entries(getSectionActivities(chapter)).flatMap(([section, activities]) => [`${root}/${section}`, ...activities.map((activity) => `${root}/${section}/${activity.title}`)])];
+    return [root, `${root}/Learn It/reading`, ...Object.entries(getSectionActivities(chapter)).filter(([section, activities]) => section !== 'chapter' || activities.length).flatMap(([section, activities]) => [`${root}/${section}`, ...activities.map((activity) => `${root}/${section}/${activity.id || activity.title}`)])];
   });
+  selectionIds.push(...createdActivities.filter((activity) => activity.chapter === 'Learning Path').map((activity) => `chapter:Learning Path/chapter/${activity.id}`));
+  const rootActivityRows = (placement) => getSectionActivities('Learning Path').chapter.filter((activity) => activity.placement === placement).map((activity) => <div className="root-created-activity" key={activity.id}><ActivityRow activity={activity} chapter="Learning Path" section="chapter" notify={notify} /></div>);
   const anyFoldersOpen = displayedChapters.some((chapter) => openFolders.has(chapter));
   const toggleFolder = (chapter) => {
     setOpenMenu(null);
@@ -136,10 +146,18 @@ function App() {
   if (pageHash === '#/edge-cases') return <EdgeCases />;
   return <>
     <SelectionProvider itemIds={selectionIds}>
-      <RebrandLayout anyFoldersOpen={anyFoldersOpen} onToggleAll={toggleAllFolders} showHidden={hidden} onToggleHidden={() => setHidden(!hidden)} notify={notify} onLearningPath={returnToLearningPath} detailPage={activityRoute && (activityRoute.page === 'player' ? <ActivityPlayer key={pageHash} {...activityRoute} /> : <ActivityOverview key={pageHash} {...activityRoute} onBack={returnToLearningPath} />)}>
-<div className="folders">{displayedChapters.map((chapter) => { const isOpen = openFolders.has(chapter); const isMenuOpen = openMenu === chapter; const isHidden = hiddenChapters.has(chapter); return <div className={`folder-group ${isOpen ? 'is-open' : ''} ${isHidden ? 'is-hidden' : ''}`} key={chapter}><div className="folder"><SelectionCheckbox id={`chapter:${chapter}`} label={`Select ${chapter}`} group /><IconButton className={`folder-chevron ${isOpen ? 'is-open' : ''}`} color={ButtonColor.primary} variant={ButtonVariant.link} size={ButtonSize.small} icon={<BrandIcon name={isOpen ? 'chevron-up' : 'chevron-down'} />} aria-expanded={isOpen} onClick={() => toggleFolder(chapter)} aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${chapter}`} /><span className="folder-name">{chapter}</span><span className="activity-count">{getChapterActivityCount(chapter)} activities</span><span className="folder-menu-anchor"><IconButton className="chapter-content-menu" variant={ButtonVariant.link} color={ButtonColor.primary} icon={<ChapterIcon name="more-vert" />} aria-label={`More actions for ${chapter}`} aria-haspopup="menu" aria-expanded={isMenuOpen} onClick={() => setOpenMenu(isMenuOpen ? null : chapter)} />{isMenuOpen && <div className="folder-menu" role="menu">{folderMenuItems.map(({ label, icon: MenuIcon }) => <button className="folder-menu-item" type="button" role="menuitem" key={label} onClick={() => selectFolderMenuItem(chapter, label)}><MenuIcon aria-hidden="true" /><span>{label}</span></button>)}</div>}</span></div>{isOpen && <ChapterContents chapter={chapter} onRead={setReadingChapter} notify={notify} />}</div>; })}</div>
+      <RebrandLayout anyFoldersOpen={anyFoldersOpen} onToggleAll={toggleAllFolders} showHidden={hidden} onToggleHidden={() => setHidden(!hidden)} notify={notify} onLearningPath={returnToLearningPath} onCreateActivity={() => { setCreatingActivity(true); window.location.hash = ''; }} detailPage={creatingActivity ? <ActivityCreation chapters={chapters} onCancel={() => setCreatingActivity(false)} onAssign={(activity) => { setCreatingActivity(false); setPendingPlacement(activity); }} /> : activityRoute && (activityRoute.page === 'player' ? <ActivityPlayer key={pageHash} {...activityRoute} /> : <ActivityOverview key={pageHash} {...activityRoute} onBack={returnToLearningPath} />)}>
+<div className="folders">{rootActivityRows('start')}{displayedChapters.map((chapter) => { const isOpen = openFolders.has(chapter); const isMenuOpen = openMenu === chapter; const isHidden = hiddenChapters.has(chapter); return <div className={`folder-group ${isOpen ? 'is-open' : ''} ${isHidden ? 'is-hidden' : ''}`} key={chapter}><div className="folder"><SelectionCheckbox id={`chapter:${chapter}`} label={`Select ${chapter}`} group /><IconButton className={`folder-chevron ${isOpen ? 'is-open' : ''}`} color={ButtonColor.primary} variant={ButtonVariant.link} size={ButtonSize.small} icon={<BrandIcon name={isOpen ? 'chevron-up' : 'chevron-down'} />} aria-expanded={isOpen} onClick={() => toggleFolder(chapter)} aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${chapter}`} /><span className="folder-name">{chapter}</span><span className="activity-count">{getChapterActivityCount(chapter)} activities</span><span className="folder-menu-anchor"><IconButton className="chapter-content-menu" variant={ButtonVariant.link} color={ButtonColor.primary} icon={<ChapterIcon name="more-vert" />} aria-label={`More actions for ${chapter}`} aria-haspopup="menu" aria-expanded={isMenuOpen} onClick={() => setOpenMenu(isMenuOpen ? null : chapter)} />{isMenuOpen && <div className="folder-menu" role="menu">{folderMenuItems.map(({ label, icon: MenuIcon }) => <button className="folder-menu-item" type="button" role="menuitem" key={label} onClick={() => selectFolderMenuItem(chapter, label)}><MenuIcon aria-hidden="true" /><span>{label}</span></button>)}</div>}</span></div>{isOpen && <ChapterContents chapter={chapter} onRead={setReadingChapter} notify={notify} revealSection={revealedActivity?.chapter === chapter ? revealedActivity.section : null} />}</div>; })}{rootActivityRows('end')}</div>
       </RebrandLayout>
     </SelectionProvider>
+    {pendingPlacement && <ActivityLocationModal activity={pendingPlacement} chapters={chapters} onCancel={() => { setPendingPlacement(null); setCreatingActivity(true); }} onSave={(activity) => {
+      saveCreatedActivity(activity);
+      clearActivityDraft();
+      setRevealedActivity(activity);
+      setPendingPlacement(null);
+      if (activity.chapter !== 'Learning Path') setOpenFolders((current) => new Set(current).add(activity.chapter));
+      notify(`${activity.title} added to ${activity.chapter === 'Learning Path' ? 'Learning Path' : activity.chapter}`);
+    }} />}
     <Toast message={message} />
     <Modal header={readingChapter ? `Ebook · ${readingChapter}` : 'Ebook'} headerLevel={2} isOpen={Boolean(readingChapter)} size={ModalSize.large} onClose={() => setReadingChapter(null)}>
       <p>The ebook chapter is not connected in this prototype.</p>

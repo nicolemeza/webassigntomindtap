@@ -11,7 +11,7 @@ function OverviewIcon({ name, size = 32 }) {
 }
 
 export default function ActivityOverview({ chapter, section, activity: originalActivity, onBack }) {
-  const [activity] = useActivitySettings(`${chapter}/${section}/${originalActivity.title}`, originalActivity);
+  const [activity] = useActivitySettings(`${chapter}/${section}/${originalActivity.id || originalActivity.title}`, originalActivity);
   const settings = { ...defaultActivitySettings, ...activity.settings };
   const titleRef = useRef(null);
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function ActivityOverview({ chapter, section, activity: originalA
       <div className="overview-attempts">
         <table aria-label={`Attempts for ${activity.title}`}>
           <thead><tr>{['Attempt (of #)', 'Submitted on', 'Status', 'Score', 'Actions'].map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead>
-          <tbody><tr><td>1</td><td>--</td><td>--</td><td>--</td><td><Button className="rebrand-button rebrand-button-primary compact overview-start" onClick={() => { window.location.hash = `${activityHref(chapter, section, originalActivity.title)}/play`; }}>Start</Button></td></tr></tbody>
+          <tbody><tr><td>1</td><td>--</td><td>--</td><td>--</td><td><Button className="rebrand-button rebrand-button-primary compact overview-start" onClick={() => { window.location.hash = `${activityHref(chapter, section, originalActivity.id || originalActivity.title)}/play`; }}>Start</Button></td></tr></tbody>
         </table>
       </div>
     </div>

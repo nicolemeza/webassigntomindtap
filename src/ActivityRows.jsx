@@ -7,6 +7,7 @@ import { SelectionCheckbox } from './Selection';
 import { useActivitySettings } from './ActivitySettingsModal';
 import { activityDueDateTime, formatActivityDue } from './activityDates';
 import { activityHref } from './activityNavigation';
+import { addCreatedActivities } from './createdActivities';
 
 export const sectionActivities = {
   'Learn It': [
@@ -26,14 +27,14 @@ export const sectionActivities = {
 
 export function getSectionActivities(chapter) {
   const activities = getChapterAssignments(chapter) || sectionActivities;
-  return Object.fromEntries(Object.entries(activities).map(([section, rows]) => [section, rows.map((activity) => ({
+  return Object.fromEntries([...Object.entries(activities), ['chapter', []]].map(([section, rows]) => [section, addCreatedActivities(chapter, section, rows.map((activity) => ({
     dueDate: '2026-12-06',
     dueTime: '23:58',
     dueTimeZone: 'CST',
     dueUtcOffset: '-06:00',
     countsTowardsGrade: true,
     ...activity,
-  }))]));
+  })))]));
 }
 
 export function getChapterActivityCount(chapter) {
@@ -41,15 +42,15 @@ export function getChapterActivityCount(chapter) {
 }
 
 export default function ActivityRow({ activity: originalActivity, chapter, section, notify }) {
-  const [activity, setSavedActivity] = useActivitySettings(`${chapter}/${section}/${originalActivity.title}`, originalActivity);
+  const [activity, setSavedActivity] = useActivitySettings(`${chapter}/${section}/${originalActivity.id || originalActivity.title}`, originalActivity);
   const [isHidden, setIsHidden] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const detailsId = useId();
   const hasStats = activity.points !== undefined;
-  const overviewHref = activityHref(chapter, section, originalActivity.title);
+  const overviewHref = activityHref(chapter, section, originalActivity.id || originalActivity.title);
   const preview = () => { window.location.hash = overviewHref; };
   return <div className={`chapter-activity ${activity.type ? 'is-assessment' : ''} ${isHidden ? 'is-hidden' : ''}`}>
-    <span className="row-selection"><SelectionCheckbox id={`chapter:${chapter}/${section}/${originalActivity.title}`} label={`Select ${activity.title} in ${chapter}`} /></span>
+    <span className="row-selection"><SelectionCheckbox id={`chapter:${chapter}/${section}/${originalActivity.id || originalActivity.title}`} label={`Select ${activity.title} in ${chapter}`} /></span>
     <span className="chapter-activity-icon"><ChapterIcon name={activity.icon} /></span>
     <div className="chapter-activity-body">
       <div className="chapter-activity-main">
