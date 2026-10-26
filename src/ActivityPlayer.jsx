@@ -119,7 +119,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
       </div>
       {detailsOpen && <div className="player-activity-details" id="player-details"><p><strong>Due:</strong> {formatActivityDue(activity)}</p><p><strong>Points possible:</strong> {activity.points ?? '--'}</p><p>{activity.countsTowardsGrade === false ? 'Practice activity' : 'Counts toward grade'} · Scores and responses are kept locally for this session only, not sent to a gradebook.</p></div>}
       <div className="player-body">
-        <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}`} style={{ '--border': theme.colors.border, '--field-validation-color': theme.colors.danger }}>
+        <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}${hideQuestionResources ? ' player-question-integrated--test' : ''}`} style={{ '--border': theme.colors.border, '--field-validation-color': theme.colors.danger }}>
           <div className="player-progress"><div ref={headingRef} tabIndex={-1} className="player-question-counter" role="heading" aria-level={2} aria-live="polite"><span>{session.current + 1} of {questions.length}</span><span className="player-counter-divider" aria-hidden="true">|</span><span>{question.points} {question.points === 1 ? 'Point' : 'Points'}</span></div><div className="player-progress-track" role="progressbar" aria-label="Question position" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={session.current + 1}><span style={{ width: `${(session.current + 1) / questions.length * 100}%` }} /></div></div>
           <div className={alternativeLayout ? 'question-surface' : undefined}>
           <QuestionAttempts key={`attempts-${question.id}`} question={question} history={history}>{({ summary, details }) => <>
@@ -131,7 +131,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
             {gradeFeedback && (isUnchangedFeedback
               ? <div id={`grade-feedback-${question.id}`} className="player-grade-feedback player-grade-feedback-warning" role="status"><WarningIcon aria-hidden="true" size={theme.iconSizes.small} /><span>{gradeFeedback}</span></div>
               : <InputMessage id={`grade-feedback-${question.id}`} className="player-grade-feedback" hasError role="alert">{gradeFeedback}</InputMessage>)}
-            {alternativeLayout && <div className="player-question-grading-footer" style={{ backgroundColor: theme.colors.neutral100 }}><div className="player-question-grade-action">{gradeButton}{hideQuestionResources && (isSaving ? <span className="player-save-confirmation" role="status"><span className="player-save-spinner" aria-hidden="true" />Saving answer…</span> : savedAt && <span className="player-save-confirmation" role="status">Answer saved at {new Date(savedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}.</span>)}</div>{!hideQuestionAttempts && summary}</div>}
+            {alternativeLayout && !hideQuestionResources && <div className="player-question-grading-footer" style={{ backgroundColor: theme.colors.neutral100 }}><div className="player-question-grade-action">{gradeButton}</div>{!hideQuestionAttempts && summary}</div>}
           </div>
           {alternativeLayout && !hideQuestionAttempts && details}
           {!alternativeLayout && !hideQuestionResources && <ActivityResources key={question.id} activity={activity} question={question} />}
