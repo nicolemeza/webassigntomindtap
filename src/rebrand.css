@@ -4,7 +4,10 @@
 body{min-width:760px;background:var(--page-bg)}
 #app{height:100vh;height:100dvh;overflow:hidden}
 #app button,#app input,#app select{font-family:var(--font-ui)}
-.rebrand-app{display:grid;grid-template-columns:240px minmax(0,1fr);height:100%;background:var(--page-bg)}
+.rebrand-app{display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-rows:48px minmax(0,1fr);height:100%;background:var(--page-bg)}
+.rebrand-update-banner{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#10102f;color:#fff;font-family:'Work Sans',Arial,sans-serif;font-size:14px;line-height:20px}
+.rebrand-update-banner button{display:flex;align-items:center;gap:12px;height:32px;padding:4px 12px;border:0;border-radius:6px;background:#ffad00;color:#181832;font:600 13px 'Work Sans',Arial,sans-serif;cursor:pointer}
+.rebrand-update-banner button:hover{background:#ffc13a}
 .rebrand-sidebar{position:relative;background:#fff;border-right:1px solid var(--border);padding:16px 8px;z-index:5}
 .rebrand-logo{height:40px;margin:0 13px 16px;overflow:hidden}
 .rebrand-logo>img{display:block}

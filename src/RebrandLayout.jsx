@@ -11,21 +11,26 @@ const navigation = [
   ['tools', 'More Tools'], ['support', 'Support'],
 ];
 
-export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity }) {
+export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity, gradebookPage, activeSection = 'learning-path', onGradebook }) {
   const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { selectedIds, setSelected } = useSelection();
   const isDetailPage = Boolean(detailPage);
+  const showingGradebook = activeSection === 'gradebook' && !isDetailPage;
   useEffect(() => {
     if (isDetailPage) setSelected((current) => current.size ? new Set() : current);
   }, [isDetailPage, setSelected]);
+  useEffect(() => {
+    if (showingGradebook) setSelected((current) => current.size ? new Set() : current);
+  }, [showingGradebook, setSelected]);
   return <div className={`rebrand-app ${collapsed ? 'nav-collapsed' : ''}`}>
+    <div className="rebrand-update-banner"><span>You're viewing the updated MindTap look.</span><button type="button" onClick={() => notify('This prototype is showing the updated MindTap look.')}>Return to Original Look <span aria-hidden="true">→</span></button></div>
     <aside className="rebrand-sidebar" aria-label="Course navigation">
       <div className="rebrand-logo"><img src="/rebrand/logo.svg" width="123" height="40" alt="Cengage MindTap" /></div>
       <IconButton className="sidebar-toggle" variant={ButtonVariant.link} icon={<BrandIcon name="sidebar-collapse" />} aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={() => setCollapsed(!collapsed)} />
       <nav>{navigation.map(([icon, label], index) => <React.Fragment key={icon}>
         {index === 4 && <div className="sidebar-separator"><img src="/rebrand/nav-separator.svg" width="224" height="16" alt="" /></div>}
-        <button className={`sidebar-link ${icon === 'learning-path' ? 'active' : ''}`} aria-current={icon === 'learning-path' ? 'page' : undefined} title={collapsed ? label : undefined} onClick={() => icon === 'learning-path' ? onLearningPath?.() : notify(`${label} opened`)}><BrandIcon name={icon} /><span>{label}</span></button>
+        <button className={`sidebar-link ${(icon === 'learning-path' && activeSection === 'learning-path' || icon === 'gradebook' && activeSection === 'gradebook') ? 'active' : ''}`} aria-current={(icon === 'learning-path' && activeSection === 'learning-path' || icon === 'gradebook' && activeSection === 'gradebook') ? 'page' : undefined} title={collapsed ? label : undefined} onClick={() => icon === 'learning-path' ? onLearningPath?.() : icon === 'gradebook' ? onGradebook?.() : notify(`${label} opened`)}><BrandIcon name={icon} /><span>{label}</span></button>
       </React.Fragment>)}</nav>
     </aside>
     <main className={`rebrand-main${selectedIds.length ? ' has-selection' : ''}`}>
@@ -37,7 +42,7 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
           <button className="rebrand-avatar" aria-label="User profile" onClick={() => notify('User profile opened')}>AB</button>
         </div>
       </header>
-      {!detailPage && <><div className="learning-path-title"><h1>Learning Path</h1><div className="page-title-actions">
+      {!detailPage && !showingGradebook && <><div className="learning-path-title"><h1>Learning Path</h1><div className="page-title-actions">
         <LearningPathMenus notify={notify} onCreateActivity={onCreateActivity} />
       </div></div>
       <div className="learning-path-actions"><div className="learning-path-filters">
@@ -49,8 +54,8 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
         <Button className="rebrand-button compact selected" variant={ButtonVariant.link} aria-pressed="true"><BrandIcon name="list" />List View</Button>
         <Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed="false" onClick={() => notify('Week view is not connected in this prototype')}><BrandIcon name="calendar" />Week View</Button>
       </div></div></>}
-      <section className="left" aria-label="Learning path chapters" hidden={Boolean(detailPage)}>{children}</section>
-      {detailPage || <BulkSelectionToolbar notify={notify} />}
+      <section className="left" aria-label={showingGradebook ? 'Gradebook' : 'Learning path chapters'} hidden={Boolean(detailPage)}><div hidden={showingGradebook}>{children}</div><div hidden={!showingGradebook}>{gradebookPage}</div></section>
+      {detailPage || showingGradebook || <BulkSelectionToolbar notify={notify} />}
     </main>
   </div>;
 }
