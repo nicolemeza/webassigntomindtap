@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, ButtonColor, ButtonSize, ButtonVariant, Modal, ModalSize, ThemeContext } from 'react-magma-dom';
+import { Button, ButtonColor, ButtonSize, ButtonVariant, InputMessage, Modal, ModalSize, ThemeContext } from 'react-magma-dom';
+import { WarningIcon } from 'react-magma-icons';
 import ActivitySettingsModal, { useActivitySettings } from './ActivitySettingsModal';
 import { activityHref } from './activityNavigation';
 import { formatActivityDue } from './activityDates';
 import { getActivityQuestions, isQuestionAnswered } from './activityQuestions';
+import { hasAnyGraphQuestionResponse } from './graphsQuestions';
 import FactoringQuestion from './FactoringQuestion';
 import ActivityResources from './ActivityResources';
 import QuestionAttempts from './QuestionAttempts';
@@ -37,14 +39,38 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const [largeText, setLargeText] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [finishOpen, setFinishOpen] = useState(false);
+  const [savingQuestionId, setSavingQuestionId] = useState(null);
   const headingRef = useRef(null);
   const question = questions[session.current];
-  const alternativeLayout = question.id.startsWith('r5-factoring-question-') || question.kind === 'choice';
+  const alternativeLayout = question.id.startsWith('r5-factoring-question-') ||
+    question.kind === 'choice' ||
+    (chapter === 'Chapter 2. Functions and Graphs' && originalActivity.title === '2.5 HW Graphs of Equations & Circles') ||
+    (chapter === 'Chapter R. A Review of Basic Algebra' && originalActivity.title === 'Chapter R Test');
+  const hideQuestionResources = chapter === 'Chapter R. A Review of Basic Algebra' && originalActivity.title === 'Chapter R Test';
+  const hideQuestionAttempts = hideQuestionResources;
+  const gradeActionLabel = hideQuestionResources ? 'Save Answer' : 'Grade Answer';
   const answer = session.answers[question.id] || { text: '', choice: '' };
+  const savedAt = session.savedAt?.[question.id];
   const history = session.grades?.[question.id] || {};
-  const invalidFields = [...(session.feedback?.[question.id]?.emptyFields || []), ...(session.feedback?.[question.id]?.unchangedFields || [])];
+  // An unchanged response is feedback-only: it is not an incorrect answer.
+  const invalidFields = [];
   const fields = gradingFields(question);
-  const gradeUnavailable = !fields.length || fields.every((field) => fieldComplete(history[field.id]));
+  const responseFieldIds = question.kind === 'math-response'
+    ? [...new Set([
+      ...(question.inputs || []).map((field) => field.id),
+      ...question.blocks.filter((block) => block.type === 'selections' || block.type === 'graph-choices' || block.type === 'graph-pad' || block.type === 'number-line').map((block) => block.id),
+    ])]
+    : fields.map((field) => field.id);
+  const isGraphsQuestion = question.id.startsWith('graphs-circles-question-');
+  const hasResponse = isGraphsQuestion
+    ? hasAnyGraphQuestionResponse(question, answer.values)
+    : responseFieldIds.some((fieldId) => {
+      const value = question.kind === 'greatest-common-factor' ? answer.text : answer.values?.[fieldId];
+      return Boolean(value?.trim() && value !== '[]');
+    });
+  const gradeUnavailable = hideQuestionResources
+    ? !hasResponse
+    : !fields.length || !hasResponse || fields.every((field) => fieldComplete(history[field.id]));
   const flagged = session.flags.includes(question.id);
   const answered = questions.filter((item) => isQuestionAnswered(item, session.answers[item.id])).length;
   const updateSession = (change) => setSession((current) => {
@@ -65,11 +91,25 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     return () => { document.title = previous; };
   }, [activity.title]);
   const back = onBack || (() => { window.location.hash = activityHref(chapter, section, originalActivity.id || originalActivity.title); });
-  const gradeQuestion = () => updateSession((current) => {
+  const gradeQuestion = () => {
+    if (hideQuestionResources) {
+      setSavingQuestionId(question.id);
+      window.setTimeout(() => {
+        updateSession((current) => ({ savedAt: { ...current.savedAt, [question.id]: new Date().toISOString() } }));
+        setSavingQuestionId(null);
+      }, 500);
+      return;
+    }
+    updateSession((current) => {
     const result = submitQuestion(question, current.answers[question.id], current.grades?.[question.id], current.lastSubmitted?.[question.id]);
     return { grades: { ...current.grades, [question.id]: result.history }, lastSubmitted: { ...current.lastSubmitted, [question.id]: result.lastSubmitted }, feedback: { ...current.feedback, [question.id]: { message: result.message, emptyFields: result.emptyFields, unchangedFields: result.unchangedFields } } };
-  });
-  const gradeButton = <><Button className={alternativeLayout ? 'player-grade-question-magma' : 'player-grade-question'} color={ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.medium} disabled={gradeUnavailable || view === 'instructor'} onClick={gradeQuestion}>Grade Question</Button><p id={`grade-feedback-${question.id}`} className="player-grade-feedback" style={{ color: theme.colors.danger }} role="alert">{session.feedback?.[question.id]?.message || ''}</p></>;
+    });
+  };
+  const isSaving = savingQuestionId === question.id;
+  const gradeButton = <Button className={alternativeLayout ? 'player-grade-question-magma' : 'player-grade-question'} color={ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.medium} disabled={gradeUnavailable || view === 'instructor' || isSaving} onClick={gradeQuestion}>{gradeActionLabel}</Button>;
+  const questionFeedback = session.feedback?.[question.id];
+  const gradeFeedback = questionFeedback?.message;
+  const isUnchangedFeedback = Boolean(questionFeedback?.unchangedFields?.length && !questionFeedback?.emptyFields?.length);
 
   return <section className="activity-player-page" aria-labelledby="player-title">
     <div className="overview-secondary-nav">
@@ -85,19 +125,25 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
       </div>
       {detailsOpen && <div className="player-activity-details" id="player-details"><p><strong>Due:</strong> {formatActivityDue(activity)}</p><p><strong>Points possible:</strong> {activity.points ?? '--'}</p><p>{activity.countsTowardsGrade === false ? 'Practice activity' : 'Counts toward grade'} · Scores and responses are kept locally for this session only, not sent to a gradebook.</p></div>}
       <div className="player-body">
-        <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}`} style={{ '--border': theme.colors.border, '--field-validation-color': theme.colors.danger }}>
+        <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}${hideQuestionResources ? ' player-question-integrated--test' : ''}`} style={{ '--border': theme.colors.border, '--field-validation-color': theme.colors.danger }}>
           <div className="player-progress"><div ref={headingRef} tabIndex={-1} className="player-question-counter" role="heading" aria-level={2} aria-live="polite"><span>{session.current + 1} of {questions.length}</span><span className="player-counter-divider" aria-hidden="true">|</span><span>{question.points} {question.points === 1 ? 'Point' : 'Points'}</span></div><div className="player-progress-track" role="progressbar" aria-label="Question position" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={session.current + 1}><span style={{ width: `${(session.current + 1) / questions.length * 100}%` }} /></div></div>
           <div className={alternativeLayout ? 'question-surface' : undefined}>
-          <QuestionAttempts key={`attempts-${question.id}`} question={question} history={history} />
+          <QuestionAttempts key={`attempts-${question.id}`} question={question} history={history}>{({ summary, details }) => <>
+          {!alternativeLayout && <section className="question-attempts" aria-label="Attempts">{summary}{details}</section>}
           <div className={`player-question-content${largeText ? ' large-text' : ''}`}>
             {view === 'instructor' && <p className="player-instructor-note">Instructor preview · Responses are not graded.</p>}
             {question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor'} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
-            {alternativeLayout && gradeButton}
+            {gradeFeedback && (isUnchangedFeedback
+              ? <div id={`grade-feedback-${question.id}`} className="player-grade-feedback player-grade-feedback-warning" role="status"><WarningIcon aria-hidden="true" size={theme.iconSizes.small} /><span>{gradeFeedback}</span></div>
+              : <InputMessage id={`grade-feedback-${question.id}`} className="player-grade-feedback" hasError role="alert">{gradeFeedback}</InputMessage>)}
+            {alternativeLayout && !hideQuestionResources && <div className="player-question-grading-footer" style={{ backgroundColor: theme.colors.neutral100 }}><div className="player-question-grade-action">{gradeButton}</div>{!hideQuestionAttempts && summary}</div>}
           </div>
-          {!alternativeLayout && <ActivityResources key={question.id} activity={activity} question={question} />}
+          {alternativeLayout && !hideQuestionAttempts && details}
+          {!alternativeLayout && !hideQuestionResources && <ActivityResources key={question.id} activity={activity} question={question} />}
           {!alternativeLayout && gradeButton}
-          {alternativeLayout && <ActivityResources key={`resources-${question.id}`} activity={activity} question={question} variant="integrated" />}
+          {alternativeLayout && !hideQuestionResources && <ActivityResources key={`resources-${question.id}`} activity={activity} question={question} variant="integrated" />}
+          </>}</QuestionAttempts>
           </div>
         </div>
         <aside className={`player-tools${railOpen ? '' : ' is-collapsed'}`} aria-label="Question tools">

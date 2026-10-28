@@ -43,8 +43,9 @@
 .player-factoring-answer{position:relative;width:240px;max-width:100%;font-family:var(--font-ui);color:var(--brand-navy)}
 .r5-graded-field{min-width:0;margin:0;padding:0;border:0}
 .r5-graded-field:disabled input{background:var(--page-bg);color:var(--text-subdued);cursor:default}
-.player-grade-feedback{margin:8px 0 0;color:var(--text-subdued);font-size:12px;line-height:18px}
-.player-grade-feedback:empty{display:none}
+.player-question-content .player-grade-feedback{margin-top:24px}
+.player-question-content .player-grade-feedback-warning{display:flex;align-items:flex-start;gap:4px;color:#8c6300;font-size:14px;letter-spacing:.16px;line-height:20px}
+.player-question-content .player-grade-feedback-warning svg{flex:0 0 auto;margin-top:2px}
 .player-factoring-answer input{box-sizing:border-box;width:100%;height:40px;padding:8px 44px 8px 8px;border:1px solid #8b99aa;border-radius:8px;background:white;color:var(--brand-navy);font-family:var(--font-ui);font-size:16px}
 .player-factoring-answer input:focus-visible{outline:2px solid var(--brand-teal);outline-offset:3px}
 .player-factoring-answer input[aria-invalid="true"]{border-color:var(--field-validation-color)}
@@ -53,12 +54,16 @@
 .math-answer-input{position:relative}
 .math-answer-input[data-numbered] input{padding-left:36px}
 .math-answer-number{box-sizing:border-box;position:absolute;left:1px;top:1px;z-index:1;display:flex;align-items:center;justify-content:center;width:28px;height:38px;border-right:1px solid var(--border);border-radius:7px 0 0 7px;background:var(--table-header-background,#f5f6f8);pointer-events:none;color:var(--text-subdued);font-family:var(--font-ui);font-size:12px;font-style:normal;font-weight:500;line-height:16px}
+.player-factoring-answer[data-grade-state] .math-answer-number{left:2px;top:2px;width:26px;height:36px;border-radius:6px 0 0 6px}
 .math-answer-input>div>div:first-of-type{margin-bottom:0}
 .math-answer-input span:empty{margin:0}
 .math-answer-input div:has(>input){border:0!important;box-shadow:none!important;background:transparent}
 .player-factoring-answer[data-grade-state] input{padding-right:72px}
-.player-factoring-answer .graded-answer-icon{position:absolute;right:8px;top:12px;pointer-events:none}
-.player-factoring-answer[data-grade-state] .player-math-keyboard-button{right:28px}
+.player-factoring-answer .graded-answer-icon{position:absolute;right:8px;top:10px;display:block;width:20px;height:20px;pointer-events:none}
+.player-factoring-answer .graded-answer-icon.is-correct{color:#16803f}
+.player-factoring-answer .graded-answer-icon.is-incorrect{color:var(--field-validation-color)}
+.player-factoring-answer .graded-answer-icon svg{display:block;width:20px;height:20px}
+.player-factoring-answer[data-grade-state] .player-math-keyboard-button{right:32px}
 .player-factoring-answer .player-math-keyboard-button{position:absolute;top:4px;right:4px;width:32px!important;min-width:32px!important;height:32px!important;min-height:32px!important;padding:6px!important;border:0!important;border-radius:4px!important;background:transparent!important;color:var(--text-subdued)!important}
 .player-factoring-answer .player-math-keyboard-button svg{display:block;width:20px;height:20px}
 .player-factoring-answer .player-math-keyboard-button:hover{background:var(--page-bg)!important}

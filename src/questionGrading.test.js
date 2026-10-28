@@ -84,9 +84,9 @@ test('correct answers remain editable and consume attempts while keeping the bes
   assert.equal(submitQuestion(one, { text: '2' }, history).submitted, 0);
   assert.equal(earnedPoints(one, history), 1);
 });
-test('feedback is only returned for empty available fields', () => {
+test('empty available fields are skipped without corrective feedback', () => {
   assert.deepEqual(submitQuestion(one, {}).emptyFields, ['answer']);
-  assert.ok(submitQuestion(one, { text: '  ' }).message);
+  assert.equal(submitQuestion(one, { text: '  ' }).message, '');
   assert.equal(submitQuestion(one, { text: '2' }).message, '');
   assert.equal(submitQuestion(one, { text: '14xy^2' }).message, '');
   const partial = submitQuestion(question(3), { values: { a: '1', b: '' } });

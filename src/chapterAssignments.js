@@ -95,6 +95,7 @@ export const chapterAssignments = {
 };
 
 const assignmentPoints = {
+  '2.5 HW Graphs of Equations & Circles': 30,
   'R.1 HW Sets of Real Numbers': 24,
   'R.2 HW Integer Exponents & Scientific Notation': 34,
   'R.3 HW Rational Exponents & Radicals': 27,
@@ -113,7 +114,7 @@ export function getChapterAssignments(chapter) {
     ? { dueDate: '2027-01-30', dueTime: '23:58', dueTimeZone: 'CST', dueUtcOffset: '-06:00' }
     : {};
   // Prototype defaults from the Figma row; these are not live course results.
-  const activity = (title) => ({ title, icon: 'assessment', type: title.endsWith(' Test') ? 'TEST' : 'HOMEWORK', submitted: '0%', averageScore: '--', points: assignmentPoints[title] ?? 3, ...dueSchedule });
+  const activity = (title) => ({ title, icon: 'assessment', type: title.endsWith(' Test') ? 'TEST' : 'HOMEWORK', submitted: '0%', averageScore: '--', points: assignmentPoints[title] ?? 3, ...dueSchedule, ...(title === 'R.5 HW Factoring' ? { settings: { attempts: '1' } } : {}) });
   return {
     'Learn It': titles.filter((title) => title.includes(' HW ')).map(activity),
     'Study It': titles.filter((title) => title.endsWith(' Review')).map(activity),

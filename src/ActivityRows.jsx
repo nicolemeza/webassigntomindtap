@@ -38,7 +38,8 @@ export function getSectionActivities(chapter) {
 }
 
 export function getChapterActivityCount(chapter) {
-  return 1 + Object.values(getSectionActivities(chapter)).reduce((count, activities) => count + activities.length, 0);
+  const activities = getSectionActivities(chapter);
+  return 1 + activities['Learn It'].length + Object.values(activities).reduce((count, rows) => count + rows.length, 0);
 }
 
 export default function ActivityRow({ activity: originalActivity, chapter, section, notify }) {

@@ -3,7 +3,12 @@
 .r5-expression{font-family:'Work Sans',Arial,sans-serif;font-size:1.125em;line-height:1.6}
 .r5-expression :is(mn,mo,mi){font-family:'Work Sans',Arial,sans-serif;font-style:normal;font-weight:400}
 .r5-expression mi{font-style:italic;text-transform:none}
-.r5-math-line{box-sizing:border-box;max-width:100%;padding:4px 4px 8px 32px;overflow-x:auto}
+.r5-expression .r5-radical{white-space:nowrap}
+.r5-expression .r5-radical>mo{font-size:1.28em;vertical-align:-.08em}
+.r5-expression .r5-radical mover{margin-left:-.1em}
+.r5-expression .r5-radical mover>mo{font-size:.88em;line-height:.35}
+.r5-expression .r5-set-fence{font-size:1.45em;vertical-align:middle}
+.r5-math-line{box-sizing:border-box;max-width:100%;padding:4px 4px 8px 32px;overflow-x:visible}
 .r5-answer-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;max-width:100%;min-height:40px}
 .r5-answer-row:has(>.r5-expression){box-sizing:border-box;padding-left:32px}
 .r5-answer-row .r5-expression{padding:4px 0}
@@ -18,3 +23,34 @@
 .r5-incorrect-solution ol{list-style:none;margin:0;padding:0}
 .r5-incorrect-solution li{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
 .r5-follow-up-note{padding:12px 16px;border:1px solid var(--border);border-radius:8px;color:var(--text-subdued);font-size:14px}
+.question-selection-group,.question-graph-choices{box-sizing:border-box;width:100%;min-width:0;margin:0;padding:0;border:0}
+.question-selection-group legend,.question-graph-choices legend{margin-bottom:12px;padding:0}
+.question-selection-group>label{display:flex;align-items:center;gap:8px;margin:8px 0;cursor:pointer}
+.question-selection-group>label>input,.question-graph-choices input{width:18px;height:18px;margin:0;accent-color:var(--brand-teal);flex-shrink:0}
+.question-selection-option{display:flex;align-items:center;box-sizing:border-box;width:fit-content;min-height:32px;padding:0 8px;border:2px solid transparent;border-radius:8px}
+.question-selection-option[data-grade-state]{border-color:currentColor}
+.question-selection-option>div:first-child,.question-selection-option>label{margin-top:4px!important;margin-bottom:4px!important}
+.question-selection-option[data-grade-state=correct]{border-color:#16803f}
+.question-selection-option[data-grade-state=incorrect]{border-color:var(--field-validation-color)}
+.question-selection-option>div:first-child{flex:0 1 auto;min-width:0}
+.question-selection-option>label{display:flex;align-items:center;gap:8px;margin:8px 0;cursor:pointer}
+.question-selection-option>label>input{width:18px;height:18px;margin:0;accent-color:var(--brand-teal);flex-shrink:0}
+.graded-answer-indicator{display:block;width:28px;height:20px;flex:0 0 28px}
+.question-selection-option .graded-answer-icon{display:block;width:20px;height:20px;margin-left:8px}
+.question-selection-option .graded-answer-icon.is-correct{color:#16803f}
+.question-selection-option .graded-answer-icon.is-incorrect{color:var(--field-validation-color)}
+.question-selection-option .graded-answer-icon svg{display:block;width:20px;height:20px}
+.question-graph-choices>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.question-graph-choices label{box-sizing:border-box;min-width:0;padding:8px;border:1px solid var(--border);border-radius:8px;background:white;cursor:pointer}
+.question-graph-choices label.is-selected{outline:2px solid var(--brand-teal);outline-offset:-2px}
+.question-graph-choices label.is-selected[data-grade-state]{padding:7px;outline:0}
+.question-graph-choices label.is-selected[data-grade-state=correct]{border:2px solid #16803f}
+.question-graph-choices label.is-selected[data-grade-state=incorrect]{border:2px solid var(--field-validation-color)}
+.question-graph-choices img{display:block;width:100%;height:auto}
+.question-graph-choices label span{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px}
+.question-graph-choices label .graded-answer-icon{display:block;width:20px;height:20px;margin-left:auto}
+.question-graph-choices label .graded-answer-icon.is-correct{color:#16803f}
+.question-graph-choices label .graded-answer-icon.is-incorrect{color:var(--field-validation-color)}
+.question-graph-choices label .graded-answer-icon svg{display:block;width:20px;height:20px}
+@container(max-width:768px){.question-graph-choices>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container(max-width:400px){.question-graph-choices>div{grid-template-columns:minmax(0,1fr)}}

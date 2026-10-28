@@ -1,5 +1,6 @@
 import React, { forwardRef, useContext } from 'react';
 import { Input, ThemeContext } from 'react-magma-dom';
+import { CheckIcon, CloseIcon } from 'react-magma-icons';
 
 const hiddenMessage = { position: 'absolute', width: 1, height: 1, padding: 0, margin: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)' };
 
@@ -19,11 +20,13 @@ export default forwardRef(function MathAnswerInput({ label, inputNumber, gradeSt
     inputWrapperStyle={{ margin: 0 }}
     inputStyle={{
       borderColor: props.disabled ? theme.colors.border : error ? theme.colors.danger : gradeState === 'correct' ? theme.colors.success : undefined,
+      borderWidth: gradeState === 'correct' || gradeState === 'incorrect' ? 2 : undefined,
       backgroundColor: props.disabled ? theme.colors.neutral200 : undefined,
     }} /></div>;
 });
 
 export function GradedAnswerIcon({ state }) {
   if (!state) return null;
-  return <img className="graded-answer-icon" src={`/rebrand/answer-${state}.svg`} width="16" height="16" alt={state === 'correct' ? 'Correct answer' : 'Incorrect answer'} />;
+  const Icon = state === 'correct' ? CheckIcon : CloseIcon;
+  return <span className={`graded-answer-icon is-${state}`} role="img" aria-label={state === 'correct' ? 'Correct answer' : 'Incorrect answer'}><Icon aria-hidden="true" /></span>;
 }
