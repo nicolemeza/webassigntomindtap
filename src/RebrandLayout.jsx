@@ -11,7 +11,7 @@ const navigation = [
   ['tools', 'More Tools'], ['support', 'Support'],
 ];
 
-export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity, gradebookPage, activeSection = 'learning-path', onGradebook }) {
+export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity, gradebookPage, activeSection = 'learning-path', onGradebook, shellless = false }) {
   const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { selectedIds, setSelected } = useSelection();
@@ -23,25 +23,25 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
   useEffect(() => {
     if (showingGradebook) setSelected((current) => current.size ? new Set() : current);
   }, [showingGradebook, setSelected]);
-  return <div className={`rebrand-app ${collapsed ? 'nav-collapsed' : ''}`}>
+  return <div className={`rebrand-app ${collapsed ? 'nav-collapsed' : ''}${shellless ? ' is-shellless' : ''}`}>
     <div className="rebrand-update-banner"><span>You're viewing the updated MindTap look.</span><button type="button" onClick={() => notify('This prototype is showing the updated MindTap look.')}>Return to Original Look <span aria-hidden="true">→</span></button></div>
-    <aside className="rebrand-sidebar" aria-label="Course navigation">
+    {!shellless && <aside className="rebrand-sidebar" aria-label="Course navigation">
       <div className="rebrand-logo"><img src="/rebrand/logo.svg" width="123" height="40" alt="Cengage MindTap" /></div>
       <IconButton className="sidebar-toggle" variant={ButtonVariant.link} icon={<BrandIcon name="sidebar-collapse" />} aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={() => setCollapsed(!collapsed)} />
       <nav>{navigation.map(([icon, label], index) => <React.Fragment key={icon}>
         {index === 4 && <div className="sidebar-separator"><img src="/rebrand/nav-separator.svg" width="224" height="16" alt="" /></div>}
         <button className={`sidebar-link ${(icon === 'learning-path' && activeSection === 'learning-path' || icon === 'gradebook' && activeSection === 'gradebook') ? 'active' : ''}`} aria-current={(icon === 'learning-path' && activeSection === 'learning-path' || icon === 'gradebook' && activeSection === 'gradebook') ? 'page' : undefined} title={collapsed ? label : undefined} onClick={() => icon === 'learning-path' ? onLearningPath?.() : icon === 'gradebook' ? onGradebook?.() : notify(`${label} opened`)}><BrandIcon name={icon} /><span>{label}</span></button>
       </React.Fragment>)}</nav>
-    </aside>
+    </aside>}
     <main className={`rebrand-main${selectedIds.length ? ' has-selection' : ''}`}>
-      <header className="rebrand-topbar">
+      {!shellless && <header className="rebrand-topbar">
         <label className="course-selector"><span className="visually-hidden">Current course</span><select defaultValue="current"><option value="current">College Algebra</option></select><BrandIcon name="course-arrow" /></label>
         <div className="rebrand-top-actions">
           {searchOpen && <input autoFocus className="course-search-input" type="search" aria-label="Search this course" placeholder="Search this course" onKeyDown={(event) => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter') notify(`Search: ${event.target.value}`); }} />}
           <IconButton className="rebrand-search" variant={ButtonVariant.link} icon={<BrandIcon name="search" />} aria-label="Search this course" aria-expanded={searchOpen} onClick={() => setSearchOpen(!searchOpen)} />
           <button className="rebrand-avatar" aria-label="User profile" onClick={() => notify('User profile opened')}>AB</button>
         </div>
-      </header>
+      </header>}
       {!detailPage && !showingGradebook && <><div className="learning-path-title"><h1>Learning Path</h1><div className="page-title-actions">
         <LearningPathMenus notify={notify} onCreateActivity={onCreateActivity} />
       </div></div>

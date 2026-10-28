@@ -6,7 +6,7 @@
 .overview-content{display:flex;flex-direction:column;align-items:center;gap:48px;width:100%;max-width:1372px;margin:0 auto;padding:0 24px 48px}
 .overview-review-header{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
 .overview-review-header h2{margin:0;font-size:24px;font-weight:600;line-height:32px;text-align:center}
-.overview-stats{display:flex;align-items:center;justify-content:center;gap:8px;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
+.overview-stats{box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;width:775px;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
 .overview-stat{display:flex;align-items:center;gap:4px;flex-shrink:0}
 .overview-stat>img{display:block;flex-shrink:0}
 .overview-stat dt,.overview-stat dd{margin:0;font-size:12px;line-height:16px;letter-spacing:.32px;white-space:nowrap}
@@ -23,12 +23,16 @@
 .overview-attempts th:nth-child(4){width:187px}
 .overview-attempts td{border-bottom:1px solid var(--border);font-weight:400}
 .overview-start{width:100%!important}
-.overview-instructions{padding:24px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-subdued)}
-.overview-instructions h3{margin:32px 0 12px;font-size:14px;line-height:20px;font-weight:600}
-.overview-instructions h3:first-child{margin-top:0}
-.overview-instructions p{margin:0;font-size:14px;line-height:22px}
-.overview-instructions ul{margin:16px 0 0;padding-left:36px;list-style:disc}
-.overview-instructions li{padding-left:4px;font-size:12px;line-height:24px}
+.overview-instructions{padding:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-subdued);overflow:hidden}
+.overview-instructions-summary{padding:16px 20px;background:#f8f9fb}
+.overview-instructions-summary h3{margin:0;color:var(--brand-navy);font-size:14px;line-height:20px;font-weight:600}
+.overview-instructions-summary p{margin:2px 0 0;font-size:13px;line-height:20px}
+.overview-instruction-accordions{margin:0!important;border-bottom:0!important}
+.overview-instruction-accordion-button,.overview-instruction-accordion-button span{font-size:13px!important;line-height:20px!important}
+.overview-instruction-accordion-button:focus{position:relative;z-index:1;outline:2px solid #3082ca!important;outline-offset:-2px!important}
+.overview-instruction-accordions p{margin:0 0 12px;font-size:14px;line-height:22px}
+.overview-instruction-accordions ul{margin:0;padding-left:24px;list-style:disc}
+.overview-instruction-accordions li{padding-left:4px;font-size:13px;line-height:22px}
 .overview-back:focus-visible,.overview-start:focus-visible{outline:2px solid var(--brand-teal)!important;outline-offset:3px}
 .rebrand-main .left[hidden]{display:none}
 @container(max-width:1050px){.overview-stats{flex-wrap:wrap;row-gap:16px}.overview-stat-divider{display:none}.overview-stat{padding:0 8px}.overview-content{gap:32px}}

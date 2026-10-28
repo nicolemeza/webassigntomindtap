@@ -22,7 +22,7 @@
 .author-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;gap:12px;padding:32px;text-align:center;color:var(--text-subdued)}
 .author-empty h3{font-size:18px;line-height:26px;font-weight:500;margin:0;color:var(--brand-navy)}
 .author-empty p{font-size:14px;line-height:22px;max-width:480px;margin:0}
-.author-empty-box{width:120px;height:112px;color:var(--brand-teal);margin-bottom:12px}
+.author-empty-box{width:116px;height:111px;margin-bottom:12px}
 .author-selected-question{border-bottom:1px solid var(--border)}
 .author-selected-row{display:flex;align-items:center;gap:12px;padding:20px 24px;font-size:14px}
 .author-question-number{align-self:flex-start;padding-top:8px;color:var(--text-subdued)}
@@ -91,7 +91,7 @@
 .bank-add-row>span{color:var(--text-subdued);font-size:12px}
 .bank-question-list{min-height:0;flex:1;overflow:auto;scrollbar-gutter:stable}
 .bank-question{border-bottom:1px solid var(--border)}
-.bank-question-row{display:flex;align-items:flex-start;gap:12px;padding:20px 8px 20px 0;font-size:14px}
+.bank-question-row{display:flex;align-items:flex-start;gap:12px;padding:20px 8px 20px 4px;font-size:14px}
 .bank-question-row>div:first-child{margin:0!important;padding-top:2px}
 .bank-preview-button{width:28px!important;min-width:28px!important;height:28px!important;min-height:28px!important;padding:3px!important;border:1px solid var(--border-strong)!important;border-radius:6px!important;color:var(--brand-teal)!important}
 .bank-preview-button svg{width:20px;height:20px}
@@ -104,6 +104,7 @@
 .bank-tags{display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 16px 68px}
 .bank-tags>span{padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--page-bg);font-size:12px;line-height:18px}
 .bank-question-preview{padding:0 16px 24px 68px}
+.bank-question-preview .question-attempts{display:none}
 .bank-question-preview .question-surface{margin-top:0}
 .bank-question-preview .player-question-content{margin:0;max-width:none;line-height:28px}
 .bank-question-preview .player-factorizations{padding:8px 0;max-width:100%}

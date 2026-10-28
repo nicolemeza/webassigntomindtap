@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, ButtonVariant } from 'react-magma-dom';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Button, ButtonVariant } from 'react-magma-dom';
 import { activityHref } from './activityNavigation';
 import { useActivitySettings } from './ActivitySettingsModal';
 import { defaultActivitySettings } from './ActivityBehaviorSettings';
@@ -60,13 +60,23 @@ export default function ActivityOverview({ chapter, section, activity: originalA
         </dl>
       </div>
       {originalActivity.title === 'R.5 HW Factoring' && <section className="overview-instructions" aria-labelledby="overview-instructions-title">
-        <h3 id="overview-instructions-title">Instructions</h3>
-        <p>This assignment is intended to help you gain proficiency with the following learning objectives:</p>
-        <ul>{factoringObjectives.map(objective => <li key={objective}>{objective}</li>)}</ul>
-        <h3>Assignment Submission</h3>
-        <p>For this assignment, you submit answers by question parts. The number of submissions remaining for each question part only changes if you submit or change the answer.</p>
-        <h3>Assignment Scoring</h3>
-        <p>Your last submission is used for your score.</p>
+        <div className="overview-instructions-summary">
+          <div><h3 id="overview-instructions-title">Instructions</h3><p>Review the assignment details before you begin.</p></div>
+        </div>
+        <Accordion className="overview-instruction-accordions" isMulti>
+          <AccordionItem>
+            <AccordionButton className="overview-instruction-accordion-button">Learning objectives · {factoringObjectives.length}</AccordionButton>
+            <AccordionPanel><p>This assignment is intended to help you gain proficiency with:</p><ul>{factoringObjectives.map(objective => <li key={objective}>{objective}</li>)}</ul></AccordionPanel>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionButton className="overview-instruction-accordion-button">Assignment submission</AccordionButton>
+            <AccordionPanel><p>Submit answers by question part. The remaining submissions for a question part only change when you submit or change that answer.</p></AccordionPanel>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionButton className="overview-instruction-accordion-button">Assignment scoring</AccordionButton>
+            <AccordionPanel><p>Your last submission is used for your score.</p></AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </section>}
       <div className="overview-attempts">
         <table aria-label={`Attempts for ${activity.title}`}>
