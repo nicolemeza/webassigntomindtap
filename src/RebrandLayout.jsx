@@ -4,6 +4,7 @@ import BrandIcon from './BrandIcon';
 import { SelectionCheckbox, useSelection } from './Selection';
 import BulkSelectionToolbar from './BulkSelectionToolbar';
 import LearningPathMenus from './LearningPathMenus';
+import WeekView, { learningWeeks } from './WeekView';
 
 const navigation = [
   ['dashboard', 'Dashboard'], ['learning-path', 'Learning Path'],
@@ -14,9 +15,15 @@ const navigation = [
 export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity, gradebookPage, activeSection = 'learning-path', onGradebook, shellless = false }) {
   const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [learningPathView, setLearningPathView] = useState('list');
+  const [openWeeks, setOpenWeeks] = useState(new Set());
   const { selectedIds, setSelected } = useSelection();
   const isDetailPage = Boolean(detailPage);
   const showingGradebook = activeSection === 'gradebook' && !isDetailPage;
+  const isWeekView = learningPathView === 'week';
+  const allWeeksOpen = openWeeks.size === learningWeeks.length;
+  const toggleWeeks = () => setOpenWeeks(allWeeksOpen ? new Set() : new Set(learningWeeks.map(({ id }) => id)));
+  const toggleWeek = (weekId) => setOpenWeeks((current) => { const next = new Set(current); next.has(weekId) ? next.delete(weekId) : next.add(weekId); return next; });
   useEffect(() => {
     if (isDetailPage) setSelected((current) => current.size ? new Set() : current);
   }, [isDetailPage, setSelected]);
@@ -47,15 +54,15 @@ export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, s
       </div></div>
       <div className="learning-path-actions"><div className="learning-path-filters">
         <SelectionCheckbox all label="Select all learning path items" />
-        <Button className="rebrand-button compact" variant={ButtonVariant.link} onClick={onToggleAll}><BrandIcon name="unfold" />{anyFoldersOpen ? 'Collapse all' : 'Expand All'}</Button>
+        <Button className="rebrand-button compact" variant={ButtonVariant.link} onClick={isWeekView ? toggleWeeks : onToggleAll}><BrandIcon name="unfold" />{isWeekView ? (allWeeksOpen ? 'Collapse all' : 'Expand All') : (anyFoldersOpen ? 'Collapse all' : 'Expand All')}</Button>
         <Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed={showHidden} onClick={onToggleHidden}><BrandIcon name="visibility" />{showHidden ? 'Hide Hidden' : 'Show Hidden'}</Button>
         <Button className="rebrand-button compact" variant={ButtonVariant.link} onClick={() => notify('Filters opened')}><BrandIcon name="filter" />Filters</Button>
       </div><div className="rebrand-view-tabs" role="group" aria-label="Learning path view">
-        <Button className="rebrand-button compact selected" variant={ButtonVariant.link} aria-pressed="true"><BrandIcon name="list" />List View</Button>
-        <Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed="false" onClick={() => notify('Week view is not connected in this prototype')}><BrandIcon name="calendar" />Week View</Button>
+        <Button className={`rebrand-button compact${!isWeekView ? ' selected' : ''}`} variant={ButtonVariant.link} aria-pressed={!isWeekView} onClick={() => setLearningPathView('list')}><BrandIcon name="list" />List View</Button>
+        <Button className={`rebrand-button compact${isWeekView ? ' selected' : ''}`} variant={ButtonVariant.link} aria-pressed={isWeekView} onClick={() => setLearningPathView('week')}><BrandIcon name="calendar" />Week View</Button>
       </div></div></>}
-      <section className="left" aria-label={showingGradebook ? 'Gradebook' : 'Learning path chapters'} hidden={Boolean(detailPage)}><div hidden={showingGradebook}>{children}</div><div hidden={!showingGradebook}>{gradebookPage}</div></section>
-      {detailPage || showingGradebook || <BulkSelectionToolbar notify={notify} />}
+      <section className="left" aria-label={showingGradebook ? 'Gradebook' : isWeekView ? 'Learning path weeks' : 'Learning path chapters'} hidden={Boolean(detailPage)}><div hidden={showingGradebook || isWeekView}>{children}</div><div hidden={!showingGradebook}>{gradebookPage}</div><div hidden={showingGradebook || !isWeekView}><WeekView openWeeks={openWeeks} onToggleWeek={toggleWeek} /></div></section>
+      {detailPage || showingGradebook || isWeekView || <BulkSelectionToolbar notify={notify} />}
     </main>
   </div>;
 }
