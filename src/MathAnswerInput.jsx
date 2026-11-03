@@ -18,10 +18,9 @@ export default forwardRef(function MathAnswerInput({ label, inputNumber, gradeSt
     messageStyle={hiddenMessage}
     containerStyle={{ margin: 0, width: '100%' }}
     inputWrapperStyle={{ margin: 0 }}
-    inputStyle={{
-      borderColor: props.disabled ? theme.colors.border : error ? theme.colors.danger : gradeState === 'correct' ? theme.colors.success : undefined,
+    inputStyle={props.disabled ? undefined : {
+      borderColor: error ? theme.colors.danger : gradeState === 'correct' ? theme.colors.success : undefined,
       borderWidth: gradeState === 'correct' || gradeState === 'incorrect' ? 2 : undefined,
-      backgroundColor: props.disabled ? theme.colors.neutral200 : undefined,
     }} /></div>;
 });
 

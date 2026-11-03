@@ -49,6 +49,18 @@ body{min-width:760px;background:var(--page-bg)}
 .rebrand-main .left>div:not([hidden]){display:flex;flex:1;min-height:0}
 .rebrand-main .left>div:not([hidden])>.folders{flex:1;min-height:0}
 .folders{width:100%;background:var(--surface);overflow:auto;scrollbar-gutter:stable;scrollbar-color:#c5cedb transparent}
+.week-view{flex:1;min-height:0;overflow:auto;background:var(--surface);scrollbar-gutter:stable;scrollbar-color:#c5cedb transparent}
+.week-folder{border-bottom:1px solid var(--border);background:#f7f9fc}
+.week-folder.is-open{background:var(--surface)}
+.week-header{display:flex;align-items:center;padding:16px;gap:16px}
+.week-header .folder-chevron{width:32px!important;min-width:32px!important;height:32px!important;min-height:32px!important}
+.week-title{display:flex;min-width:0;flex-direction:column;gap:0}
+.week-title strong{font-size:16px;line-height:24px;font-weight:700;text-transform:uppercase}
+.week-title span{font-size:14px;line-height:20px;font-weight:600;color:var(--text-subdued)}
+.week-current{display:inline-flex;align-items:center;gap:8px;margin-left:12px;color:var(--brand-navy);font-size:16px;font-weight:700;line-height:24px;text-transform:uppercase}
+.week-current-icon{display:block;flex:none}
+.week-header .activity-count{font-size:14px;line-height:20px;font-weight:600;margin-left:auto}
+.week-empty{margin:0;padding:12px 40px 24px 88px;color:var(--text-subdued);font-size:16px;line-height:24px}
 .folder{height:40px;gap:4px;padding:0 24px;background:white;border-bottom:1px solid var(--border)}
 .folder-name{font-family:var(--font-ui);font-size:14px;font-weight:600;line-height:20px;color:var(--brand-navy)}
 .folder-chevron{width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;padding:0!important;margin:0!important;border-radius:50%!important;color:var(--brand-navy)!important}
