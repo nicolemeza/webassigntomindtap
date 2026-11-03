@@ -9,10 +9,10 @@ const initialStudents = [
 ];
 
 const initialAssignments = [
-  { id: 'a1', title: 'Check Your Understanding 1.1', group: 'Chapter 1 · Introduction to Medical Terminology', category: 'Practice', due: '2026-10-28', points: 10, submitted: 4, average: 84 },
-  { id: 'a2', title: '1.1 Image Labeling', group: 'Chapter 1 · Introduction to Medical Terminology', category: 'Homework', due: '2026-10-30', points: 20, submitted: 4, average: 87 },
-  { id: 'a3', title: 'Chapter 1 Test', group: 'Chapter 1 · Introduction to Medical Terminology', category: 'Assessments', due: '2026-11-02', points: 50, submitted: 3, average: 78 },
-  { id: 'a4', title: 'Check Your Understanding 2.1', group: 'Chapter 2 · The Human Body', category: 'Practice', due: '2026-11-05', points: 10, submitted: 2, average: 76 },
+  { id: 'a1', title: 'R.1 HW Sets of Real Numbers', group: 'Chapter R · A Review of Basic Algebra', category: 'Practice', due: '2026-10-28', points: 10, submitted: 4, average: 84 },
+  { id: 'a2', title: 'R.5 HW Factoring', group: 'Chapter R · A Review of Basic Algebra', category: 'Homework', due: '2026-10-30', points: 20, submitted: 4, average: 87 },
+  { id: 'a3', title: 'Chapter R Test', group: 'Chapter R · A Review of Basic Algebra', category: 'Assessments', due: '2026-11-02', points: 50, submitted: 3, average: 78 },
+  { id: 'a4', title: '2.5 HW Graphs of Equations & Circles', group: 'Chapter 2 · Functions and Graphs', category: 'Practice', due: '2026-11-05', points: 10, submitted: 2, average: 76 },
 ];
 
 const initialCategories = [

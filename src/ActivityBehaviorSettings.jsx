@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useId, useState } from 'react';
 import { IconButton, ButtonVariant, Radio, RadioGroup, Toggle, ToggleTextPosition, Tooltip } from 'react-magma-dom';
+import { useCourseState } from './courseModel';
 
 export const defaultActivitySettings = {
   template: 'Apply It', attempts: '2', gradingPolicy: 'Best Activity Attempt',
@@ -27,11 +28,12 @@ function SwitchField({ field, label, help, assistant }) {
     return <div className="behavior-switch"><Toggle checked={value[field]} onChange={(event) => set(field, event.target.checked)} labelText={<span className="behavior-switch-label">{assistant && <img src="/rebrand/settings-assist.svg" width="24" height="24" alt="" aria-hidden="true" />}{label}</span>} textPosition={ToggleTextPosition.right} />{help && <Help label={label} icon={assistant ? 'assist-help' : 'help'}>{help}</Help>}</div>;
   }
 export default function ActivityBehaviorSettings({ value, onChange, hidden, panelId, tabId }) {
+  const course = useCourseState();
   const id = useId();
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const set = (field, next) => onChange({ ...value, [field]: next, ...(field === 'creditType' && next === 'practice' ? { attempts: 'Unlimited' } : {}) });
   return <BehaviorContext.Provider value={{ value, set }}><div className="activity-behavior-settings" id={panelId} role="tabpanel" aria-labelledby={tabId} hidden={hidden}>
-    <div className="behavior-template"><label htmlFor={`${id}-template`}>Activity Settings Template *</label><select id={`${id}-template`} required value={value.template} onChange={(event) => set('template', event.target.value)}>{['Learn It', 'Study It', 'Apply It', 'Quiz', 'Custom'].map((name) => <option key={name}>{name}</option>)}</select><div className="behavior-helper">Apply a settings template and customize as needed</div></div>
+    <div className="behavior-template"><label htmlFor={`${id}-template`}>Activity Settings Template *</label><select id={`${id}-template`} required value={value.template} onChange={(event) => { const name = event.target.value; onChange({ ...defaultActivitySettings, ...(name === 'Study It' ? { creditType: 'practice', attempts: 'Unlimited' } : {}), ...(name === 'Quiz' ? { attempts: '1', studentAssistant: false } : {}), ...course.templates[name], template: name }); }}>{[...new Set(['Learn It', 'Study It', 'Apply It', 'Quiz', 'Custom', ...Object.keys(course.templates)])].map((name) => <option key={name}>{name}</option>)}</select><div className="behavior-helper">Apply a settings template and customize as needed</div></div>
     <div className="settings-columns behavior-main">
       <div className="behavior-stack">
         <SelectField field="attempts" label="Activity Attempts" options={['1', '2', '3', '4', '5', 'Unlimited']} help="Maximum number of times a student can attempt this activity." />

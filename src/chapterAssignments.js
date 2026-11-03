@@ -1,3 +1,6 @@
+import { demoExerciseDueDates } from './demoCourseSchedule.js';
+import { getWebassignAssignment } from './webassignCourse.js';
+
 // Assignment titles transcribed from the supplied course screenshot.
 export const chapterAssignments = {
   'Chapter R': [
@@ -107,6 +110,7 @@ const assignmentPoints = {
 };
 
 export function getChapterAssignments(chapter) {
+  if (chapter.includes('/')) return null;
   const chapterNumber = chapter.slice(0, chapter.indexOf('. '));
   const titles = chapterAssignments[chapterNumber];
   if (!titles) return null;
@@ -114,7 +118,10 @@ export function getChapterAssignments(chapter) {
     ? { dueDate: '2027-01-30', dueTime: '23:58', dueTimeZone: 'CST', dueUtcOffset: '-06:00' }
     : {};
   // Prototype defaults from the Figma row; these are not live course results.
-  const activity = (title) => ({ title, icon: 'assessment', type: title.endsWith(' Test') ? 'TEST' : 'HOMEWORK', submitted: '0%', averageScore: '--', points: assignmentPoints[title] ?? 3, ...dueSchedule, ...(title === 'R.5 HW Factoring' ? { settings: { attempts: '1' } } : {}) });
+  const activity = (title) => {
+    const imported = getWebassignAssignment(chapter, title);
+    return { title, icon: 'assessment', type: title.endsWith(' Test') ? 'TEST' : 'HOMEWORK', submitted: '0%', averageScore: '--', points: imported ? imported.questions.reduce((sum, question) => sum + question.points, 0) : assignmentPoints[title] ?? 3, ...dueSchedule, ...(demoExerciseDueDates[title] ? { dueDate: demoExerciseDueDates[title] } : {}), ...(title === 'R.5 HW Factoring' ? { settings: { attempts: '1' } } : {}) };
+  };
   return {
     'Learn It': titles.filter((title) => title.includes(' HW ')).map(activity),
     'Study It': titles.filter((title) => title.endsWith(' Review')).map(activity),

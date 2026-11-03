@@ -8,6 +8,8 @@ import { useActivitySettings } from './ActivitySettingsModal';
 import { activityDueDateTime, formatActivityDue } from './activityDates';
 import { activityHref } from './activityNavigation';
 import { addCreatedActivities } from './createdActivities';
+import { activityVisibility, courseChapters, courseRows, matchesActivity, updateCourseActivities } from './courseModel';
+import { useLearningPathDisplay } from './LearningPathContext';
 
 export const sectionActivities = {
   'Learn It': [
@@ -26,30 +28,35 @@ export const sectionActivities = {
 };
 
 export function getSectionActivities(chapter) {
-  const activities = getChapterAssignments(chapter) || sectionActivities;
-  return Object.fromEntries([...Object.entries(activities), ['chapter', []]].map(([section, rows]) => [section, addCreatedActivities(chapter, section, rows.map((activity) => ({
+  const activities = courseChapters.includes(chapter) ? getChapterAssignments(chapter) || sectionActivities : { 'Learn It': [], 'Study It': [], 'Apply It': [] };
+  return Object.fromEntries([...Object.entries(activities), ['chapter', []]].map(([section, rows]) => [section, courseRows(chapter, section, addCreatedActivities(chapter, section, rows.map((activity) => ({
     dueDate: '2026-12-06',
     dueTime: '23:58',
     dueTimeZone: 'CST',
     dueUtcOffset: '-06:00',
     countsTowardsGrade: true,
+    ...(activity.icon === 'flashcards' ? { resourceKind: 'flashcards' } : activity.icon === 'powerpoints' ? { resourceKind: 'presentation' } : {}),
     ...activity,
-  })))]));
+  }))))]));
 }
 
 export function getChapterActivityCount(chapter) {
   const activities = getSectionActivities(chapter);
-  return 1 + activities['Learn It'].length + Object.values(activities).reduce((count, rows) => count + rows.length, 0);
+  const readings = (getChapterAssignments(chapter)?.['Learn It'] || sectionActivities['Learn It']).length;
+  return (courseChapters.includes(chapter) ? 1 + readings : 0) + Object.values(activities).reduce((count, rows) => count + rows.length, 0);
 }
 
 export default function ActivityRow({ activity: originalActivity, chapter, section, notify }) {
   const [activity, setSavedActivity] = useActivitySettings(`${chapter}/${section}/${originalActivity.id || originalActivity.title}`, originalActivity);
-  const [isHidden, setIsHidden] = useState(false);
+  const { showHidden, filters } = useLearningPathDisplay();
+  const visibility = activityVisibility(activity);
+  const isHidden = visibility.hidden;
   const [detailsOpen, setDetailsOpen] = useState(false);
   const detailsId = useId();
   const hasStats = activity.points !== undefined;
-  const overviewHref = activityHref(chapter, section, originalActivity.id || originalActivity.title);
+  const overviewHref = activityHref(chapter, section, originalActivity.id || originalActivity.originalTitle || originalActivity.title);
   const preview = () => { window.location.hash = overviewHref; };
+  if (visibility.removed || (isHidden && !showHidden) || !matchesActivity(activity, filters)) return null;
   return <div className={`chapter-activity ${activity.type ? 'is-assessment' : ''} ${isHidden ? 'is-hidden' : ''}`}>
     <span className="row-selection"><SelectionCheckbox id={`chapter:${chapter}/${section}/${originalActivity.id || originalActivity.title}`} label={`Select ${activity.title} in ${chapter}`} /></span>
     <span className="chapter-activity-icon"><ChapterIcon name={activity.icon} /></span>
@@ -66,7 +73,7 @@ export default function ActivityRow({ activity: originalActivity, chapter, secti
           <span><strong>{activity.averageScore ?? '--'}</strong><small>avg score</small></span>
           <span><strong>{activity.points}</strong><small>points</small></span>
         </div>}
-        <span className="chapter-activity-menu"><ActivityMenu label={`${activity.title} in ${chapter}`} activity={activity} onSave={setSavedActivity} isHidden={isHidden} onHide={() => { setIsHidden(!isHidden); notify(`${activity.title} ${isHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={preview} notify={notify} /></span>
+        <span className="chapter-activity-menu"><ActivityMenu label={`${activity.title} in ${chapter}`} activity={activity} onSave={setSavedActivity} isHidden={isHidden} onHide={() => { updateCourseActivities([{ activity, patch: { hidden: !isHidden } }]); notify(`${activity.title} ${isHidden ? 'shown to' : 'hidden from'} students`); }} onPreview={preview} notify={notify} /></span>
       </div>
       {hasStats && activity.minutes !== undefined && <>
         <div className="chapter-activity-time">

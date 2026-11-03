@@ -152,6 +152,13 @@ test('sample activities and unavailable follow-ups never consume attempts', () =
   assert.equal(submitQuestion({ id: 'sample-question-1', points: 1 }, { text: '1' }).submitted, 0);
   assert.equal(submitQuestion(question(28), {}).submitted, 0);
 });
+test('algebra practice grades text and true/false together without changing the question layout', () => {
+  const practice = { id: 'sample-question-1', responseFormat: 'text-and-truth', answerKey: '5', statementAnswer: 'True', points: 1 };
+  assert.deepEqual(submitQuestion(practice, { text: '10/2', choice: 'True' }).history, { answer: [true] });
+  assert.deepEqual(submitQuestion(practice, { text: '5', choice: 'False' }).history, { answer: [false] });
+  assert.equal(submitQuestion(practice, { text: '5' }).submitted, 0);
+  assert.equal(submitQuestion(practice, { choice: 'True' }).submitted, 0);
+});
 test('factoring answer keys expand to the original expressions', () => {
   for (const n of [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 18, 20, 21, 22, 23, 24, 25, 27]) {
     const q = question(n), expression = q.blocks.find((block) => block.type === 'math').expression;

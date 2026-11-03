@@ -65,3 +65,13 @@ export function applyAccommodations(current, selectedIds, editor) {
   });
   return { value };
 }
+
+export function applyAccommodationOperations(current = {}, operations = []) {
+  let value = current;
+  for (const operation of operations) {
+    const result = applyAccommodations(value, operation.selectedIds, operation.editor);
+    if (result.error) return result;
+    value = result.value;
+  }
+  return { value };
+}

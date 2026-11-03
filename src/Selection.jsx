@@ -15,9 +15,9 @@ export function useSelection() {
   return useContext(SelectionContext);
 }
 
-export function SelectionCheckbox({ id, label, group = false, all = false }) {
+export function SelectionCheckbox({ id, label, group = false, all = false, idsOverride }) {
   const { itemIds, selected, setSelected } = useSelection();
-  const ids = all ? itemIds : group ? itemIds.filter((key) => key === id || key.startsWith(`${id}/`)) : [id];
+  const ids = idsOverride ? idsOverride.filter((key) => itemIds.includes(key)) : all ? itemIds : group ? itemIds.filter((key) => key === id || key.startsWith(`${id}/`)) : [id];
   const checked = ids.length > 0 && ids.every((key) => selected.has(key));
   const toggle = () => setSelected((current) => {
     const next = new Set(current);

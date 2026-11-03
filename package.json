@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "node --test src/questionGrading.test.js src/activityAuthoring.test.js src/graphsQuestions.test.js src/studentAssistantReplies.test.js",
+    "test": "node --test src/questionGrading.test.js src/activityAuthoring.test.js src/graphsQuestions.test.js src/studentAssistantReplies.test.js src/courseModel.test.js src/activityManagement.test.js src/webassignCourse.test.js",
     "build": "vite build"
   },
   "dependencies": {

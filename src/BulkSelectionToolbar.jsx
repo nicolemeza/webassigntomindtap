@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelection } from './Selection';
 import './bulk-selection-toolbar.css';
+import { openCourseFlow } from './courseModel';
 
 const actions = [
   ['hide', 'Hide'],
@@ -21,13 +22,14 @@ function Divider() {
 
 export default function BulkSelectionToolbar({ notify }) {
   const { selectedIds, setSelected } = useSelection();
+  const [more, setMore] = useState(false);
   if (!selectedIds.length) return null;
 
   const clearSelection = () => {
     setSelected(new Set());
     document.querySelector('.learning-path-filters input[type="checkbox"]')?.focus();
   };
-  const previewAction = (label) => notify(`${label} for ${selectedIds.length} selected ${selectedIds.length === 1 ? 'item' : 'items'} is not connected in this prototype`);
+  const run = (type) => { setMore(false); openCourseFlow({ type: `bulk-${type}` }); };
 
   return <div className="bulk-selection-toolbar" role="region" aria-label="Selected learning path items">
     <div className="bulk-toolbar-selection">
@@ -35,9 +37,9 @@ export default function BulkSelectionToolbar({ notify }) {
       <span className="bulk-toolbar-count" role="status" aria-live="polite" aria-atomic="true">{selectedIds.length} selected</span>
     </div>
     <Divider />
-    {actions.map(([icon, label]) => <button type="button" key={icon} className="bulk-toolbar-button" onClick={() => previewAction(label)}><ToolbarIcon name={icon} /><span>{label}</span></button>)}
-    <button type="button" className="bulk-toolbar-button bulk-toolbar-icon" aria-label="More bulk actions" onClick={() => previewAction('More bulk actions')}><ToolbarIcon name="more" /></button>
+    {actions.map(([icon, label]) => <button type="button" key={icon} className="bulk-toolbar-button" onClick={() => run(icon)}><ToolbarIcon name={icon} /><span>{label}</span></button>)}
+    <span className="bulk-more-anchor"><button type="button" className="bulk-toolbar-button bulk-toolbar-icon" aria-label="More bulk actions" aria-expanded={more} onClick={() => setMore(!more)}><ToolbarIcon name="more" /></button>{more && <div className="bulk-more-menu" role="menu">{[['accommodation', 'Edit Accommodations'], ['template', 'Apply Settings Template'], ['password', 'Edit Password'], ['late', 'Edit Late Policy'], ['time', 'Edit Time Limit']].map(([type, label]) => <button type="button" role="menuitem" key={type} onClick={() => run(type)}>{label}</button>)}</div>}</span>
     <Divider />
-    <button type="button" className="bulk-toolbar-button bulk-toolbar-remove" onClick={() => previewAction('Remove')}><ToolbarIcon name="remove" /><span>Remove</span></button>
+    <button type="button" className="bulk-toolbar-button bulk-toolbar-remove" onClick={() => run('remove')}><ToolbarIcon name="remove" /><span>Remove</span></button>
   </div>;
 }

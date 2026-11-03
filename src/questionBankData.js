@@ -1,5 +1,8 @@
-import { chapterAssignments } from './chapterAssignments';
-import { getActivityQuestions } from './activityQuestions';
+import { chapterAssignments } from './chapterAssignments.js';
+import { getActivityQuestions } from './activityQuestions.js';
+import { webassignAssignments, webassignQuestionMetadata } from './webassignCourse.js';
+import { courseChapters } from './courseModel.js';
+import { getQuestionCode } from './questionCodes.js';
 
 export const questionTypes = ['Multiple choice', 'Multiple select', 'Cloze with Drop-Down', 'Cloze with text', 'Cloze with drag & drop', 'Choice Matrix', 'Match List', 'Order List', 'Classification List', 'Essay', 'Essay (with rich text)', 'Label Image (drop down)', 'Label Image (drag & drop)', 'Label Image (text)', 'Label Image (math)', 'Other (file upload)', 'Highlight', 'Hotspot', 'Math', 'Math (with rich text)', 'Math (with image)', 'Cloze math'];
 export const questionSources = ['Test Bank', 'Test Prep.', 'A&R'];
@@ -13,7 +16,7 @@ const choiceQuestions = [
 export function questionSummary(question) {
   return question.prompt || question.blocks?.find((block) => block.type === 'text')?.text || question.opening || '';
 }
-export const questionBank = [
+const existingQuestions = [
   ...choiceQuestions,
   ...getActivityQuestions(chapter, assignment).map((question, index) => ({ ...question, title: `R.5 · Factoring · Question ${index + 1}`, questionType: question.blocks?.some((block) => block.type === 'image') ? 'Math (with image)' : 'Math' })),
 ].map((question) => ({ ...question, chapter, assignment, source: 'Test Bank', properties: [
@@ -21,14 +24,25 @@ export const questionBank = [
   ...(question.inputs?.length > 1 ? ['Multiple parts'] : []),
   ...(question.blocks?.some((block) => block.type === 'image') ? ['Includes an image'] : []),
 ] }));
+const importedBank = new Map();
+for (const activity of webassignAssignments) {
+  const number = activity.title.match(/^(?:Chapter )?([1-8])(?:\.| )/)[1];
+  const chapterTitle = courseChapters.find(title => title.startsWith(`Chapter ${number}.`));
+  for (const question of activity.questions) {
+    const previous = importedBank.get(question.id);
+    if (previous) previous.assignments.push(activity.title);
+    else importedBank.set(question.id, webassignQuestionMetadata(question, chapterTitle, activity.title));
+  }
+}
+export const questionBank = [...existingQuestions, ...importedBank.values()];
 export function getSubchapters(chapterTitle) {
-  return (chapterAssignments[chapterTitle.slice(0, chapterTitle.indexOf('. '))] || []).filter((title) => title.includes(' HW '));
+  return chapterAssignments[chapterTitle.slice(0, chapterTitle.indexOf('. '))] || [];
 }
 export function filterQuestions(questions, filters, search = '') {
   const query = search.trim().toLowerCase();
-  return questions.filter((question) => (!query || [question.title, questionSummary(question), question.assignment, question.chapter, ...question.blocks?.filter((block) => block.type === 'math').map((block) => block.expression) || []].join(' ').toLowerCase().includes(query))
+  return questions.filter((question) => (!query || [question.title, getQuestionCode(question), question.sourceId, question.id, questionSummary(question), ...(question.assignments || [question.assignment]), question.chapter, ...question.blocks?.filter((block) => block.type === 'math').map((block) => block.expression) || []].join(' ').toLowerCase().includes(query))
     && (!filters.chapters.length || filters.chapters.includes(question.chapter))
-    && (!filters.subchapters.length || filters.subchapters.includes(question.assignment))
+    && (!filters.subchapters.length || (question.assignments || [question.assignment]).some(title => filters.subchapters.includes(title)))
     && (!filters.types.length || filters.types.includes(question.questionType))
     && (!filters.sources.length || filters.sources.includes(question.source))
     && (!filters.properties.length || filters.properties.every((property) => question.properties.includes(property))));

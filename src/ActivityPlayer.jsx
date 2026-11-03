@@ -11,9 +11,12 @@ import ActivityResources from './ActivityResources';
 import QuestionAttempts from './QuestionAttempts';
 import MathQuestion from './MathQuestion';
 import ChoiceQuestion from './ChoiceQuestion';
+import WebassignQuestion from './WebassignQuestion';
+import QuestionIdentity from './QuestionIdentity';
 import './activity-player.css';
 import './activity-question-integrated.css';
 import { gradingFields, fieldComplete, gradedAnswerState, submitQuestion } from './questionGrading';
+import { getCourseState, saveCourseState } from './courseModel';
 
 const playerSessions = new Map();
 const iconSizes = { selected: [16, 16], print: [16, 16], edit: [16, 16], details: [16, 16], radioChecked: [24, 24], radioUnchecked: [24, 24], accessibility: [24, 26.0321], previous: [20, 20], next: [20, 20], pageMarker: [4.41421, 4.41421] };
@@ -24,12 +27,14 @@ function PlayerIcon({ name }) {
 
 export default function ActivityPlayer({ chapter, section, activity: originalActivity, onBack, backLabel = 'Back', onActivityChange, sessionKey }) {
   const theme = useContext(ThemeContext);
-  const activityKey = sessionKey || `${chapter}/${section}/${originalActivity.id || originalActivity.title}`;
+  const activityKey = sessionKey || originalActivity.stableKey || `${chapter}/${section}/${originalActivity.id || originalActivity.title}`;
   const [storedActivity, saveActivity] = useActivitySettings(activityKey, originalActivity);
   const activity = onActivityChange ? originalActivity : storedActivity;
-  const questions = activity.questions || getActivityQuestions(chapter, originalActivity.title);
+  const sourceChapter = activity.originalChapter || chapter;
+  const sourceTitle = activity.originalTitle || originalActivity.title;
+  const questions = activity.questions || getActivityQuestions(sourceChapter, sourceTitle);
   const [session, setSession] = useState(() => {
-    const previous = playerSessions.get(activityKey) || { current: 0, answers: {}, flags: [] };
+    const previous = (sessionKey ? playerSessions.get(activityKey) : getCourseState().sessions?.[activityKey]) || { current: 0, answers: {}, flags: [] };
     return { ...previous, current: Math.min(previous.current, questions.length - 1) };
   });
   const [view, setView] = useState('student');
@@ -42,33 +47,34 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const [savingQuestionId, setSavingQuestionId] = useState(null);
   const headingRef = useRef(null);
   const question = questions[session.current];
-  const alternativeLayout = question.id.startsWith('r5-factoring-question-') ||
+  const alternativeLayout = question.kind === 'webassign' || question.id.startsWith('r5-factoring-question-') ||
     question.kind === 'choice' ||
-    (chapter === 'Chapter 2. Functions and Graphs' && originalActivity.title === '2.5 HW Graphs of Equations & Circles') ||
-    (chapter === 'Chapter R. A Review of Basic Algebra' && originalActivity.title === 'Chapter R Test');
-  const hideQuestionResources = chapter === 'Chapter R. A Review of Basic Algebra' && originalActivity.title === 'Chapter R Test';
+    (sourceChapter === 'Chapter 2. Functions and Graphs' && sourceTitle === '2.5 HW Graphs of Equations & Circles') ||
+    (sourceChapter === 'Chapter R. A Review of Basic Algebra' && sourceTitle === 'Chapter R Test');
+  const hideQuestionResources = sourceChapter === 'Chapter R. A Review of Basic Algebra' && sourceTitle === 'Chapter R Test';
   const hideQuestionAttempts = hideQuestionResources;
-  const gradeActionLabel = hideQuestionResources ? 'Save Answer' : 'Grade Answer';
+  const saveImportedResponse = question.kind === 'webassign';
+  const gradeActionLabel = hideQuestionResources || saveImportedResponse ? 'Save Answer' : 'Grade Answer';
   const answer = session.answers[question.id] || { text: '', choice: '' };
   const savedAt = session.savedAt?.[question.id];
   const history = session.grades?.[question.id] || {};
   // An unchanged response is feedback-only: it is not an incorrect answer.
   const invalidFields = [];
   const fields = gradingFields(question);
-  const responseFieldIds = question.kind === 'math-response'
+  const responseFieldIds = saveImportedResponse ? [...new Set(question.fields.map(field => ['radio', 'checkbox'].includes(field.type) ? field.group : field.id)), 'response'] : question.kind === 'math-response'
     ? [...new Set([
       ...(question.inputs || []).map((field) => field.id),
       ...question.blocks.filter((block) => block.type === 'selections' || block.type === 'graph-choices' || block.type === 'graph-pad' || block.type === 'number-line').map((block) => block.id),
     ])]
     : fields.map((field) => field.id);
   const isGraphsQuestion = question.id.startsWith('graphs-circles-question-');
-  const hasResponse = isGraphsQuestion
+  const hasResponse = question.responseFormat === 'text-and-truth' ? Boolean(answer.text?.trim() && answer.choice) : question.kind === 'choice' ? Boolean(answer.selections?.length) : isGraphsQuestion
     ? hasAnyGraphQuestionResponse(question, answer.values)
     : responseFieldIds.some((fieldId) => {
       const value = question.kind === 'greatest-common-factor' ? answer.text : answer.values?.[fieldId];
       return Boolean(value?.trim() && value !== '[]');
     });
-  const gradeUnavailable = hideQuestionResources
+  const gradeUnavailable = hideQuestionResources || saveImportedResponse
     ? !hasResponse
     : !fields.length || !hasResponse || fields.every((field) => fieldComplete(history[field.id]));
   const flagged = session.flags.includes(question.id);
@@ -78,6 +84,7 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     playerSessions.set(activityKey, next);
     return next;
   });
+  useEffect(() => { if (!sessionKey) saveCourseState({ sessions: { ...getCourseState().sessions, [activityKey]: session } }); }, [session, activityKey, sessionKey]);
   const updateAnswer = (field, value) => updateSession((current) => ({ answers: { ...current.answers, [question.id]: { ...current.answers[question.id], [field]: value } }, feedback: { ...current.feedback, [question.id]: null } }));
   const goToQuestion = (current) => {
     updateSession(() => ({ current }));
@@ -90,9 +97,10 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     document.title = `${activity.title} · Activity · MindTap`;
     return () => { document.title = previous; };
   }, [activity.title]);
-  const back = onBack || (() => { window.location.hash = activityHref(chapter, section, originalActivity.id || originalActivity.title); });
+  const back = onBack || (() => { window.location.hash = activityHref(chapter, section, originalActivity.id || originalActivity.originalTitle || originalActivity.title); });
+  const finish = () => { if (!sessionKey) { const completed = { ...session, completedAt: new Date().toISOString() }; playerSessions.set(activityKey, completed); saveCourseState({ sessions: { ...getCourseState().sessions, [activityKey]: completed } }); } back(); };
   const gradeQuestion = () => {
-    if (hideQuestionResources) {
+    if (hideQuestionResources || saveImportedResponse) {
       setSavingQuestionId(question.id);
       window.setTimeout(() => {
         updateSession((current) => ({ savedAt: { ...current.savedAt, [question.id]: new Date().toISOString() } }));
@@ -132,8 +140,10 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
           {!alternativeLayout && <section className="question-attempts" aria-label="Attempts">{summary}{details}</section>}
           <div className={`player-question-content${largeText ? ' large-text' : ''}`}>
             {view === 'instructor' && <p className="player-instructor-note">Instructor preview · Responses are not graded.</p>}
-            {question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor'} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
+            {view === 'instructor' && <QuestionIdentity question={question} />}
+            {question.kind === 'webassign' ? <WebassignQuestion key={question.id} question={question} values={answer.values} instructor={view === 'instructor'} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor'} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer)} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
+            {saveImportedResponse && savedAt && <p className="player-instructor-note" role="status">Answer saved. This imported question is available for preview; automatic grading is not connected.</p>}
             {gradeFeedback && (isUnchangedFeedback
               ? <div id={`grade-feedback-${question.id}`} className="player-grade-feedback player-grade-feedback-warning" role="status"><WarningIcon aria-hidden="true" size={theme.iconSizes.small} /><span>{gradeFeedback}</span></div>
               : <InputMessage id={`grade-feedback-${question.id}`} className="player-grade-feedback" hasError role="alert">{gradeFeedback}</InputMessage>)}
@@ -161,6 +171,6 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
         <Button className="rebrand-button rebrand-button-primary player-next" onClick={() => session.current < questions.length - 1 ? goToQuestion(session.current + 1) : setFinishOpen(true)}>{session.current === questions.length - 1 ? 'Finish' : 'Next'}<PlayerIcon name="next" /></Button>
       </nav>
     {settingsOpen && <ActivitySettingsModal activity={activity} onSave={(updated) => { if (onActivityChange) onActivityChange(updated); else saveActivity(updated); setSettingsOpen(false); }} onClose={() => setSettingsOpen(false)} />}
-    <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Scores and responses are kept locally for this session only. Nothing is submitted to a gradebook.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={back}>{onBack ? backLabel : 'Back to overview'}</Button></Modal>
+    <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Your progress is saved in this course preview.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={finish}>{onBack ? backLabel : 'Back to overview'}</Button></Modal>
   </section>;
 }

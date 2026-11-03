@@ -5,6 +5,9 @@ import { useActivitySettings } from './ActivitySettingsModal';
 import { defaultActivitySettings } from './ActivityBehaviorSettings';
 import { activityDueDateTime, formatActivityDue, formatDueTime } from './activityDates';
 import './activity-overview.css';
+import { useCourseState } from './courseModel';
+import { getActivityQuestions } from './activityQuestions';
+import { earnedPoints } from './questionGrading';
 
 const factoringObjectives = [
   'Factor out the greatest common factor.',
@@ -22,7 +25,11 @@ function OverviewIcon({ name, size = 32 }) {
 }
 
 export default function ActivityOverview({ chapter, section, activity: originalActivity, onBack }) {
+  const course = useCourseState();
   const [activity] = useActivitySettings(`${chapter}/${section}/${originalActivity.id || originalActivity.title}`, originalActivity);
+  const session = course.sessions?.[originalActivity.stableKey || `${chapter}/${section}/${originalActivity.id || originalActivity.title}`];
+  const questions = activity.questions || getActivityQuestions(activity.originalChapter || chapter, activity.originalTitle || originalActivity.title);
+  const score = questions.reduce((total, question) => total + earnedPoints(question, session?.grades?.[question.id]), 0);
   const settings = { ...defaultActivitySettings, ...activity.settings };
   const titleRef = useRef(null);
   useEffect(() => {
@@ -59,7 +66,7 @@ export default function ActivityOverview({ chapter, section, activity: originalA
           </React.Fragment>)}
         </dl>
       </div>
-      {originalActivity.title === 'R.5 HW Factoring' && <section className="overview-instructions" aria-labelledby="overview-instructions-title">
+      {(originalActivity.originalTitle || originalActivity.title) === 'R.5 HW Factoring' && <section className="overview-instructions" aria-labelledby="overview-instructions-title">
         <div className="overview-instructions-summary">
           <div><h3 id="overview-instructions-title">Instructions</h3><p>Review the assignment details before you begin.</p></div>
         </div>
@@ -81,7 +88,7 @@ export default function ActivityOverview({ chapter, section, activity: originalA
       <div className="overview-attempts">
         <table aria-label={`Attempts for ${activity.title}`}>
           <thead><tr>{['Attempt (of #)', 'Submitted on', 'Status', 'Score', 'Actions'].map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead>
-          <tbody><tr><td>1</td><td>--</td><td>--</td><td>--</td><td><Button className="rebrand-button rebrand-button-primary compact overview-start" onClick={() => { window.location.hash = `${activityHref(chapter, section, originalActivity.id || originalActivity.title)}/play`; }}>Start</Button></td></tr></tbody>
+          <tbody><tr><td>1</td><td>{session?.completedAt ? new Date(session.completedAt).toLocaleDateString('en-US') : '--'}</td><td>{session?.completedAt ? 'Completed' : session && Object.keys(session.answers).length ? 'In Progress' : '--'}</td><td>{session?.completedAt ? `${Number(score.toFixed(2))} / ${questions.reduce((sum, q) => sum + q.points, 0)}` : '--'}</td><td><Button className="rebrand-button rebrand-button-primary compact overview-start" onClick={() => { window.location.hash = `${activityHref(chapter, section, originalActivity.id || originalActivity.originalTitle || originalActivity.title)}/play`; }}>{session?.completedAt ? 'Review' : session && Object.keys(session.answers).length ? 'Resume' : 'Start'}</Button></td></tr></tbody>
         </table>
       </div>
     </div>

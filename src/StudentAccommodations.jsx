@@ -32,6 +32,7 @@ const StudentAccommodations = forwardRef(function StudentAccommodations({ activi
   const [pageSize, setPageSize] = useState(14);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [operations, setOperations] = useState([]);
   const filtered = accommodationStudents.filter((student) => filter === 'selected' ? selected.has(student.id) : filter === 'accommodated' ? Boolean(value[student.id]) : filter === 'unaccommodated' ? !value[student.id] : true);
   const currentPage = Math.min(page, Math.max(0, Math.ceil(filtered.length / pageSize) - 1));
   const start = currentPage * pageSize;
@@ -40,11 +41,12 @@ const StudentAccommodations = forwardRef(function StudentAccommodations({ activi
   const range = `${filtered.length ? start + 1 : 0}-${start + visible.length} of ${filtered.length}`;
   const update = (field, next) => { setError(''); setMessage(''); setEditor((previous) => ({ ...previous, [field]: next })); };
   const toggle = (studentId) => setSelected((previous) => { const next = new Set(previous); next.has(studentId) ? next.delete(studentId) : next.add(studentId); return next; });
-  useImperativeHandle(ref, () => ({ commit: () => applyAccommodations(value, [...selected], editor) }), [value, selected, editor]);
+  useImperativeHandle(ref, () => ({ commit: () => ({ ...applyAccommodations(value, [...selected], editor), operations: [...operations, ...(hasAccommodationEdits(editor) ? [{ selectedIds: [...selected], editor: { ...editor } }] : [])] }) }), [value, selected, editor, operations]);
   function apply() {
     const result = applyAccommodations(value, [...selected], editor);
     if (result.error) { setError(result.error); return; }
     onChange(result.value);
+    setOperations((previous) => [...previous, { selectedIds: [...selected], editor: { ...editor } }]);
     setMessage(`Accommodations set for ${selected.size} ${selected.size === 1 ? 'student' : 'students'}. Confirm to save, or select students to add more.`);
     setEditor({ ...emptyAccommodationEditor });
     setSelected(new Set());

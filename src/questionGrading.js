@@ -132,6 +132,7 @@ export function matchesAnswer(value, expected, requireFactored = true) {
   } catch { return false; }
 }
 export function gradingFields(question) {
+  if (question.responseFormat === 'text-and-truth' && question.answerKey !== undefined) return [{ id: 'answer', points: question.points, validate: (value) => { const [text, choice] = value.split('\u001f'); return matchesAnswer(text, question.answerKey, false) && choice === question.statementAnswer; } }];
   if (question.kind === 'choice' && question.correctChoices?.length) return [{ id: 'answer', expected: [...question.correctChoices].sort().join('\u001f'), points: question.points }];
   if (question.id.startsWith('graphs-circles-question-')) return graphGradingFields(question);
   const number = Number(question.id.replace('r5-factoring-question-', ''));
@@ -159,7 +160,7 @@ export function submitQuestion(question, response = {}, history = {}, lastSubmit
   const unchangedFields = [];
   for (const field of fields) {
     const previous = history[field.id] || [];
-    const value = question.kind === 'choice' ? [...(response.selections || [])].sort().join('\u001f') : question.kind === 'greatest-common-factor' ? response.text : response.values?.[field.id];
+    const value = question.responseFormat === 'text-and-truth' ? response.text?.trim() && response.choice ? `${response.text}\u001f${response.choice}` : '' : question.kind === 'choice' ? [...(response.selections || [])].sort().join('\u001f') : question.kind === 'greatest-common-factor' ? response.text : response.values?.[field.id];
     if (fieldComplete(previous)) continue;
     if (!value?.trim()) { emptyFields.push(field.id); continue; }
     // Whitespace-only edits do not constitute a new mathematical response.

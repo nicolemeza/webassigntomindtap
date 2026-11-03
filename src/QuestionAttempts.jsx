@@ -3,6 +3,7 @@ import { ButtonIconPosition, ButtonSize, ButtonTextTransform, ToggleButton, Tabl
 import { ExpandLessIcon, ExpandMoreIcon } from 'react-magma-icons';
 import './question-attempts.css';
 import { earnedPoints, MAX_ATTEMPTS } from './questionGrading';
+import { questionResponseFields } from './questionResponseFields';
 
 function AttemptIndicators({ history = [], maxAttempts = MAX_ATTEMPTS }) {
   return <div className="question-attempt-indicators" role="group" aria-label={`${history.length} of ${maxAttempts} attempts used`}>
@@ -18,7 +19,7 @@ export default function QuestionAttempts({ question, variant, history = {}, defa
   const headingId = useId();
   const tableId = useId();
   const [expanded, setExpanded] = useState(defaultExpanded);
-  const fields = question.inputs || [];
+  const fields = questionResponseFields(question);
   const multiField = fields.length > 1;
   // Equal prototype weighting; assign rounding remainder to the last field.
   const totalHundredths = Math.round(question.points * 100);

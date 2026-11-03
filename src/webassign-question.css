@@ -1,0 +1,36 @@
+.question-identity { display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; margin:6px 0; font-family:var(--body-font, 'Work Sans', sans-serif); font-size:12px; color:#526371; line-height:1.6; }
+.question-code { font-weight:600; color:var(--brand-navy, #003865); overflow-wrap:anywhere; }
+.question-identity--badge { justify-content:flex-start; }
+.question-code-badge { display:inline-block; max-width:100%; padding:1px 8px; border:1px solid #c8dce0; background:#edf6f7; color:#175969; border-radius:4px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.author-selected-info h3.question-code-badge, .bank-question-title.question-code-badge { width:fit-content; padding:1px 8px; border:1px solid #c8dce0; border-radius:4px; background:#edf6f7; color:#175969; font-family:var(--font-ui); font-size:12px; font-weight:400; line-height:1.6; text-decoration:none; }
+.player-question-content > .question-identity { margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #e0e5e8; }
+.webassign-question { font-size:16px; line-height:1.7; color:#1f2a35; }
+.imported-key-toolbar { display:flex; justify-content:flex-end; margin-bottom:12px; }
+.imported-question-content { overflow-x:auto; padding:4px 0 16px; }
+.imported-question-content .wa1par, .imported-question-content .wa1given, .imported-question-content .wa1ans, .imported-question-content p { margin:12px 0; }
+.imported-question-content .watex { font-family:'Cambria Math',Cambria,Georgia,serif; font-size:1.15em; line-height:1.5; }
+.imported-question-content .watexinlineblock { display:inline-block; vertical-align:middle; }
+.imported-question-content .watexline { display:block; white-space:nowrap; }
+.imported-question-content .watexmiddle { vertical-align:middle; }
+.imported-question-content .watexfraction { display:inline-table; vertical-align:middle; border-collapse:collapse; margin:0 4px; text-align:center; line-height:1.3; }
+.imported-question-content .watexfraction td { padding:2px 5px; }
+.imported-question-content .watexnumerator { border-bottom:1px solid currentColor; }
+.imported-question-content .watexdenominator { border-top:1px solid currentColor; }
+.imported-question-content .waMark { border:0; background:none; }
+.imported-question-content .ms { display:block; margin:8px 0; }
+.imported-question-content table:not(.watexfraction) { border-collapse:collapse; max-width:100%; }
+.imported-question-content td:not(.watexnumerator):not(.watexdenominator), .imported-question-content th { padding:4px 8px; }
+.imported-question-content select { min-width:130px; min-height:40px; padding:6px 10px; color:#173d56; border:1px solid #8898a5; border-radius:4px; font:inherit; background:white; }
+.imported-math-input { display:inline-block; vertical-align:middle; width:180px; margin:4px 8px; }
+#app .imported-math-input input { box-sizing:border-box; width:100%; min-height:40px; padding:8px; border:1px solid #8b99aa; border-radius:8px; background:#fff; color:var(--brand-navy); font-family:'Math Variables',var(--font-ui); font-size:16px; }
+#app .imported-math-input .math-answer-input[data-numbered] input { padding-left:36px; }
+#app .imported-math-input input:focus-visible { border-color:var(--brand-teal); outline:2px solid var(--brand-teal); outline-offset:2px; }
+#app .imported-math-input input:disabled { border-color:var(--border); background:var(--page-bg); color:var(--text-subdued); }
+.imported-choice-control { display:inline-flex; gap:8px; align-items:center; vertical-align:middle; margin-right:8px; }
+.imported-choice-control input { width:18px; height:18px; accent-color:var(--brand-navy,#003865); }
+.imported-question-image { max-width:100%; height:auto; vertical-align:middle; }
+.imported-answer-key { display:inline-block; margin:4px 8px; padding:4px 10px; border:1px solid #8eb9ab; border-radius:4px; background:#edf7f1; color:#1c5846; vertical-align:middle; }
+.imported-answer-key p { margin:0; }
+.imported-correct-key { padding:0 5px; border-radius:3px; background:#edf7f1; color:#1c5846; font-size:11px; }
+.imported-written-response { display:grid; gap:8px; margin-top:16px; }
+.imported-written-response textarea { min-height:90px; padding:10px; border:1px solid #8898a5; border-radius:4px; font:inherit; }

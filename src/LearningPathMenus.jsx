@@ -1,11 +1,12 @@
 import React from 'react';
 import { ButtonColor, ButtonVariant, Dropdown, DropdownAlignment, DropdownButton, DropdownContent, DropdownMenuItem } from 'react-magma-dom';
 import './learning-path-menus.css';
+import { openCourseFlow } from './courseModel';
 
 const initialItems = [['bank', 'Add Activity from Activity Bank'], ['folder', 'Add Folder']];
 const extras = [['flashcards', 'Flashcards'], ['bongo', 'Bongo'], ['outline', 'Outline Builder'], ['tutor', 'NetTutor'], ['turnitin', 'Turnitin']];
 const external = [['drive', 'Google Drive'], ['video', 'WebVideo Search'], ['link', 'Web Link Activity'], ['external', 'Non MindTap Activity'], ['onedrive', 'Microsoft OneDrive']];
-const createItems = [['create', 'Create New Activity'], ['pool', 'Create a Question Pool Activity']];
+const createItems = [['create', 'Create New Activity']];
 
 function ActionIcon({ name }) {
   if (name === 'bongo') return <span className="learning-action-icon action-bongo"><img src="/rebrand/action-bongoCircle.svg" width="24" height="24" alt="" /><img className="action-bongo-wordmark" src="/rebrand/action-bongo.png" width="21" height="8" alt="" /></span>;
@@ -14,7 +15,7 @@ function ActionIcon({ name }) {
 }
 
 function ActionItems({ items, notify, onCreateActivity }) {
-  return items.map(([icon, label]) => <DropdownMenuItem className="learning-action-item" key={label} icon={<ActionIcon name={icon} />} onClick={() => icon === 'create' && onCreateActivity ? onCreateActivity() : notify(`${label} is not connected in this prototype`)}>{label}</DropdownMenuItem>);
+  return items.map(([icon, label]) => <DropdownMenuItem className="learning-action-item" key={label} icon={<ActionIcon name={icon} />} onClick={() => icon === 'create' && onCreateActivity ? onCreateActivity() : openCourseFlow({ type: icon, label })}>{label}</DropdownMenuItem>);
 }
 
 export default function LearningPathMenus({ notify, onCreateActivity }) {

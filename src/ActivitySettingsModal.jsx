@@ -5,15 +5,18 @@ import ActivityBehaviorSettings, { defaultActivitySettings } from './ActivityBeh
 import StudentAccommodations from './StudentAccommodations';
 import { saveCreatedActivity } from './createdActivities';
 import { scaleQuestionPoints } from './activityAuthoring';
+import { updateCourseActivities, useCourseState } from './courseModel';
 
 const sessionSettings = new Map();
 
 export function useActivitySettings(key, originalActivity) {
+  const course = useCourseState();
   const [edits, setEdits] = useState(() => sessionSettings.get(key));
-  const persisted = originalActivity.id && !key.startsWith('builder-preview/');
-  return [persisted ? originalActivity : { ...originalActivity, ...edits }, (updated) => {
+  const preview = key.startsWith('builder-preview/');
+  const stableKey = originalActivity.stableKey || key;
+  return [preview ? { ...originalActivity, stableKey, ...edits } : { ...originalActivity, stableKey, ...course.activities[stableKey] }, (updated) => {
     const next = updated.questions ? { ...updated, questions: scaleQuestionPoints(updated.questions, updated.points) } : updated;
-    if (persisted) saveCreatedActivity({ ...originalActivity, ...next });
+    if (!preview) updateCourseActivities([{ activity: { ...originalActivity, stableKey }, patch: next }]);
     sessionSettings.set(key, next);
     setEdits(next);
   }];

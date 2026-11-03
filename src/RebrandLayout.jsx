@@ -1,61 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { Button, ButtonColor, ButtonVariant, IconButton } from 'react-magma-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, ButtonVariant, IconButton } from 'react-magma-dom';
 import BrandIcon from './BrandIcon';
 import { SelectionCheckbox, useSelection } from './Selection';
 import BulkSelectionToolbar from './BulkSelectionToolbar';
 import LearningPathMenus from './LearningPathMenus';
+import Dashboard from './Dashboard';
+import CourseSettings from './CourseSettings';
+import { MoreTools, Support } from './CourseResources';
+import { ActionButton, Check, CourseDialog } from './CourseUI';
+import { allCourseActivities } from './LearningPathFlows';
+import { activityHref } from './activityNavigation';
+import { useCourseState } from './courseModel';
+import WeekView from './WeekView';
 
-const navigation = [
-  ['dashboard', 'Dashboard'], ['learning-path', 'Learning Path'],
-  ['course-settings', 'Course Settings'], ['gradebook', 'Gradebook'],
-  ['tools', 'More Tools'], ['support', 'Support'],
-];
-
-export default function RebrandLayout({ children, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity, gradebookPage, activeSection = 'learning-path', onGradebook, shellless = false }) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+const navigation = [['dashboard', 'Dashboard'], ['learning-path', 'Learning Path'], ['course-settings', 'Course Settings'], ['gradebook', 'Gradebook'], ['tools', 'More Tools'], ['support', 'Support']];
+const filterGroups = [['Impact to Grade', ['Counts towards grade', 'Practice']], ['Grading Type', ['Auto graded', 'Manually graded']], ['Due Date', ['Scheduled', 'Not Scheduled']], ['Career Skills', ['Communication', 'Critical Thinking', 'Professionalism', 'Career & Self-Development', 'Equity & Inclusion', 'Leadership', 'Teamwork']]];
+export default function RebrandLayout({ children, chapters, anyFoldersOpen, onToggleAll, showHidden, onToggleHidden, notify, detailPage, onLearningPath, onCreateActivity, gradebookPage, activeSection = 'learning-path', onNavigate, shellless = false, filters, onFilters, view, onView }) {
+  const course = useCourseState();
+  const [collapsed, setCollapsed] = useState(false); const [searchOpen, setSearchOpen] = useState(false); const [query, setQuery] = useState('');
+  const [userOpen, setUserOpen] = useState(false); const [dialog, setDialog] = useState(null); const [filtersOpen, setFiltersOpen] = useState(false);
+  const [weekCommand, setWeekCommand] = useState(null); const menuRef = useRef(null);
   const { selectedIds, setSelected } = useSelection();
-  const isDetailPage = Boolean(detailPage);
-  const showingGradebook = activeSection === 'gradebook' && !isDetailPage;
-  useEffect(() => {
-    if (isDetailPage) setSelected((current) => current.size ? new Set() : current);
-  }, [isDetailPage, setSelected]);
-  useEffect(() => {
-    if (showingGradebook) setSelected((current) => current.size ? new Set() : current);
-  }, [showingGradebook, setSelected]);
+  const isDetailPage = Boolean(detailPage); const isLearning = activeSection === 'learning-path';
+  useEffect(() => { if (isDetailPage || !isLearning) setSelected((current) => current.size ? new Set() : current); setFiltersOpen(false); }, [isDetailPage, activeSection, setSelected]);
+  useEffect(() => { if (!userOpen) return; const close = (e) => { if (!menuRef.current?.contains(e.target)) setUserOpen(false); }; document.addEventListener('pointerdown', close); return () => document.removeEventListener('pointerdown', close); }, [userOpen]);
+  const navigate = (id) => { setUserOpen(false); setSearchOpen(false); id === 'learning-path' ? onLearningPath() : onNavigate(id); };
+  const results = searchOpen && query.trim() ? allCourseActivities(chapters).filter((a) => a.title.toLowerCase().includes(query.toLowerCase())).slice(0, 20) : [];
+  const page = activeSection === 'dashboard' ? <Dashboard notify={notify} /> : activeSection === 'course-settings' ? <CourseSettings notify={notify} /> : activeSection === 'tools' ? <MoreTools notify={notify} /> : activeSection === 'support' ? <Support notify={notify} /> : gradebookPage;
   return <div className={`rebrand-app ${collapsed ? 'nav-collapsed' : ''}${shellless ? ' is-shellless' : ''}`}>
-    <div className="rebrand-update-banner"><span>You're viewing the updated MindTap look.</span><button type="button" onClick={() => notify('This prototype is showing the updated MindTap look.')}>Return to Original Look <span aria-hidden="true">→</span></button></div>
-    {!shellless && <aside className="rebrand-sidebar" aria-label="Course navigation">
-      <div className="rebrand-logo"><img src="/rebrand/logo.svg" width="123" height="40" alt="Cengage MindTap" /></div>
-      <IconButton className="sidebar-toggle" variant={ButtonVariant.link} icon={<BrandIcon name="sidebar-collapse" />} aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={() => setCollapsed(!collapsed)} />
-      <nav>{navigation.map(([icon, label], index) => <React.Fragment key={icon}>
-        {index === 4 && <div className="sidebar-separator"><img src="/rebrand/nav-separator.svg" width="224" height="16" alt="" /></div>}
-        <button className={`sidebar-link ${(icon === 'learning-path' && activeSection === 'learning-path' || icon === 'gradebook' && activeSection === 'gradebook') ? 'active' : ''}`} aria-current={(icon === 'learning-path' && activeSection === 'learning-path' || icon === 'gradebook' && activeSection === 'gradebook') ? 'page' : undefined} title={collapsed ? label : undefined} onClick={() => icon === 'learning-path' ? onLearningPath?.() : icon === 'gradebook' ? onGradebook?.() : notify(`${label} opened`)}><BrandIcon name={icon} /><span>{label}</span></button>
-      </React.Fragment>)}</nav>
-    </aside>}
+    {!shellless && <aside className="rebrand-sidebar" aria-label="Course navigation"><div className="rebrand-logo"><img src="/rebrand/logo.svg" width="123" height="40" alt="Cengage MindTap" /></div><IconButton className="sidebar-toggle" variant={ButtonVariant.link} icon={<BrandIcon name="sidebar-collapse" />} aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={() => setCollapsed(!collapsed)} /><nav>{navigation.map(([icon, label], index) => <React.Fragment key={icon}>{index === 4 && <div className="sidebar-separator"><img src="/rebrand/nav-separator.svg" width="224" height="16" alt="" /></div>}<button className={`sidebar-link ${activeSection === icon ? 'active' : ''}`} aria-current={activeSection === icon ? 'page' : undefined} title={collapsed ? label : undefined} onClick={() => navigate(icon)}><BrandIcon name={icon} /><span>{label}</span></button></React.Fragment>)}</nav></aside>}
     <main className={`rebrand-main${selectedIds.length ? ' has-selection' : ''}`}>
-      {!shellless && <header className="rebrand-topbar">
-        <label className="course-selector"><span className="visually-hidden">Current course</span><select defaultValue="current"><option value="current">College Algebra</option></select><BrandIcon name="course-arrow" /></label>
-        <div className="rebrand-top-actions">
-          {searchOpen && <input autoFocus className="course-search-input" type="search" aria-label="Search this course" placeholder="Search this course" onKeyDown={(event) => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter') notify(`Search: ${event.target.value}`); }} />}
-          <IconButton className="rebrand-search" variant={ButtonVariant.link} icon={<BrandIcon name="search" />} aria-label="Search this course" aria-expanded={searchOpen} onClick={() => setSearchOpen(!searchOpen)} />
-          <button className="rebrand-avatar" aria-label="User profile" onClick={() => notify('User profile opened')}>AB</button>
-        </div>
-      </header>}
-      {!detailPage && !showingGradebook && <><div className="learning-path-title"><h1>Learning Path</h1><div className="page-title-actions">
-        <LearningPathMenus notify={notify} onCreateActivity={onCreateActivity} />
-      </div></div>
-      <div className="learning-path-actions"><div className="learning-path-filters">
-        <SelectionCheckbox all label="Select all learning path items" />
-        <Button className="rebrand-button compact" variant={ButtonVariant.link} onClick={onToggleAll}><BrandIcon name="unfold" />{anyFoldersOpen ? 'Collapse all' : 'Expand All'}</Button>
-        <Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed={showHidden} onClick={onToggleHidden}><BrandIcon name="visibility" />{showHidden ? 'Hide Hidden' : 'Show Hidden'}</Button>
-        <Button className="rebrand-button compact" variant={ButtonVariant.link} onClick={() => notify('Filters opened')}><BrandIcon name="filter" />Filters</Button>
-      </div><div className="rebrand-view-tabs" role="group" aria-label="Learning path view">
-        <Button className="rebrand-button compact selected" variant={ButtonVariant.link} aria-pressed="true"><BrandIcon name="list" />List View</Button>
-        <Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed="false" onClick={() => notify('Week view is not connected in this prototype')}><BrandIcon name="calendar" />Week View</Button>
-      </div></div></>}
-      <section className="left" aria-label={showingGradebook ? 'Gradebook' : 'Learning path chapters'} hidden={Boolean(detailPage)}><div hidden={showingGradebook}>{children}</div><div hidden={!showingGradebook}>{gradebookPage}</div></section>
-      {detailPage || showingGradebook || <BulkSelectionToolbar notify={notify} />}
+      {!shellless && <header className="rebrand-topbar"><label className="course-selector"><span className="visually-hidden">Current course</span><select value="current" onChange={(e) => { if (e.target.value === 'details') setDialog('course'); }}><option value="current">College Algebra</option><option value="details" disabled>No other courses are available.</option></select><BrandIcon name="course-arrow" /></label><div className="rebrand-top-actions">{searchOpen && <input autoFocus className="course-search-input" type="search" aria-label="Search this course" placeholder="Search this course" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === 'Escape') setSearchOpen(false); }} />}<IconButton className="rebrand-search" variant={ButtonVariant.link} icon={<BrandIcon name="search" />} aria-label="Search this course" aria-expanded={searchOpen} onClick={() => setSearchOpen(!searchOpen)} /><div ref={menuRef}><button className="rebrand-avatar" aria-label="User profile" aria-expanded={userOpen} onClick={() => setUserOpen(!userOpen)}>AB</button>{userOpen && <div className="header-menu" role="menu"><strong>Casey Anderson</strong><small>Instructor</small><button role="menuitem" onClick={() => { setUserOpen(false); setDialog('profile'); }}>About</button><button role="menuitem" onClick={() => { setUserOpen(false); setDialog('signout'); }}>Logout</button></div>}</div></div></header>}
+      {searchOpen && query.trim() && <div className="course-search-panel" role="region" aria-label="Course search results"><strong>{results.length ? `${results.length} results` : 'No matching activities'}</strong>{results.map((a) => <a key={a.stableKey} href={activityHref(a.chapter, a.section, a.id || a.title)} onClick={() => { setSearchOpen(false); onNavigate('learning-path'); }}><strong>{a.title}</strong><small>{a.chapter}</small></a>)}</div>}
+      {!detailPage && isLearning && <><div className="learning-path-title"><h1>Learning Path</h1><div className="page-title-actions"><LearningPathMenus notify={notify} onCreateActivity={onCreateActivity} /></div></div><div className="learning-path-actions"><div className="learning-path-filters"><SelectionCheckbox all label="Select all learning path items" /><Button className="rebrand-button compact" variant={ButtonVariant.link} onClick={() => view === 'week' ? setWeekCommand({ expand: !weekCommand?.expand, at: Date.now() }) : onToggleAll()}><BrandIcon name="unfold" />{view === 'week' ? weekCommand?.expand ? 'Collapse all' : 'Expand All' : anyFoldersOpen ? 'Collapse all' : 'Expand All'}</Button><Button className="rebrand-button compact" variant={ButtonVariant.link} aria-pressed={showHidden} onClick={onToggleHidden}><BrandIcon name="visibility" />{showHidden ? 'Hide Hidden' : 'Show Hidden'}</Button><Button className="rebrand-button compact" variant={ButtonVariant.link} aria-expanded={filtersOpen} onClick={() => setFiltersOpen(!filtersOpen)}><BrandIcon name="filter" />Filters{filters.length ? ` (${filters.length})` : ''}</Button></div><div className="rebrand-view-tabs" role="group" aria-label="Learning path view"><Button className={`rebrand-button compact${view === 'list' ? ' selected' : ''}`} variant={ButtonVariant.link} aria-pressed={view === 'list'} onClick={() => onView('list')}><BrandIcon name="list" />List View</Button>{course.settings.rollingWeek && <Button className={`rebrand-button compact${view === 'week' ? ' selected' : ''}`} variant={ButtonVariant.link} aria-pressed={view === 'week'} onClick={() => onView('week')}><BrandIcon name="calendar" />Week View</Button>}</div></div></>}
+      {filtersOpen && <section className="learning-filter-panel" aria-label="Filter by"><div className="section-heading"><h2>Filter by:</h2><button className="course-link" aria-label="Close filters menu" onClick={() => setFiltersOpen(false)}>×</button></div><p>{filters.length} filters applied <button className="course-link" onClick={() => onFilters([])}>Clear all</button></p>{filterGroups.map(([title, options]) => <fieldset key={title}><legend>{title}</legend>{options.map((name) => <Check key={name} checked={filters.includes(name)} onChange={(checked) => onFilters(checked ? [...filters, name] : filters.filter((x) => x !== name))}>{name}</Check>)}</fieldset>)}</section>}
+      {detailPage || (isLearning ? <section className="left" aria-label="Learning path chapters"><div>{view === 'week' ? <WeekView chapters={chapters} notify={notify} expandCommand={weekCommand} /> : children}</div></section> : page)}
+      {!detailPage && isLearning && <BulkSelectionToolbar notify={notify} />}
     </main>
+    {dialog && <CourseDialog title={dialog === 'course' ? 'Course Information' : dialog === 'profile' ? 'About MindTap' : dialog === 'student' ? 'Student View' : dialog === 'signedout' ? 'You are signed out' : 'Sign Out'} onClose={() => setDialog(null)}>{dialog === 'course' ? <><h3>College Algebra</h3><p>Instructor: Casey Anderson<br />Section 1 · Fall 2026<br />Course dates: November 2 – December 20, 2026</p><ActionButton onClick={() => { setDialog(null); navigate('course-settings'); }}>Course Settings</ActionButton></> : dialog === 'profile' ? <><img src="/rebrand/logo.svg" width="123" height="40" alt="Cengage MindTap" /><h3>About College Algebra</h3><p>Instructor: Casey Anderson · Fall 2026</p><p><a href="https://www.cengage.com/about" target="_blank" rel="noreferrer">About Cengage</a></p><p><a href="https://support.cengage.com/" target="_blank" rel="noreferrer">Customer Support</a></p><p><a href="mailto:MindTapFeedback@cengage.com">Send Us Feedback</a></p><p><a href="https://www.cengage.com/accessibility" target="_blank" rel="noreferrer">Accessibility</a></p><p><a href="https://www.cengage.com/privacy" target="_blank" rel="noreferrer">Privacy</a></p><p><a href="https://www.cengage.com/legal/#terms" target="_blank" rel="noreferrer">Terms of Use</a></p><p><a href="https://www.cengage.com/piracy/" target="_blank" rel="noreferrer">Piracy</a></p></> : dialog === 'student' ? <><p>Preview any assignment as a student using the “View as Student” control in the activity player.</p><ActionButton primary onClick={() => { setDialog(null); navigate('learning-path'); }}>Go to Learning Path</ActionButton></> : dialog === 'signedout' ? <ActionButton primary onClick={() => setDialog(null)}>Return to course</ActionButton> : <><p>End your current course preview?</p><ActionButton primary onClick={() => { setDialog('signedout'); navigate('dashboard'); }}>Sign Out</ActionButton></>}</CourseDialog>}
   </div>;
 }
