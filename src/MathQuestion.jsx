@@ -9,7 +9,7 @@ import './math-question.css';
 import { fieldComplete, gradedAnswerState } from './questionGrading';
 import MathAnswerInput, { GradedAnswerIcon } from './MathAnswerInput';
 
-export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [], lastSubmitted = {} }) {
+export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [], lastSubmitted = {}, disabled: isLocked = false }) {
   const [activeInput, setActiveInput] = useState(null);
   const [begun, setBegun] = useState(false);
   const inputRefs = useRef({});
@@ -19,12 +19,12 @@ export default function MathQuestion({ question, values = {}, onChange, history 
   const renderInput = (part) => {
     const inputId = `${question.id}-${part.input}`;
     const gradeState = gradedAnswerState(values[part.input], history[part.input], lastSubmitted[part.input]);
-    const disabled = fieldComplete(history[part.input]);
+    const disabled = isLocked || fieldComplete(history[part.input]);
     const inputNumber = mathInputs.length > 1 ? mathInputs.findIndex((field) => field.id === part.input) + 1 : undefined;
     return <fieldset disabled={disabled} className="player-factoring-answer r5-answer-field r5-graded-field" data-grade-state={gradeState} key={part.input}>
       <MathAnswerInput ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" label={part.label} inputNumber={inputNumber} gradeState={gradeState} disabled={disabled} invalid={invalidFields.includes(part.input)} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
       <GradedAnswerIcon state={gradeState} />
-      <IconButton className="player-math-keyboard-button" type="button" aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />
+      <IconButton className="player-math-keyboard-button" type="button" disabled={disabled} aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />
     </fieldset>;
   };
   return <div className="r5-question">
@@ -43,15 +43,15 @@ export default function MathQuestion({ question, values = {}, onChange, history 
           const optionDisplay = block.mathOptions ? <MathExpression expression={optionText} /> : optionText;
           const isSelected = block.multiple ? selected.includes(optionIndex) : values[block.id] === String(optionIndex);
           return <div className="question-selection-option" data-grade-state={isSelected ? gradeState : undefined} key={optionText}>{block.multiple
-            ? <Checkbox labelText={optionDisplay} aria-label={optionText} name={`${question.id}-${block.id}`} checked={isSelected} containerStyle={{ margin: '8px 0' }} onChange={() => onChange(block.id, JSON.stringify(isSelected ? selected.filter(value => value !== optionIndex) : [...selected, optionIndex]))} />
-            : <label><input type="radio" name={`${question.id}-${block.id}`} checked={isSelected} onChange={() => onChange(block.id, String(optionIndex))} />{optionDisplay}</label>}<span className="graded-answer-indicator" aria-hidden="true">{isSelected && <GradedAnswerIcon state={gradeState} />}</span></div>;
+            ? <Checkbox labelText={optionDisplay} aria-label={optionText} name={`${question.id}-${block.id}`} checked={isSelected} disabled={isLocked} containerStyle={{ margin: '8px 0' }} onChange={() => onChange(block.id, JSON.stringify(isSelected ? selected.filter(value => value !== optionIndex) : [...selected, optionIndex]))} />
+            : <label><input type="radio" name={`${question.id}-${block.id}`} checked={isSelected} disabled={isLocked} onChange={() => onChange(block.id, String(optionIndex))} />{optionDisplay}</label>}<span className="graded-answer-indicator" aria-hidden="true">{isSelected && <GradedAnswerIcon state={gradeState} />}</span></div>;
         })}</fieldset>;
       }
       if (block.type === 'graph-choices') {
         const gradeState = gradedAnswerState(values[block.id], history[block.id], lastSubmitted[block.id]);
         return <fieldset key={index} className="question-graph-choices"><legend>{block.label}</legend><div>{block.options.map((option, optionIndex) => {
           const selected = values[block.id] === String(optionIndex);
-          return <label key={option.src} className={selected ? 'is-selected' : ''} data-grade-state={selected ? gradeState : undefined}><img src={option.src} width="328" height="350" alt={option.description} /><span><input type="radio" name={`${question.id}-${block.id}`} checked={selected} onChange={() => onChange(block.id, String(optionIndex))} />{option.label}{selected && <GradedAnswerIcon state={gradeState} />}</span></label>;
+          return <label key={option.src} className={selected ? 'is-selected' : ''} data-grade-state={selected ? gradeState : undefined}><img src={option.src} width="328" height="350" alt={option.description} /><span><input type="radio" name={`${question.id}-${block.id}`} checked={selected} disabled={isLocked} onChange={() => onChange(block.id, String(optionIndex))} />{option.label}{selected && <GradedAnswerIcon state={gradeState} />}</span></label>;
         })}</div></fieldset>;
       }
       if (block.type === 'graph-pad') return <GraphingPad key={index} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
@@ -63,6 +63,6 @@ export default function MathQuestion({ question, values = {}, onChange, history 
       </section>;
       return null;
     })}
-    {inputIndex >= 0 && !fieldComplete(history[activeInput]) && <MathPad id={padId} value={values[activeInput] || ''} onChange={(value) => onChange(activeInput, value)} inputCount={mathInputs.length} inputIndex={inputIndex} onInputChange={(index) => setActiveInput(mathInputs[index].id)} onClose={() => { inputRefs.current[activeInput]?.focus(); setActiveInput(null); }} />}
+    {inputIndex >= 0 && !isLocked && !fieldComplete(history[activeInput]) && <MathPad id={padId} value={values[activeInput] || ''} onChange={(value) => onChange(activeInput, value)} inputCount={mathInputs.length} inputIndex={inputIndex} onInputChange={(index) => setActiveInput(mathInputs[index].id)} onClose={() => { inputRefs.current[activeInput]?.focus(); setActiveInput(null); }} />}
   </div>;
 }

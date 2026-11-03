@@ -42,13 +42,12 @@
 .player-factorizations mi{font-style:italic;text-transform:none}
 .player-factoring-answer{position:relative;width:240px;max-width:100%;font-family:var(--font-ui);color:var(--brand-navy)}
 .r5-graded-field{min-width:0;margin:0;padding:0;border:0}
-.r5-graded-field:disabled input{background:var(--page-bg);color:var(--text-subdued);cursor:default}
 .player-question-content .player-grade-feedback{margin-top:24px}
 .player-question-content .player-grade-feedback-warning{display:flex;align-items:flex-start;gap:4px;color:#8c6300;font-size:14px;letter-spacing:.16px;line-height:20px}
 .player-question-content .player-grade-feedback-warning svg{flex:0 0 auto;margin-top:2px}
-.player-factoring-answer input{box-sizing:border-box;width:100%;height:40px;padding:8px 44px 8px 8px;border:1px solid #8b99aa;border-radius:8px;background:white;color:var(--brand-navy);font-family:var(--font-ui);font-size:16px}
-.player-factoring-answer input:focus-visible{outline:2px solid var(--brand-teal);outline-offset:3px}
-.player-factoring-answer input[aria-invalid="true"]{border-color:var(--field-validation-color)}
+.r5-graded-field:not(:disabled) input{box-sizing:border-box;width:100%;height:40px;padding:8px 44px 8px 8px;border:1px solid #8b99aa;border-radius:8px;background:white;color:var(--brand-navy);font-family:var(--font-ui);font-size:16px}
+.r5-graded-field:not(:disabled) input:focus-visible{outline:2px solid var(--brand-teal);outline-offset:3px}
+.r5-graded-field:not(:disabled) input[aria-invalid="true"]{border-color:var(--field-validation-color)}
 /* Keep the connected Magma Input flush with the existing answer-field shell.
    Its hidden label and empty help slot must not offset the keyboard/status icons. */
 .math-answer-input{position:relative}
@@ -57,7 +56,7 @@
 .player-factoring-answer[data-grade-state] .math-answer-number{left:2px;top:2px;width:26px;height:36px;border-radius:6px 0 0 6px}
 .math-answer-input>div>div:first-of-type{margin-bottom:0}
 .math-answer-input span:empty{margin:0}
-.math-answer-input div:has(>input){border:0!important;box-shadow:none!important;background:transparent}
+.r5-graded-field:not(:disabled) .math-answer-input div:has(>input){border:0!important;box-shadow:none!important;background:transparent}
 .player-factoring-answer[data-grade-state] input{padding-right:72px}
 .player-factoring-answer .graded-answer-icon{position:absolute;right:8px;top:10px;display:block;width:20px;height:20px;pointer-events:none}
 .player-factoring-answer .graded-answer-icon.is-correct{color:#16803f}
