@@ -33,10 +33,13 @@ export default function ActivityCreation({ chapters, onCancel, onAssign, initial
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [discardOpen, setDiscardOpen] = useState(false);
   const [previewQuestion, setPreviewQuestion] = useState(null);
+  const [closingPreview, setClosingPreview] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const heading = useRef(null);
+  const previewCloseTimer = useRef(null);
   useEffect(() => { const timer = window.setTimeout(() => setLoading(false), 650); return () => window.clearTimeout(timer); }, []);
+  useEffect(() => () => window.clearTimeout(previewCloseTimer.current), []);
   useEffect(() => { if (!loading && !titleOpen) heading.current?.focus(); }, [loading, titleOpen, screen]);
   const change = (next) => { setDraft((current) => ({ ...current, ...next })); setSaved(false); setError(''); };
   const totalPoints = totalQuestionPoints(draft.questions);
@@ -49,6 +52,15 @@ export default function ActivityCreation({ chapters, onCancel, onAssign, initial
     catch { setError('The activity could not be saved in this browser. Please try again.'); return false; }
   };
   const close = () => { if (!saved && draft.title) setDiscardOpen(true); else onCancel(); };
+  const toggleQuestionPreview = (id) => {
+    window.clearTimeout(previewCloseTimer.current);
+    if (previewQuestion !== id) { setClosingPreview(null); setPreviewQuestion(id); return; }
+    setClosingPreview(id);
+    previewCloseTimer.current = window.setTimeout(() => {
+      setPreviewQuestion((current) => current === id ? null : current);
+      setClosingPreview(null);
+    }, 220);
+  };
   const move = (index, direction) => {
     const questions = [...draft.questions];
     [questions[index], questions[index + direction]] = [questions[index + direction], questions[index]];
@@ -66,8 +78,8 @@ export default function ActivityCreation({ chapters, onCancel, onAssign, initial
           {error && <p className="author-error" role="alert">{error}</p>}
           <div className="author-question-list">
             {!draft.questions.length ? <EmptyQuestions /> : draft.questions.map((question, index) => <article className="author-selected-question" key={question.id}>
-              <div className="author-selected-row"><span className="author-question-number">{index + 1}.</span><div className="author-reorder"><IconButton variant={ButtonVariant.link} icon={<ExpandLessIcon />} disabled={index === 0} aria-label={`Move question ${index + 1} up`} onClick={() => move(index, -1)} /><IconButton variant={ButtonVariant.link} icon={<ExpandMoreIcon />} disabled={index === draft.questions.length - 1} aria-label={`Move question ${index + 1} down`} onClick={() => move(index, 1)} /></div><IconButton className="bank-preview-button" variant={ButtonVariant.link} icon={previewQuestion === question.id ? <CloseIcon /> : <VisibilityIcon />} aria-label={`${previewQuestion === question.id ? 'Close preview of' : 'Preview'} question ${index + 1}`} aria-expanded={previewQuestion === question.id} onClick={() => setPreviewQuestion(previewQuestion === question.id ? null : question.id)} /><div className="author-selected-info"><h3 className={question.title === getQuestionCode(question) ? 'question-code-badge' : undefined}>{question.title}</h3>{question.title !== getQuestionCode(question) && <QuestionIdentity question={question} badge />}<p>{questionSummary(question)}</p><span>{question.questionType} · {question.assignment}</span></div><label className="author-question-points">Points<input type="number" min="0" step="0.25" aria-label={`Points for question ${index + 1}`} value={question.points} onChange={(event) => change({ questions: draft.questions.map((item) => item.id === question.id ? { ...item, points: event.target.value === '' ? '' : Number(event.target.value) } : item) })} /></label><IconButton className="author-remove" variant={ButtonVariant.link} icon={<DeleteIcon />} aria-label={`Remove question ${index + 1}`} onClick={() => change({ questions: draft.questions.filter((item) => item.id !== question.id) })} /></div>
-              {previewQuestion === question.id && <QuestionBankPreview question={question} />}
+              <div className="author-selected-row"><span className="author-question-number">{index + 1}.</span><div className="author-reorder"><IconButton variant={ButtonVariant.link} icon={<ExpandLessIcon />} disabled={index === 0} aria-label={`Move question ${index + 1} up`} onClick={() => move(index, -1)} /><IconButton variant={ButtonVariant.link} icon={<ExpandMoreIcon />} disabled={index === draft.questions.length - 1} aria-label={`Move question ${index + 1} down`} onClick={() => move(index, 1)} /></div><IconButton className="bank-preview-button" variant={ButtonVariant.link} icon={previewQuestion === question.id ? <CloseIcon /> : <VisibilityIcon />} aria-label={`${previewQuestion === question.id ? 'Close preview of' : 'Preview'} question ${index + 1}`} aria-expanded={previewQuestion === question.id} onClick={() => toggleQuestionPreview(question.id)} /><div className="author-selected-info"><h3 className={question.title === getQuestionCode(question) ? 'question-code-badge' : undefined}>{question.title}</h3>{question.title !== getQuestionCode(question) && <QuestionIdentity question={question} badge />}<p>{questionSummary(question)}</p><span>{question.questionType} · {question.assignment}</span></div><label className="author-question-points">Points<input type="number" min="0" step="0.25" aria-label={`Points for question ${index + 1}`} value={question.points} onChange={(event) => change({ questions: draft.questions.map((item) => item.id === question.id ? { ...item, points: event.target.value === '' ? '' : Number(event.target.value) } : item) })} /></label><IconButton className="author-remove" variant={ButtonVariant.link} icon={<DeleteIcon />} aria-label={`Remove question ${index + 1}`} onClick={() => change({ questions: draft.questions.filter((item) => item.id !== question.id) })} /></div>
+              {previewQuestion === question.id && <div className={`bank-preview-transition${closingPreview === question.id ? ' is-closing' : ''}`}><QuestionBankPreview question={question} /></div>}
             </article>)}
           </div>
         </div>}

@@ -1,9 +1,12 @@
 .question-identity { display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; margin:6px 0; font-family:var(--body-font, 'Work Sans', sans-serif); font-size:12px; color:#526371; line-height:1.6; }
-.question-code { font-weight:600; color:var(--brand-navy, #003865); overflow-wrap:anywhere; }
+.question-code { max-width:100%; overflow-wrap:anywhere; }
 .question-identity--badge { justify-content:flex-start; }
-.question-code-badge { display:inline-block; max-width:100%; padding:1px 8px; border:1px solid #c8dce0; background:#edf6f7; color:#175969; border-radius:4px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.question-identity .question-code-badge { max-width:100%; overflow-wrap:anywhere; }
 .author-selected-info h3.question-code-badge, .bank-question-title.question-code-badge { width:fit-content; padding:1px 8px; border:1px solid #c8dce0; border-radius:4px; background:#edf6f7; color:#175969; font-family:var(--font-ui); font-size:12px; font-weight:400; line-height:1.6; text-decoration:none; }
 .player-question-content > .question-identity { margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #e0e5e8; }
+/* In a question-bank preview, let the metadata divider span the preview card
+   while keeping the question code aligned with the question content. */
+.bank-question-preview .player-question-content > .question-identity { margin-left:calc(-1 * var(--question-card-inset)); margin-right:calc(-1 * var(--question-card-inset)); padding:0 var(--question-card-inset); border-bottom:0; }
 .webassign-question { font-size:16px; line-height:1.7; color:#1f2a35; }
 .imported-key-toolbar { display:flex; justify-content:flex-end; margin-bottom:12px; }
 .imported-question-content { overflow-x:auto; padding:4px 0 16px; }
