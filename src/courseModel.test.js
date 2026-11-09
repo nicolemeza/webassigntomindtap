@@ -77,3 +77,20 @@ test('deleting selected attempts clears only those students and the selected pre
   assert.equal(model.getCourseState().sessions[activity.stableKey], undefined);
   assert.equal(model.getCourseState().sessions.another.answers.q2.text, '8');
 });
+
+test('loading saved demo settings preserves progress and exposes the new question through course rows', async () => {
+  const { demoActivities, demoActivityFolder, streetRepairProbabilityQuestion } = await import('./demoActivities.js');
+  const legacy = { ...structuredClone(demoActivities[0]), title: 'My Demo', points: 3, questions: structuredClone(demoActivities[0].questions.filter(question => question.id !== streetRepairProbabilityQuestion.id)) };
+  delete legacy.demoContentVersion;
+  const key = model.activityKey(demoActivityFolder, 'chapter', legacy);
+  const sessions = { [key]: { current: 2, answers: { [legacy.questions[1].id]: { values: { 'field-0': '5' } } } } };
+  model.saveCourseState({ activities: { ...model.getCourseState().activities, [key]: legacy }, sessions });
+  const reloaded = await import('./courseModel.js?demo-probability-upgrade');
+  const [activity] = reloaded.courseRows(demoActivityFolder, 'chapter', demoActivities);
+  assert.equal(activity.title, 'My Demo');
+  assert.equal(activity.points, 4);
+  assert.equal(activity.questions.length, 4);
+  assert.equal(activity.questions[0].id, streetRepairProbabilityQuestion.id);
+  assert.deepEqual(activity.questions.slice(1), legacy.questions);
+  assert.deepEqual(reloaded.getCourseState().sessions, sessions);
+});

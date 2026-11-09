@@ -1,0 +1,5 @@
+.watch-it-content{color:var(--brand-navy,#003865);font-family:var(--font-ui,'Work Sans',sans-serif);line-height:1.6}
+.watch-it-content>p{margin:0 0 16px}
+.watch-it-video{display:block;width:100%;max-height:65vh;aspect-ratio:16/9;object-fit:contain;background:#000;border:1px solid var(--border,#d4d4d4);border-radius:4px}
+.watch-it-links{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px;margin-top:16px}
+.watch-it-links a{color:var(--brand-teal,#007d99);text-decoration:underline}

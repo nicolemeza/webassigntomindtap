@@ -1,0 +1,21 @@
+.textbook-reader{color:var(--brand-navy,#003865);font-family:var(--font-ui,'Work Sans',sans-serif);font-size:16px;line-height:1.7}
+.textbook-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.textbook-toolbar a,.textbook-video-reference a{color:var(--brand-teal,#007d99);text-decoration:underline}
+.textbook-layout{display:grid;grid-template-columns:190px minmax(0,1fr);gap:24px}
+.textbook-layout.without-contents{grid-template-columns:minmax(0,1fr)}
+.textbook-contents{border-right:1px solid var(--border,#d4d4d4);padding-right:16px}
+.textbook-contents h3{font-size:15px;line-height:1.5;margin:0 0 12px}
+.textbook-contents button{display:block;width:100%;border:0;border-radius:4px;padding:10px 12px;margin:4px 0;text-align:left;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:1.5;cursor:pointer}
+.textbook-contents button[aria-current=page]{background:#e6f2f5;font-weight:600}
+.textbook-contents button:focus-visible{outline:2px solid #007d99;outline-offset:2px}
+.textbook-article{min-width:0}.textbook-article>h2{font-size:21px;line-height:1.5;margin:0 0 20px;scroll-margin-top:24px}
+.textbook-body{overflow-x:auto;padding-bottom:12px}.textbook-body p{margin:12px 0;line-height:1.7}
+.textbook-body :is(h1,h2,h3,h4,h5,h6){font-size:17px;line-height:1.5;margin:20px 0 12px}
+.textbook-body img{max-width:100%;height:auto}.textbook-body math{font-family:'Cambria Math',math;font-size:1.05em}
+.textbook-body math[display=block]{margin:16px 0;overflow-x:auto;overflow-y:hidden;padding:8px 0}
+.textbook-body table{border-collapse:collapse;margin:16px 0;width:100%}.textbook-body :is(th,td){border:1px solid #d4d4d4;padding:8px 12px;vertical-align:top}
+.textbook-body .learningObjectives,.textbook-body .sidebar,.textbook-body .tip{background:#f3f7f8;padding:16px;border-radius:6px;margin:16px 0}
+.textbook-body .example{border-top:1px solid #d4d4d4;margin-top:20px;padding-top:16px}
+.textbook-body .selfCheck{background:#f3f7f8;padding:16px;border-radius:6px;margin:16px 0}
+.textbook-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:20px;margin-top:20px;border-top:1px solid var(--border,#d4d4d4)}
+@media(max-width:650px){.textbook-layout{grid-template-columns:minmax(0,1fr)}.textbook-contents{border-right:0;border-bottom:1px solid #d4d4d4;padding:0 0 16px}.textbook-toolbar{align-items:flex-start;flex-wrap:wrap}}

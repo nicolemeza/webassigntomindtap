@@ -1,6 +1,7 @@
-// Local, deterministic grading for the transcribed R.5 exercise only.
+// Local, deterministic grading for supported prototype questions.
 // No expression is evaluated as JavaScript or sent to a gradebook.
 import { graphGradingFields } from './graphQuestionGrading.js';
+import { importedGradingFields } from './webassignQuestionGrading.js';
 export const MAX_ATTEMPTS = 5;
 const solutions = {
   1: { answer: '14xy^2' }, 2: { answer: '8x^4(y-2)^2' },
@@ -132,9 +133,14 @@ export function matchesAnswer(value, expected, requireFactored = true) {
   } catch { return false; }
 }
 export function gradingFields(question) {
+  if (question.kind === 'webassign') return importedGradingFields(question, matchesAnswer);
   if (question.responseFormat === 'text-and-truth' && question.answerKey !== undefined) return [{ id: 'answer', points: question.points, validate: (value) => { const [text, choice] = value.split('\u001f'); return matchesAnswer(text, question.answerKey, false) && choice === question.statementAnswer; } }];
   if (question.kind === 'choice' && question.correctChoices?.length) return [{ id: 'answer', expected: [...question.correctChoices].sort().join('\u001f'), points: question.points }];
   if (question.id.startsWith('graphs-circles-question-')) return graphGradingFields(question);
+  if (question.kind === 'math-response' && question.inputs?.length && question.inputs.every(field => typeof field.expected === 'string')) {
+    const total = Math.round(question.points * 100), share = Math.floor(total / question.inputs.length);
+    return question.inputs.map((field, index) => ({ ...field, requireFactored: false, points: (index === question.inputs.length - 1 ? total - share * index : share) / 100 }));
+  }
   const number = Number(question.id.replace('r5-factoring-question-', ''));
   const answers = solutions[number];
   if (!answers || !question.id.startsWith('r5-factoring-question-')) return [];
@@ -158,6 +164,7 @@ export function submitQuestion(question, response = {}, history = {}, lastSubmit
   let submitted = 0;
   const emptyFields = [];
   const unchangedFields = [];
+  const responseMessages = [];
   for (const field of fields) {
     const previous = history[field.id] || [];
     const value = question.responseFormat === 'text-and-truth' ? response.text?.trim() && response.choice ? `${response.text}\u001f${response.choice}` : '' : question.kind === 'choice' ? [...(response.selections || [])].sort().join('\u001f') : question.kind === 'greatest-common-factor' ? response.text : response.values?.[field.id];
@@ -167,12 +174,13 @@ export function submitQuestion(question, response = {}, history = {}, lastSubmit
     const normalized = question.kind === 'choice' ? value : value.replace(/\s+/g, '');
     if (normalized === lastSubmitted[field.id]) { unchangedFields.push(field.id); continue; }
     const result = question.kind === 'choice' ? value === field.expected : field.validate ? field.validate(value) : matchesAnswer(value, field.expected, field.requireFactored);
+    if (!result && Object.hasOwn(field.incorrectFeedback || {}, normalized)) responseMessages.push(field.incorrectFeedback[normalized]);
     next[field.id] = [...previous, result];
     nextSubmitted[field.id] = normalized;
     submitted++;
   }
   const unchangedMessage = unchangedFields.length ? fields.length === 1 ? 'The input was not changed.' : `The input was not changed for ${unchangedFields.map((id) => `Field ${fields.findIndex((field) => field.id === id) + 1}`).join(', ')}.` : '';
   // Empty fields are simply skipped: they do not use an attempt and do not need corrective feedback.
-  const message = unchangedMessage;
+  const message = [...new Set([...responseMessages, unchangedMessage].filter(Boolean))].join(' ');
   return { history: next, lastSubmitted: nextSubmitted, message, emptyFields, unchangedFields, submitted };
 }

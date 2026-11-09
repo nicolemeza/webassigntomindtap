@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { graphsQuestions, hasGraphQuestionResponse, hasAnyGraphQuestionResponse } from './graphsQuestions.js';
-import { circleRadius, graphCoordinates, graphScale, readGraph } from './graphingGeometry.js';
+import { circleRadius, graphCoordinates, graphScale, readGraph, translateGraphObject, validGraphPoints } from './graphingGeometry.js';
 import { gradingFields, submitQuestion, earnedPoints } from './questionGrading.js';
 
 test('graphs activity has 30 distinct, sequential questions and all graph-choice assets', () => {
@@ -48,6 +48,27 @@ test('graph coordinates, circle radii, and responsive canvas scale are consisten
   assert.deepEqual(graphCoordinates(260, 270, rect), [0, 0]);
   assert.deepEqual(graphCoordinates(260 + 2 * scale, 270 - 3 * scale, rect), [2, 3]);
   assert.deepEqual(readGraph(undefined), { objects: [], noSolution: false });
+});
+
+test('the graph uses equal horizontal and vertical units and validates defining points', () => {
+  const rect = { left: 30, top: 50, width: 600, height: 400 };
+  const scale = graphScale(rect.width, rect.height);
+  assert.deepEqual(graphCoordinates(330 + 4 * scale, 250 - 4 * scale, rect), [4, 4]);
+  assert.equal(validGraphPoints('circle', [[0, 0], [0, 0]]), false);
+  assert.equal(validGraphPoints('circle', [[-3, 1], [1, 1]]), true);
+  assert.equal(validGraphPoints('parabola', [[0, 0], [0, 2]]), false);
+  assert.equal(validGraphPoints('horizontal-parabola', [[0, 0], [2, 0]]), false);
+  assert.equal(validGraphPoints('ray', [[0, 0], [2, 0]]), true);
+  assert.equal(validGraphPoints('segment', [[0, 0], [0, 2]]), true);
+});
+
+test('moving a circle preserves its radius, style, and original saved geometry', () => {
+  const original = { id: 'circle', type: 'circle', points: [[-3, 1], [1, 1]], dashed: true };
+  const moved = translateGraphObject(original, [2, -1]);
+  assert.deepEqual(moved.points, [[-1, 0], [3, 0]]);
+  assert.equal(circleRadius(moved.points), 4);
+  assert.equal(moved.dashed, true);
+  assert.deepEqual(original.points, [[-3, 1], [1, 1]]);
 });
 test('graph activity questions have local answer keys and award scores', () => {
   for (const question of graphsQuestions) {

@@ -14,6 +14,8 @@ import ChoiceQuestion from './ChoiceQuestion';
 import WebassignQuestion from './WebassignQuestion';
 import QuestionIdentity from './QuestionIdentity';
 import QuestionRejoinder from './QuestionRejoinder';
+import LearnIt from './LearnIt.jsx';
+import { questionResponseFields } from './questionResponseFields';
 import './activity-player.css';
 import './activity-question-integrated.css';
 import { gradingFields, fieldComplete, gradedAnswerState, submitQuestion } from './questionGrading';
@@ -41,9 +43,10 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const questions = activity.questions || getActivityQuestions(sourceChapter, sourceTitle);
   const [session, setSession] = useState(() => {
     const previous = (sessionKey ? playerSessions.get(activityKey) : getCourseState().sessions?.[activityKey]) || { current: 0, answers: {}, flags: [] };
-    return { ...previous, current: Math.min(previous.current, questions.length - 1) };
+    // Reopening an activity starts at its first question while retaining work.
+    return { ...previous, current: 0 };
   });
-  const [view, setView] = useState('student');
+  const [view, setView] = useState('instructor');
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [tool, setTool] = useState(null);
   const [railOpen, setRailOpen] = useState(true);
@@ -53,23 +56,23 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const [savingQuestionId, setSavingQuestionId] = useState(null);
   const headingRef = useRef(null);
   const question = questions[session.current];
-  const alternativeLayout = question.kind === 'webassign' || question.id.startsWith('r5-factoring-question-') ||
+  const alternativeLayout = question.kind === 'webassign' || question.kind === 'math-response' || question.id.startsWith('r5-factoring-question-') ||
     question.kind === 'choice' ||
     (sourceChapter === 'Chapter 2. Functions and Graphs' && sourceTitle === '2.5 HW Graphs of Equations & Circles') ||
     (sourceChapter === 'Chapter R. A Review of Basic Algebra' && sourceTitle === 'Chapter R Test');
   const hideQuestionResources = sourceChapter === 'Chapter R. A Review of Basic Algebra' && sourceTitle === 'Chapter R Test';
   const hideQuestionAttempts = hideQuestionResources;
-  const saveImportedResponse = question.kind === 'webassign';
+  const fields = gradingFields(question);
   const answer = session.answers[question.id] || { text: '', choice: '' };
+  const saveImportedResponse = question.kind === 'webassign' && !fields.some(field => answer.values?.[field.id]?.trim());
   const savedAt = session.savedAt?.[question.id];
   const history = session.grades?.[question.id] || {};
   // An unchanged response is feedback-only: it is not an incorrect answer.
   const invalidFields = [];
-  const fields = gradingFields(question);
   const retryPending = Boolean(session.retryPending?.[question.id]);
   const allAttemptsExhausted = fields.length > 0 && fields.every((field) => fieldComplete(history[field.id]));
   const gradeActionLabel = hideQuestionResources || saveImportedResponse ? 'Save Answer' : retryPending ? 'Try Again' : 'Grade Answer';
-  const responseFieldIds = saveImportedResponse ? [...new Set(question.fields.map(field => ['radio', 'checkbox'].includes(field.type) ? field.group : field.id)), 'response'] : question.kind === 'math-response'
+  const responseFieldIds = question.kind === 'webassign' ? [...new Set(question.fields.map(field => ['radio', 'checkbox'].includes(field.type) ? field.group : field.id)), 'response'] : question.kind === 'math-response'
     ? [...new Set([
       ...(question.inputs || []).map((field) => field.id),
       ...question.blocks.filter((block) => block.type === 'selections' || block.type === 'graph-choices' || block.type === 'graph-pad' || block.type === 'number-line').map((block) => block.id),
@@ -118,7 +121,9 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     }
     if (retryPending) {
       updateSession((current) => ({
-        answers: { ...current.answers, [question.id]: emptyQuestionAnswer(question) },
+        answers: { ...current.answers, [question.id]: question.kind === 'webassign'
+          ? { values: Object.fromEntries(Object.entries(current.answers[question.id]?.values || {}).filter(([id]) => !fields.some(field => field.id === id))) }
+          : emptyQuestionAnswer(question) },
         feedback: { ...current.feedback, [question.id]: null },
         rejoinders: { ...current.rejoinders, [question.id]: null },
         retryPending: { ...current.retryPending, [question.id]: false },
@@ -127,16 +132,18 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     }
     updateSession((current) => {
       const result = submitQuestion(question, current.answers[question.id], current.grades?.[question.id], current.lastSubmitted?.[question.id]);
-      const isCorrect = result.submitted > 0 && fields.length > 0 && fields.every((field) => {
+      const isCorrect = result.submitted > 0 && fields.length > 0 && (question.kind !== 'webassign' || fields.length === questionResponseFields(question).length) && fields.every((field) => {
         const attempts = result.history[field.id] || [];
         return attempts[attempts.length - 1] === true;
       });
+      const isIncorrect = fields.some(field => result.history[field.id]?.at(-1) === false);
+      const rejoinder = isCorrect ? 'correct' : isIncorrect ? 'incorrect' : null;
       const attemptsExhausted = fields.length > 0 && fields.every((field) => fieldComplete(result.history[field.id]));
       return {
         grades: { ...current.grades, [question.id]: result.history },
         lastSubmitted: { ...current.lastSubmitted, [question.id]: result.lastSubmitted },
         feedback: { ...current.feedback, [question.id]: { message: result.message, emptyFields: result.emptyFields, unchangedFields: result.unchangedFields } },
-        rejoinders: { ...current.rejoinders, [question.id]: result.submitted > 0 ? (isCorrect ? 'correct' : 'incorrect') : current.rejoinders?.[question.id] },
+        rejoinders: { ...current.rejoinders, [question.id]: result.submitted > 0 ? rejoinder : current.rejoinders?.[question.id] },
         retryPending: { ...current.retryPending, [question.id]: result.submitted > 0 && !attemptsExhausted },
       };
     });
@@ -169,14 +176,15 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
           <div className={`player-question-content${largeText ? ' large-text' : ''}`}>
             {view === 'instructor' && <p className="player-instructor-note">Instructor preview · Responses are not graded.</p>}
             {view === 'instructor' && <QuestionIdentity question={question} />}
-            {question.kind === 'webassign' ? <WebassignQuestion key={question.id} question={question} values={answer.values} instructor={view === 'instructor'} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor' || retryPending} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} disabled={view === 'instructor' || retryPending} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer) || view === 'instructor' || retryPending} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" disabled={view === 'instructor' || retryPending} /><span>{question.ending}</span></div>
+            {question.kind === 'webassign' ? <WebassignQuestion key={question.id} question={question} values={answer.values} instructor={view === 'instructor'} disabled={view === 'instructor' || retryPending} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor' || retryPending} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} disabled={view === 'instructor' || retryPending} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer) || view === 'instructor' || retryPending} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" disabled={view === 'instructor' || retryPending} /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} disabled={view === 'instructor' || retryPending} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
-            {saveImportedResponse && savedAt && <p className="player-instructor-note" role="status">Answer saved. This imported question is available for preview; automatic grading is not connected.</p>}
+            {saveImportedResponse && savedAt && <p className="player-instructor-note" role="status">Answer saved.</p>}
+            {hideQuestionResources && savedAt && <LearnIt key={question.id} question={question} />}
             {gradeFeedback && (isUnchangedFeedback
               ? <div id={`grade-feedback-${question.id}`} className="player-grade-feedback player-grade-feedback-warning" role="status"><WarningIcon aria-hidden="true" size={theme.iconSizes.small} /><span>{gradeFeedback}</span></div>
               : <InputMessage id={`grade-feedback-${question.id}`} className="player-grade-feedback" hasError role="alert">{gradeFeedback}</InputMessage>)}
           </div>
-          {alternativeLayout && !hideQuestionResources && <ActivityResources key={`resources-${question.id}`} activity={activity} question={question} variant="integrated" rejoinder={session.rejoinders?.[question.id] && <QuestionRejoinder key={`rejoinder-${question.id}-${session.rejoinders[question.id]}`} activity={activity} question={question} status={session.rejoinders[question.id]} />} />}
+          {alternativeLayout && !hideQuestionResources && <ActivityResources key={`resources-${question.id}`} activity={activity} question={question} variant="integrated" learningAccess={Boolean(savedAt)} rejoinder={question.rejoinder !== false && session.rejoinders?.[question.id] && <QuestionRejoinder key={`rejoinder-${question.id}-${session.rejoinders[question.id]}`} activity={activity} question={question} status={session.rejoinders[question.id]} />} />}
           {alternativeLayout && !hideQuestionResources && <div className="player-question-grading-footer" style={{ backgroundColor: theme.colors.neutral100 }}><div className="player-question-grade-action">{gradeButton}</div>{!hideQuestionAttempts && summary}</div>}
           {alternativeLayout && !hideQuestionAttempts && details}
           {!alternativeLayout && !hideQuestionResources && <ActivityResources key={question.id} activity={activity} question={question} />}

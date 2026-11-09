@@ -1,6 +1,6 @@
 .graph-pad-container{width:100%;min-width:0;container-type:inline-size;font-family:Verdana,sans-serif;color:#454545}
-.graph-pad{display:grid;grid-template-columns:minmax(280px,1fr) minmax(280px,340px);gap:8px;margin-top:8px;font-size:12px;line-height:normal}
-.graph-pad-drawing{display:flex;min-width:0;height:500px;border:1px solid #d4d4d4;border-radius:2px;overflow:hidden;background:#fff}
+.graph-pad{display:grid;grid-template-columns:minmax(0,558px) minmax(240px,340px);max-width:906px;gap:8px;margin-top:8px;font-size:12px;line-height:normal;align-items:start}
+.graph-pad-drawing{display:flex;min-width:0;height:auto;border:1px solid #d4d4d4;border-radius:2px;background:#fff}
 .graph-pad-toolbar{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 58px;box-sizing:border-box;padding:8px;background:#f5f5f5;border-right:1px solid #d4d4d4}
 .graph-pad-desktop-tools,.graph-pad-extra-tools,.graph-pad-end-tools{display:flex;flex-direction:column;gap:4px}
 .graph-pad-extra-tools{flex:1}
@@ -12,9 +12,21 @@
 .graph-pad-tool:hover{background:#e5edf1}
 .graph-pad button:focus-visible,.graph-pad summary:focus-visible{outline:2px solid #006298;outline-offset:2px}
 .graph-pad-divider{display:block;align-self:stretch;height:1px;background:#d4d4d4;margin:4px 0}
-.graph-pad-canvas{position:relative;flex:1;min-width:0;min-height:280px;overflow:hidden;cursor:crosshair}
+.graph-pad-canvas{position:relative;flex:1;min-width:0;min-height:0;aspect-ratio:1;overflow:hidden;cursor:crosshair;touch-action:none;user-select:none;background:white}
 .graph-pad-grid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .graph-pad-canvas svg{position:absolute;inset:0;width:100%;height:100%}
+.graph-pad-canvas:focus-visible{outline:2px solid #006298;outline-offset:2px}
+.graph-pad-canvas[aria-disabled=true]{cursor:default}
+.graph-pad-container :is(button,summary,input,aside){font-family:Verdana,sans-serif}
+.graph-pad-end-tools{margin-top:auto}
+.graph-pad-tool-menu{position:relative;flex:none}
+.graph-pad-tool-menu>summary{position:relative;display:flex;align-items:center;justify-content:center;width:40px;height:40px;cursor:pointer;list-style:none;border-radius:4px}
+.graph-pad-tool-menu>summary::-webkit-details-marker{display:none}
+.graph-pad-tool-menu>summary>span{position:absolute;right:0;bottom:0;font-size:10px}
+.graph-pad-tool-menu>summary[aria-disabled=true]{pointer-events:none;opacity:.5}
+.graph-pad-tool-menu>div{position:absolute;left:100%;top:0;display:flex;flex-direction:column;gap:4px;z-index:5;min-width:180px;padding:8px;background:white;border:1px solid #d4d4d4;box-shadow:0 2px 8px #0002}
+.graph-pad-tool-menu .graph-pad-tool{width:100%;justify-content:flex-start;gap:8px;height:auto;min-height:40px;text-align:left}
+.graph-pad-horizontal-icon{transform:rotate(90deg)}
 .graph-pad-objects{display:flex;flex-direction:column;gap:8px;box-sizing:border-box;min-width:0;max-height:500px;padding:12px 8px 8px;border:1px solid #d4d4d4;border-radius:2px;background:#f5f5f5}
 .graph-pad-objects header{display:flex;flex-direction:column;gap:4px;padding:0 4px 8px}
 .graph-pad-objects header strong{font-size:16px;letter-spacing:-.32px}
@@ -39,5 +51,5 @@
 .graph-pad-tool-picker{display:none}
 .graph-pad-no-solution{position:absolute;top:12px;left:12px;padding:8px;border:1px solid #d4d4d4;background:white}
 .r5-question .graph-pad-status{margin-top:8px;font-size:12px;line-height:18px;color:var(--text-subdued)}
-@container(max-width:899px){.graph-pad-drawing{flex-direction:column}.graph-pad-toolbar{flex-direction:row;flex:0 0 58px;border-right:0;border-bottom:1px solid #d4d4d4;gap:4px}.graph-pad-desktop-tools{display:none}.graph-pad-extra-tools,.graph-pad-end-tools{flex-direction:row;align-items:center}.graph-pad-divider{width:1px;height:auto;align-self:stretch;margin:0 4px}.graph-pad-tool-picker{display:block;position:relative;flex:none}.graph-pad-tool-picker summary{list-style:none;cursor:pointer}.graph-pad-tool-picker summary::-webkit-details-marker{display:none}.graph-pad-tool-picker>div{position:absolute;left:0;top:44px;display:flex;gap:4px;z-index:5;padding:8px;background:#fff;border:1px solid #d4d4d4;box-shadow:0 2px 8px #0002}.graph-pad-toolbar{z-index:3}}
-@container(max-width:567px){.graph-pad{grid-template-columns:minmax(0,1fr)}.graph-pad-drawing{height:420px}.graph-pad-objects{max-height:none}.graph-pad-object-list{max-height:400px}.graph-pad-properties{padding-left:24px}.graph-pad-toolbar{gap:0;padding:8px 4px}.graph-pad-toolbar .graph-pad-divider{margin:0 2px}}
+@container(max-width:899px){.graph-pad-drawing{flex-direction:column}.graph-pad-canvas{flex:auto;width:100%}.graph-pad-toolbar{flex-direction:row;flex:0 0 auto;flex-wrap:wrap;border-right:0;border-bottom:1px solid #d4d4d4;gap:4px;z-index:3}.graph-pad-end-tools{flex-direction:row;align-items:center;margin-top:0;margin-left:auto}.graph-pad-divider{width:1px;height:auto;align-self:stretch;margin:0 4px}.graph-pad-tool-menu>div{left:0;top:100%}}
+@container(max-width:740px){.graph-pad{grid-template-columns:minmax(0,1fr);max-width:558px}.graph-pad-objects{max-height:none}.graph-pad-object-list{max-height:400px}.graph-pad-properties{padding-left:24px}.graph-pad-toolbar{gap:0;padding:8px 4px}.graph-pad-toolbar .graph-pad-divider{margin:0 2px}}

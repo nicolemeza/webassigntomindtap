@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ActionButton, CourseDialog, Field, Tile } from './CourseUI';
 import { saveCourseState, useCourseState } from './courseModel';
+import TextbookReader from './TextbookReader';
+import WatchItVideo from './WatchItVideo';
 
 export const algebraCards = [
   ['Greatest common factor', 'The greatest expression that divides every term without a remainder.'],
@@ -31,7 +33,12 @@ export function FlashcardStudy() {
   const [index, setIndex] = useState(0); const [flipped, setFlipped] = useState(false);
   return <><h3>College Algebra · Review terms</h3><button type="button" className="flashcard" aria-label="Flip flashcard" onClick={() => setFlipped(!flipped)}>{algebraCards[index][flipped ? 1 : 0]}</button><p className="course-muted">Click the card to {flipped ? 'view the term' : 'reveal the definition'}.</p><div className="flashcard-controls"><ActionButton type="button" onClick={() => { setIndex((index + algebraCards.length - 1) % algebraCards.length); setFlipped(false); }}>Previous</ActionButton><span>{index + 1} of {algebraCards.length}</span><ActionButton type="button" onClick={() => { setIndex((index + 1) % algebraCards.length); setFlipped(false); }}>Next</ActionButton></div></>;
 }
-export function ResourceDialog({ title, video, onClose }) { return <CourseDialog title={`${video ? 'Watch it' : 'Read it'} · ${title}`} wide onClose={onClose}><AlgebraReader title={title} video={video} /></CourseDialog>; }
+export function ResourceDialog({ title, video, reading, watchIt, onClose }) {
+  const resourceTitle = video && watchIt ? watchIt.title : reading && !video ? reading.title : title;
+  return <CourseDialog title={`${video ? 'Watch it' : 'Read it'} · ${resourceTitle}`} wide onClose={onClose}>
+    {video && watchIt ? <WatchItVideo resource={watchIt} /> : reading && !video ? <TextbookReader reading={reading} /> : <AlgebraReader title={title} video={video} />}
+  </CourseDialog>;
+}
 const tools = [['Microsoft OneDrive', '☁'], ['Google Drive', '△'], ['Notebook', '▤'], ['Glossary', '▣'], ['Flashcards', '▧']];
 export function MoreTools({ notify }) {
   const state = useCourseState();

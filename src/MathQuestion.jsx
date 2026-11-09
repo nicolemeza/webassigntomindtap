@@ -54,7 +54,7 @@ export default function MathQuestion({ question, values = {}, onChange, history 
           return <label key={option.src} className={selected ? 'is-selected' : ''} data-grade-state={selected ? gradeState : undefined}><img src={option.src} width="328" height="350" alt={option.description} /><span><input type="radio" name={`${question.id}-${block.id}`} checked={selected} disabled={isLocked} onChange={() => onChange(block.id, String(optionIndex))} />{option.label}{selected && <GradedAnswerIcon state={gradeState} />}</span></label>;
         })}</div></fieldset>;
       }
-      if (block.type === 'graph-pad') return <GraphingPad key={index} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
+      if (block.type === 'graph-pad') return <GraphingPad key={index} disabled={disabled} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
       if (block.type === 'number-line') return <NumberLinePad key={index} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
       if (block.type === 'fix-it') return <section className="r5-fix-it" key={index} aria-label="Fix It">
         <h3>{block.title}</h3>{block.notice && <p className="r5-sequence-notice">{block.notice}</p>}<p>{block.prompt}</p><div className="r5-incorrect-solution"><p>{block.solutionPrompt || 'Factor completely.'}</p>{block.expression && <MathExpression expression={block.expression} />}<ol>{block.steps.map((step, stepIndex) => <li key={step}><span>STEP {stepIndex + 1}: </span><MathExpression expression={step} /></li>)}</ol></div>

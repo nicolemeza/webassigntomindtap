@@ -8,21 +8,63 @@
    while keeping the question code aligned with the question content. */
 .bank-question-preview .player-question-content > .question-identity { margin-left:calc(-1 * var(--question-card-inset)); margin-right:calc(-1 * var(--question-card-inset)); padding:0 var(--question-card-inset); border-bottom:0; }
 .webassign-question { font-size:16px; line-height:1.7; color:#1f2a35; }
-.imported-key-toolbar { display:flex; justify-content:flex-end; margin-bottom:12px; }
+.imported-key-toolbar { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px 20px; margin-bottom:12px; }
+.imported-randomized-value { color:#000; font-weight:700; }
 .imported-question-content { overflow-x:auto; padding:4px 0 16px; }
 .imported-question-content .wa1par, .imported-question-content .wa1given, .imported-question-content .wa1ans, .imported-question-content p { margin:12px 0; }
-.imported-question-content .watex { font-family:'Cambria Math',Cambria,Georgia,serif; font-size:1.15em; line-height:1.5; }
+.imported-question-content .watex { display:block; font-family:'Cambria Math',Cambria,Georgia,serif; font-size:1.15em; line-height:1.5; }
+.imported-question-content .watexlineheightnormal { line-height:normal; }
 .imported-question-content .watexinlineblock { display:inline-block; vertical-align:middle; }
 .imported-question-content .watexline { display:block; white-space:nowrap; }
 .imported-question-content .watexmiddle { vertical-align:middle; }
 .imported-question-content .watexfraction { display:inline-table; vertical-align:middle; border-collapse:collapse; margin:0 4px; text-align:center; line-height:1.3; }
 .imported-question-content .watexfraction td { padding:2px 5px; }
-.imported-question-content .watexnumerator { border-bottom:1px solid currentColor; }
-.imported-question-content .watexdenominator { border-top:1px solid currentColor; }
+.imported-question-content .watexfraction > tbody > tr > .watexdenominator { border-top:1px solid currentColor; }
 .imported-question-content .waMark { border:0; background:none; }
 .imported-question-content .ms { display:block; margin:8px 0; }
 .imported-question-content table:not(.watexfraction) { border-collapse:collapse; max-width:100%; }
-.imported-question-content td:not(.watexnumerator):not(.watexdenominator), .imported-question-content th { padding:4px 8px; }
+.imported-question-content :is(td,th) { padding:4px 8px; }
+/* Imported math includes layout spans and inline editor divs. Restore their
+   source roles so coordinates, equal signs, and answer fields stay together. */
+.imported-question-content .stackblock { display:table; border-collapse:collapse; }
+.imported-question-content .stackline { display:table-row; }
+.imported-question-content :is(.stacktext,.stackmath,.stackop,.stackans) { display:table-cell; vertical-align:middle; padding-bottom:6px; }
+.imported-question-content .stacktext { padding-right:2em; text-align:left; white-space:nowrap; }
+.imported-question-content .stackmath { padding-right:.4em; text-align:right; }
+.imported-question-content .stackop { padding-right:.6em; padding-left:.2em; }
+.imported-question-content .stackans { text-align:left; }
+.imported-question-content :is(.mathtype-wrapper,.mathtype-scroll-wrapper,.mathtype) { display:inline-block; vertical-align:middle; }
+.imported-question-content .mathtype-wrapper .imported-math-input { margin:4px 0; }
+.imported-question-content :is(.watexparenleft,.watexparenright) { margin:.15em 0; }
+.imported-question-content :is(.watexparenimage,.watexmatrixparen) { padding:0; vertical-align:middle; }
+.imported-question-content .watexparenimage img { display:block; max-width:none; }
+.imported-question-content :is(.watexparensup,.watexparensub) { padding:0; white-space:nowrap; }
+.imported-question-content .watexparensup { vertical-align:top; }
+.imported-question-content .watexparensub { vertical-align:bottom; }
+.imported-question-content :is(.watexparensupcontent,.watexparensubcontent) { position:relative; font-size:.8em; }
+.imported-question-content .watexparensupcontent { top:-.55em; }
+.imported-question-content .watexparensubcontent { bottom:-.39em; }
+/* The same source markup also lays out radicals, matrices, and summations. */
+.imported-question-content :is(.watexsqrt,.watexsumcomplex,.watexover) > tbody > tr > td { padding:0; }
+.imported-question-content .watexsqrt { margin:.15em 0; }
+.imported-question-content :is(.watexsqrtroot,.watexsqrtradical,.watexsqrtradicand) { vertical-align:top; white-space:nowrap; }
+.imported-question-content :is(.watexsqrtrootcontainer,.watexsqrtradicalcontent,.watexsqrtradicandcontent) { display:block; position:relative; }
+.imported-question-content .watexsqrtrootcontent { display:block; font-size:.66em; line-height:1; }
+.imported-question-content .watexsqrtradicalcontent { right:-2px; }
+.imported-question-content .watexsqrtradicalcontent img { display:block; width:auto; min-height:1.3em; max-width:none; }
+.imported-question-content .watexsqrtradicandcontent { border-top:1px solid currentColor; }
+.imported-question-content .watexarraycomplex { display:block; }
+.imported-question-content .watexarray > tbody > tr > td { white-space:nowrap; }
+.imported-question-content .watexmatrix > tbody > tr > td { padding:0 5px; }
+.imported-question-content .watexmatrix > tbody > tr > .watexmatrixparen { padding:0; }
+.imported-question-content .watexleft { text-align:left; }
+.imported-question-content .watexcenter { text-align:center; }
+.imported-question-content .watexright { text-align:right; }
+.imported-question-content :is(.watexborder_t,.watexborder_tl) { border-top:1px solid currentColor; }
+.imported-question-content :is(.watexborder_l,.watexborder_tl) { border-left:1px solid currentColor; }
+.imported-question-content .watexsumcomplex { text-align:center; }
+.imported-question-content :is(.watexsumabove,.watexsumbelow) { display:block; font-size:.8em; }
+.imported-question-content .watexsumcomplex > tbody > tr > .watexsumcontent { padding-left:.22em; vertical-align:middle; }
 .imported-question-content select { min-width:130px; min-height:40px; padding:6px 10px; color:#173d56; border:1px solid #8898a5; border-radius:4px; font:inherit; background:white; }
 .imported-math-input { display:inline-block; vertical-align:middle; width:180px; margin:4px 8px; }
 #app .imported-math-input input { box-sizing:border-box; width:100%; min-height:40px; padding:8px; border:1px solid #8b99aa; border-radius:8px; background:#fff; color:var(--brand-navy); font-family:'Math Variables',var(--font-ui); font-size:16px; }
@@ -34,6 +76,15 @@
 .imported-question-image { max-width:100%; height:auto; vertical-align:middle; }
 .imported-answer-key { display:inline-block; margin:4px 8px; padding:4px 10px; border:1px solid #8eb9ab; border-radius:4px; background:#edf7f1; color:#1c5846; vertical-align:middle; }
 .imported-answer-key p { margin:0; }
+.imported-answer-key .imported-answer-key { margin:0; padding:0; border:0; background:transparent; }
 .imported-correct-key { padding:0 5px; border-radius:3px; background:#edf7f1; color:#1c5846; font-size:11px; }
+.imported-select-input { display:inline-flex; align-items:center; gap:8px; vertical-align:middle; }
+.imported-select-input[data-grade-state="incorrect"] select { border:2px solid var(--field-validation-color,#c70039); }
+.imported-select-input[data-grade-state="correct"] select { border:2px solid #178037; }
+.imported-math-input[data-grade-state] { position:relative; }
+.imported-math-input > .graded-answer-icon { position:absolute; right:8px; top:50%; transform:translateY(-50%); pointer-events:none; }
+#app .imported-math-input[data-grade-state] input { padding-right:36px; }
 .imported-written-response { display:grid; gap:8px; margin-top:16px; }
 .imported-written-response textarea { min-height:90px; padding:10px; border:1px solid #8898a5; border-radius:4px; font:inherit; }
+.imported-exploration { margin: 0 0 24px; }
+.imported-exploration iframe { display: block; width: 100%; height: 620px; margin: 12px 0; border: 1px solid #d8dce0; border-radius: 4px; }
