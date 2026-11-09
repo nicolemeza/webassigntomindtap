@@ -2,7 +2,7 @@
 // c = randnum(7, 9, 2); d = c === 9 ? 4 : 3;
 // numerator = 3*c; denominator = 6*d - 5; d6 = 6*d.
 export function supportsQuestionRandomization(question) {
-  return question.kind === 'webassign' && ['5352779', '4260657'].includes(sourceId(question));
+  return question.kind === 'webassign' && ['5352779', '5352735', '4260657'].includes(sourceId(question));
 }
 
 const sourceId = question => question.sourceId || question.id?.replace(/^webassign-/, '');
@@ -20,6 +20,16 @@ const findConstant = nodes => {
 export function questionRandomizationValue(question) {
   if (!supportsQuestionRandomization(question)) return undefined;
   if (sourceId(question) === '4260657') return question.randomizationValues || { shrink: 3, stretch: 2, targetScale: 4 };
+  if (sourceId(question) === '5352735') {
+    if (question.randomizationValues) return question.randomizationValues;
+    const numbers = [];
+    const collect = node => {
+      if (numericSpan(node)) numbers.push(Number(node.children[0]));
+      else if (typeof node !== 'string') (node.children || []).forEach(collect);
+    };
+    question.content.filter(node => node.attrs?.class === 'wa1given').forEach(collect);
+    return { x: numbers[0], y: numbers[1], radius: Math.sqrt(numbers[2]) };
+  }
   return findConstant(question.content?.filter(node => node.attrs?.class === 'wa1given'));
 }
 
@@ -32,11 +42,12 @@ function mapContent(node, replace) {
 
 const randomValue = (node, value) => ({ ...node, randomized: true, children: [String(value)] });
 const answerKey = value => ({ tag: 'span', answerKey: true, children: [value] });
-const contentText = node => typeof node === 'string' ? node : node.answerKey ? '' : (node.children || []).map(contentText).join('');
+const contentText = node => typeof node === 'string' ? node : node.answerKey ? '' : (node.tag === 'sup' ? '^' : '') + (node.children || []).map(contentText).join('');
 
 export function withQuestionRandomization(question, c = questionRandomizationValue(question)) {
   if (!supportsQuestionRandomization(question)) return question;
   if (sourceId(question) === '4260657') return withExploreItRandomization(question, c);
+  if (sourceId(question) === '5352735') return withCircleRandomization(question, c);
   if (![7, 9].includes(c)) throw new RangeError('This question supports only 7 or 9.');
   const d = c === 9 ? 4 : 3;
   const numerator = 3 * c;
@@ -65,6 +76,12 @@ export function withQuestionRandomization(question, c = questionRandomizationVal
 
 export function nextQuestionRandomization(question, random = Math.random) {
   if (!supportsQuestionRandomization(question)) return question;
+  if (sourceId(question) === '5352735') {
+    const current = questionRandomizationValue(question);
+    const variants = [4, 5, 6].flatMap(radius => [1, 2, 3].flatMap(x => [1, 2, 3].filter(y => y !== x).map(y => ({ x, y, radius }))));
+    const alternatives = variants.filter(variant => ['x', 'y', 'radius'].some(key => variant[key] !== current[key]));
+    return withCircleRandomization(question, alternatives[Math.floor(random() * alternatives.length)]);
+  }
   if (sourceId(question) === '4260657') {
     const current = questionRandomizationValue(question);
     const variants = [2, 3, 4].flatMap(shrink => [2, 3, 4].flatMap(stretch => [4, 9, 16].map(targetScale => ({ shrink, stretch, targetScale }))));
@@ -73,6 +90,36 @@ export function nextQuestionRandomization(question, random = Math.random) {
   }
   // There are exactly two permitted versions. Always show the other one.
   return withQuestionRandomization(question, questionRandomizationValue(question) === 9 ? 7 : 9);
+}
+
+function withCircleRandomization(question, { x, y, radius }) {
+  // GHColAlg13 2.5.110.EP. (5352735), verified in WebAssign:
+  // a = randnum(4,6,1); x = randnum(1,3,1); y = randnum(1,3,1,x).
+  // (x + xOffset)² + (y - yOffset)² = a² has center (-xOffset, yOffset).
+  if (![1, 2, 3].includes(x) || ![1, 2, 3].includes(y) || x === y || ![4, 5, 6].includes(radius)) throw new RangeError('Unsupported circle randomization.');
+  const expected = { 'field-0': `-${x},${y}`, 'field-1': String(radius) };
+  const equation = `(x+${x})^2+(y-${y})^2=${radius ** 2}`;
+  const answerGraph = JSON.stringify({ noSolution: false, objects: [{ id: 'circle-answer', type: 'circle', points: [[-x, y], [radius - x, y]], dashed: false, shaded: false }] });
+  const content = question.content.map(block => {
+    if (block.attrs?.class === 'wa1given') {
+      let index = 0;
+      const numbers = [x, y, radius ** 2];
+      return mapContent(block, node => numericSpan(node) ? randomValue(node, numbers[index++]) : undefined);
+    }
+    if (hasField(block, 'diagram-0')) return { ...block, children: [{ tag: 'field', id: 'diagram-0' }, answerKey(`Circle: ${equation}`)] };
+    return mapContent(block, node => {
+      if (!node.attrs?.class?.split(' ').includes('stackline')) return;
+      const fieldId = Object.keys(expected).find(id => hasField(node, id));
+      if (fieldId) return mapContent(node, child => child.answerKey ? answerKey(expected[fieldId]) : undefined);
+    });
+  });
+  return {
+    ...question,
+    randomizationValues: { x, y, radius },
+    content,
+    prompt: content.map(contentText).join(' ').replace(/\s+/g, ' ').trim(),
+    fields: question.fields.map(field => field.type === 'graph' ? { ...field, answerGraph } : expected[field.id] ? { ...field, expected: expected[field.id] } : field),
+  };
 }
 
 function withExploreItRandomization(question, { shrink, stretch, targetScale }) {

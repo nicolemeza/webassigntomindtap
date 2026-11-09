@@ -4,6 +4,7 @@ import { earnedPoints, gradingFields, submitQuestion } from './questionGrading.j
 import { getImportedQuestions } from './webassignCourse.js';
 import { nextQuestionRandomization, questionRandomizationValue, withQuestionRandomization } from './questionRandomization.js';
 import { exploreItQuestions } from './exploreItQuestions.js';
+import { circleRadius, readGraph } from './graphingGeometry.js';
 
 const question = fields => ({ id: 'webassign-test', kind: 'webassign', points: 1, fields });
 
@@ -113,4 +114,51 @@ test('Explore It variants compute both transformations and replace every answer 
     assert.notDeepEqual(questionRandomizationValue(nextQuestionRandomization(variant, () => 0)), questionRandomizationValue(variant));
   }
   assert.deepEqual(original, snapshot);
+});
+
+test('all 18 circle variants follow the source rules and keep numeric and graph keys synchronized', () => {
+  const original = getImportedQuestions('Chapter 2. Functions and Graphs', '2.5 HW Graphs of Equations & Circles').find(q => q.sourceId === '5352735');
+  const snapshot = structuredClone(original);
+  const walk = (nodes, predicate) => nodes.flatMap(node => typeof node === 'string' ? [] : [...(predicate(node) ? [node] : []), ...walk(node.children || [], predicate)]);
+  assert.deepEqual(questionRandomizationValue(original), { x: 3, y: 1, radius: 4 });
+  let count = 0;
+  let previous = withQuestionRandomization(original);
+  for (const radius of [4, 5, 6]) for (const x of [1, 2, 3]) for (const y of [1, 2, 3].filter(y => y !== x)) {
+    const variant = withQuestionRandomization(previous, { x, y, radius });
+    assert.deepEqual(questionRandomizationValue(variant), { x, y, radius });
+    assert.deepEqual(variant.fields.filter(field => field.type === 'text').map(field => field.expected), [`-${x},${y}`, String(radius)]);
+    assert.deepEqual(walk(variant.content, node => node.randomized).map(node => node.children.join('')), [String(x), String(y), String(radius ** 2)]);
+    assert.deepEqual(walk(variant.content, node => node.answerKey).map(node => node.children.join('')), [`-${x},${y}`, String(radius), `Circle: (x+${x})^2+(y-${y})^2=${radius ** 2}`]);
+    assert.equal(walk(variant.content, node => node.answerKey && node.tag === 'img').length, 0);
+    const graph = readGraph(variant.fields.find(field => field.type === 'graph').answerGraph);
+    assert.equal(graph.noSolution, false);
+    assert.equal(graph.objects.length, 1);
+    const [circle] = graph.objects;
+    assert.equal(circle.type, 'circle');
+    assert.deepEqual(circle.points, [[-x, y], [radius - x, y]]);
+    assert.equal(circleRadius(circle.points), radius);
+    for (const [px, py] of [[radius - x, y], [-radius - x, y], [-x, y + radius], [-x, y - radius]]) assert.equal((px + x) ** 2 + (py - y) ** 2, radius ** 2);
+    assert.ok(!JSON.stringify(variant.content).includes('Point on CirclePoint on Circle'));
+    const correct = submitQuestion(variant, { values: { 'field-0': `-${x},${y}`, 'field-1': String(radius) } });
+    assert.deepEqual(correct.history, { 'field-0': [true], 'field-1': [true] });
+    previous = variant;
+    count++;
+  }
+  assert.equal(count, 18);
+  assert.deepEqual(original, snapshot);
+});
+
+test('circle randomization offers every other valid version and rejects invalid offsets and radii', () => {
+  const original = getImportedQuestions('Chapter 2. Functions and Graphs', '2.5 HW Graphs of Equations & Circles').find(q => q.sourceId === '5352735');
+  const current = questionRandomizationValue(original);
+  const alternatives = new Set();
+  for (let i = 0; i < 17; i++) {
+    const next = questionRandomizationValue(nextQuestionRandomization(original, () => i / 17));
+    assert.notDeepEqual(next, current);
+    assert.ok([1, 2, 3].includes(next.x) && [1, 2, 3].includes(next.y) && next.x !== next.y);
+    assert.ok([4, 5, 6].includes(next.radius));
+    alternatives.add(JSON.stringify(next));
+  }
+  assert.equal(alternatives.size, 17);
+  for (const parameters of [{ x: 1, y: 1, radius: 4 }, { x: 0, y: 1, radius: 4 }, { x: 3, y: 4, radius: 4 }, { x: 1, y: 2, radius: 3 }, { x: 1, y: 2, radius: 7 }]) assert.throws(() => withQuestionRandomization(original, parameters), RangeError);
 });

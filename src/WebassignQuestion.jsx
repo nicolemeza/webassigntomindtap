@@ -37,7 +37,10 @@ export default function WebassignQuestion({ question: originalQuestion, values =
       const responseId = ['radio', 'checkbox'].includes(field.type) ? field.group : field.id;
       const gradeState = gradedAnswerState(values[responseId], history[responseId], lastSubmitted[responseId]);
       const fieldDisabled = disabled || canRandomize || fieldComplete(history[responseId]);
-      if (field.type === 'graph') return <GraphingPad key={key} label={field.label} disabled={fieldDisabled} value={values[field.id]} onChange={value => onChange(field.id, value)} />;
+      if (field.type === 'graph') {
+        const graphAnswer = answersAvailable && showAnswers && field.answerGraph;
+        return <GraphingPad key={`${key}-${graphAnswer ? 'key' : 'response'}`} label={graphAnswer ? 'Answer key: graph of the circle.' : field.label} disabled={fieldDisabled || Boolean(graphAnswer)} value={graphAnswer || values[field.id]} onChange={value => onChange(field.id, value)} />;
+      }
       if (field.type === 'number-line') return <NumberLinePad key={key} label={field.label} value={values[field.id]} onChange={value => onChange(field.id, value)} />;
       if (['radio', 'checkbox'].includes(field.type)) {
         const selected = (values[field.group] || '').split('\u001f');
