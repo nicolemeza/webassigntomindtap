@@ -6,13 +6,13 @@
 .overview-content{display:flex;flex-direction:column;align-items:center;gap:48px;width:100%;max-width:1372px;margin:0 auto;padding:0 24px 48px}
 .overview-review-header{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
 .overview-review-header h2{margin:0;font-size:24px;font-weight:600;line-height:32px;text-align:center}
-.overview-stats{box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;width:775px;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
+.overview-stats{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;column-gap:16px;row-gap:16px;width:775px;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
 .overview-stat{display:flex;align-items:center;gap:4px;flex-shrink:0}
 .overview-stat>img{display:block;flex-shrink:0}
 .overview-stat dt,.overview-stat dd{margin:0;font-size:12px;line-height:16px;letter-spacing:.32px;white-space:nowrap}
 .overview-stat dt{font-weight:400;color:var(--text-subdued)}
 .overview-stat dd{font-weight:700}
-.overview-stat-divider{position:relative;display:block;width:0;height:32px;flex:0 0 0}
+.overview-stat-divider{display:none}
 .overview-stat-divider img{position:absolute;left:-16px;top:15px;transform:rotate(90deg)}
 .overview-stat-divider.reversed img{transform:rotate(-90deg)}
 .overview-attempts,.overview-instructions{box-sizing:border-box;width:775px;max-width:100%}
@@ -35,4 +35,4 @@
 .overview-instruction-accordions li{padding-left:4px;font-size:13px;line-height:22px}
 .overview-back:focus-visible,.overview-start:focus-visible{outline:2px solid var(--brand-teal)!important;outline-offset:3px}
 .rebrand-main .left[hidden]{display:none}
-@container(max-width:1050px){.overview-stats{flex-wrap:wrap;row-gap:16px}.overview-stat-divider{display:none}.overview-stat{padding:0 8px}.overview-content{gap:32px}}
+@container(max-width:1050px){.overview-stat{padding:0 8px}.overview-content{gap:32px}}
