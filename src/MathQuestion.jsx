@@ -9,7 +9,7 @@ import './math-question.css';
 import { fieldComplete, gradedAnswerState } from './questionGrading';
 import MathAnswerInput, { GradedAnswerIcon } from './MathAnswerInput';
 
-export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [], lastSubmitted = {}, disabled: isLocked = false }) {
+export default function MathQuestion({ question, values = {}, onChange, history = {}, invalidFields = [], lastSubmitted = {}, disabled: isLocked = false, answerKeyMode = false }) {
   const [activeInput, setActiveInput] = useState(null);
   const [begun, setBegun] = useState(false);
   const inputRefs = useRef({});
@@ -18,13 +18,13 @@ export default function MathQuestion({ question, values = {}, onChange, history 
   const inputIndex = mathInputs.findIndex((item) => item.id === activeInput);
   const renderInput = (part) => {
     const inputId = `${question.id}-${part.input}`;
-    const gradeState = gradedAnswerState(values[part.input], history[part.input], lastSubmitted[part.input]);
+    const gradeState = answerKeyMode ? undefined : gradedAnswerState(values[part.input], history[part.input], lastSubmitted[part.input]);
     const disabled = isLocked || fieldComplete(history[part.input]);
     const inputNumber = mathInputs.length > 1 ? mathInputs.findIndex((field) => field.id === part.input) + 1 : undefined;
-    return <fieldset disabled={disabled} className="player-factoring-answer r5-answer-field r5-graded-field" data-grade-state={gradeState} key={part.input}>
-      <MathAnswerInput ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" label={part.label} inputNumber={inputNumber} gradeState={gradeState} disabled={disabled} invalid={invalidFields.includes(part.input)} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
+    return <fieldset disabled={answerKeyMode ? false : disabled} className="player-factoring-answer r5-answer-field r5-graded-field" data-grade-state={gradeState} key={part.input}>
+      <MathAnswerInput ref={(element) => { inputRefs.current[part.input] = element; }} id={inputId} type="text" label={part.label} inputNumber={inputNumber} gradeState={gradeState} answerKey={answerKeyMode} disabled={answerKeyMode ? false : disabled} readOnly={answerKeyMode || undefined} invalid={invalidFields.includes(part.input)} aria-describedby={invalidFields.includes(part.input) ? `grade-feedback-${question.id}` : undefined} value={values[part.input] || ''} onChange={(event) => onChange(part.input, event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} />
       <GradedAnswerIcon state={gradeState} />
-      <IconButton className="player-math-keyboard-button" type="button" disabled={disabled} aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />
+      {!answerKeyMode && <IconButton className="player-math-keyboard-button" type="button" disabled={disabled} aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />}
     </fieldset>;
   };
   return <div className="r5-question">

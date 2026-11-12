@@ -9,8 +9,15 @@
 .bank-question-preview .player-question-content > .question-identity { margin-left:calc(-1 * var(--question-card-inset)); margin-right:calc(-1 * var(--question-card-inset)); padding:0 var(--question-card-inset); border-bottom:0; }
 .webassign-question { font-size:16px; line-height:1.7; color:#1f2a35; }
 .imported-key-toolbar { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px 20px; margin-bottom:12px; }
-.imported-randomized-value { color:#000; font-weight:700; }
-.imported-question-content { overflow-x:auto; padding:4px 0 16px; }
+.imported-randomized-value {
+  color:#000;
+  font-weight:700;
+  border-bottom:2px dotted currentColor;
+  cursor:default;
+  outline-offset:3px;
+}
+.imported-randomized-value:focus-visible { outline:2px solid var(--brand-teal); }
+.imported-question-content { overflow-x:auto; padding:0; }
 .imported-question-content .wa1par, .imported-question-content .wa1given, .imported-question-content .wa1ans, .imported-question-content p { margin:12px 0; }
 .imported-question-content .watex { display:block; font-family:'Cambria Math',Cambria,Georgia,serif; font-size:1.15em; line-height:1.5; }
 .imported-question-content .watexlineheightnormal { line-height:normal; }
@@ -71,13 +78,44 @@
 #app .imported-math-input .math-answer-input[data-numbered] input { padding-left:36px; }
 #app .imported-math-input input:focus-visible { border-color:var(--brand-teal); outline:2px solid var(--brand-teal); outline-offset:2px; }
 #app .imported-math-input input:disabled { border-color:var(--border); background:var(--page-bg); color:var(--text-subdued); }
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] input:is(:disabled,[readonly]) {
+  box-sizing:border-box;
+  border:2px solid #00844b !important;
+  background:#E7FAEF;
+  color:#00844b;
+  font-weight:500;
+  box-shadow:none !important;
+}
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key]:focus-within,
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] > div:focus-within,
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] > div > div:focus-within,
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] input[readonly]:focus,
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] input[readonly]:focus-visible {
+  border-color:#00844b !important;
+  color:#00844b !important;
+  outline:0 !important;
+  outline-offset:0 !important;
+  box-shadow:none !important;
+}
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key],#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] input[readonly] { cursor:text !important; user-select:text; }
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] > div > div {
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+#app .instructor-review-question .imported-math-input .math-answer-input[data-answer-key] > div {
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
 .imported-choice-control { display:inline-flex; gap:8px; align-items:center; vertical-align:middle; margin-right:8px; }
 .imported-choice-control input { width:18px; height:18px; accent-color:var(--brand-navy,#003865); }
 .imported-question-image { max-width:100%; height:auto; vertical-align:middle; }
-.imported-answer-key { display:inline-block; margin:4px 8px; padding:4px 10px; border:1px solid #8eb9ab; border-radius:4px; background:#edf7f1; color:#1c5846; vertical-align:middle; }
+.imported-answer-key { display:inline-block; margin:4px 8px; padding:4px 10px; border:1px solid var(--border); border-radius:4px; background:var(--page-bg); color:var(--brand-navy); vertical-align:middle; }
 .imported-answer-key p { margin:0; }
 .imported-answer-key .imported-answer-key { margin:0; padding:0; border:0; background:transparent; }
-.imported-correct-key { padding:0 5px; border-radius:3px; background:#edf7f1; color:#1c5846; font-size:11px; }
+.imported-correct-key { padding:0 5px; border-radius:3px; background:var(--page-bg); color:var(--brand-navy); font-size:11px; }
 .imported-select-input { display:inline-flex; align-items:center; gap:8px; vertical-align:middle; }
 .imported-select-input[data-grade-state="incorrect"] select { border:2px solid var(--field-validation-color,#c70039); }
 .imported-select-input[data-grade-state="correct"] select { border:2px solid #178037; }

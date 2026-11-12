@@ -3,6 +3,14 @@ import { exploreItQuestions } from './exploreItQuestions.js';
 
 const chapter = 'Chapter R. A Review of Basic Algebra';
 export const demoActivityFolder = `${chapter}/section/R.2`;
+const instructorAnswerKeyOverrides = {
+  '5352779': { 'field-1': '5x + 27' },
+  '5352735': { 'field-0': '(-3, 1)' },
+};
+const withInstructorAnswerKey = question => ({
+  ...question,
+  instructorAnswerKey: { ...question.instructorAnswerKey, ...(instructorAnswerKeyOverrides[question.sourceId] || {}) },
+});
 
 // Transcribed from the supplied common-error assistance screenshot.
 export const streetRepairProbabilityQuestion = {
@@ -30,7 +38,7 @@ export const streetRepairProbabilityQuestion = {
 // the browser storage from the session in which the activity was created.
 export const demoActivities = [{
   id: 'created-77fc5961-3d94-4a97-9383-ac56b24248f8',
-  demoContentVersion: 4,
+  demoContentVersion: 5,
   title: 'Demo Activity',
   chapter: demoActivityFolder,
   section: 'chapter',
@@ -48,14 +56,14 @@ export const demoActivities = [{
   settings: { template: 'Apply It', attempts: '2', gradingPolicy: 'Best Activity Attempt', creditType: 'graded' },
   questions: [
     streetRepairProbabilityQuestion,
-    { ...getImportedQuestions('Chapter 1. Equations and Inequalities', '1.1 HW Linear Equations & Rational Equations').find(question => question.sourceId === '5352779'), resourceKey: 'demo-linear-equations' },
-    getImportedQuestions('Chapter 2. Functions and Graphs', '2.5 HW Graphs of Equations & Circles').find(question => question.sourceId === '5352735'),
+    { ...withInstructorAnswerKey(getImportedQuestions('Chapter 1. Equations and Inequalities', '1.1 HW Linear Equations & Rational Equations').find(question => question.sourceId === '5352779')), resourceKey: 'demo-linear-equations' },
+    withInstructorAnswerKey(getImportedQuestions('Chapter 2. Functions and Graphs', '2.5 HW Graphs of Equations & Circles').find(question => question.sourceId === '5352735')),
     exploreItQuestions[0],
   ],
 }];
 
 export function migrateDemoActivity(activity) {
-  if (activity.id !== demoActivities[0].id || activity.demoContentVersion >= 4 || !Array.isArray(activity.questions)) return activity;
+  if (activity.id !== demoActivities[0].id || activity.demoContentVersion >= 5 || !Array.isArray(activity.questions)) return activity;
   const missing = (activity.demoContentVersion || 0) < 2 && !activity.questions.some(question => question.id === streetRepairProbabilityQuestion.id);
   let questions = missing ? [...activity.questions, structuredClone(streetRepairProbabilityQuestion)] : [...activity.questions];
   const matchesSource = (question, sourceId) => question.sourceId === sourceId || question.id === `webassign-${sourceId}`;
@@ -64,10 +72,13 @@ export function migrateDemoActivity(activity) {
   if ((activity.demoContentVersion || 0) < 3 && linear && circle) questions = [linear, circle, ...questions.filter(question => question !== linear && question !== circle)];
   const probability = questions.find(question => question.id === streetRepairProbabilityQuestion.id);
   if (probability) questions = [probability, ...questions.filter(question => question !== probability)];
-  questions = questions.map(question => matchesSource(question, '5352779') || question.id === streetRepairProbabilityQuestion.id ? { ...question, resourceKey: 'demo-linear-equations' } : question);
+  questions = questions.map(question => {
+    const keyedQuestion = instructorAnswerKeyOverrides[question.sourceId] ? withInstructorAnswerKey(question) : question;
+    return matchesSource(keyedQuestion, '5352779') || keyedQuestion.id === streetRepairProbabilityQuestion.id ? { ...keyedQuestion, resourceKey: 'demo-linear-equations' } : keyedQuestion;
+  });
   return {
     ...activity,
-    demoContentVersion: 4,
+    demoContentVersion: 5,
     questions,
     ...(missing ? {
       points: (activity.points ?? activity.questions.reduce((sum, question) => sum + question.points, 0)) + streetRepairProbabilityQuestion.points,

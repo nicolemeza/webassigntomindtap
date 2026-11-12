@@ -14,6 +14,7 @@ import ChoiceQuestion from './ChoiceQuestion';
 import WebassignQuestion from './WebassignQuestion';
 import QuestionIdentity from './QuestionIdentity';
 import QuestionRejoinder from './QuestionRejoinder';
+import MathAnswerInput from './MathAnswerInput';
 import LearnIt from './LearnIt.jsx';
 import { questionResponseFields } from './questionResponseFields';
 import './activity-player.css';
@@ -33,6 +34,47 @@ function PlayerIcon({ name }) {
   return <img src={`/rebrand/player-${name}.svg`} width={width} height={height} alt="" aria-hidden="true" />;
 }
 
+function InstructorQuestionReview({ activity, question, index, total }) {
+  const fields = gradingFields(question);
+  const expectedValues = Object.fromEntries(fields.filter((field) => field.expected).map((field) => [field.id, field.expected]));
+  if (question.kind === 'webassign') {
+    for (const field of question.fields || []) {
+      if (typeof field.expected === 'string' && field.expected.trim()) expectedValues[field.id] = field.expected;
+    }
+    for (const field of question.fields || []) {
+      if (field.correct && ['radio', 'checkbox'].includes(field.type)) {
+        const current = expectedValues[field.group] ? expectedValues[field.group].split('\u001f') : [];
+        expectedValues[field.group] = [...current, field.value].filter(Boolean).sort().join('\u001f');
+      }
+    }
+    for (const [fieldId, answer] of Object.entries(question.instructorAnswerKey || {})) {
+      if (typeof answer === 'string' && answer.trim()) expectedValues[fieldId] = answer;
+    }
+  }
+  const choiceValues = question.kind === 'choice' ? question.correctChoices || [] : [];
+  return <article className="instructor-review-question" aria-labelledby={`instructor-question-${question.id}`}>
+    <div className="instructor-review-question-header">
+      <h2 id={`instructor-question-${question.id}`}>Question {index + 1} of {total}</h2>
+      <div className="instructor-review-question-meta">
+        <QuestionIdentity question={question} />
+        <span>{question.points} {question.points === 1 ? 'point' : 'points'}</span>
+      </div>
+    </div>
+    <div className="instructor-review-question-content">
+      {question.kind === 'webassign'
+        ? <WebassignQuestion question={question} values={expectedValues} instructor disabled answerKeyVisible answerKeyMode onChange={() => {}} />
+        : question.kind === 'choice'
+          ? <ChoiceQuestion question={question} value={choiceValues} disabled onChange={() => {}} />
+          : question.kind === 'math-response'
+            ? <MathQuestion question={question} values={expectedValues} disabled answerKeyMode onChange={() => {}} />
+            : question.kind === 'greatest-common-factor'
+              ? <FactoringQuestion question={question} value={expectedValues.answer || ''} disabled answerKeyMode onChange={() => {}} />
+              : <><div className="player-fill-question"><span>{question.opening}</span><MathAnswerInput type="text" label={`Answer for question ${index + 1}`} value={question.answerKey || ''} readOnly answerKey /><span>{question.ending}</span></div><fieldset className="player-choice-question" disabled><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" checked={choice === question.statementAnswer} readOnly /><PlayerIcon name={choice === question.statementAnswer ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
+    </div>
+    <ActivityResources activity={activity} question={question} variant="integrated" />
+  </article>;
+}
+
 export default function ActivityPlayer({ chapter, section, activity: originalActivity, onBack, backLabel = 'Back', onActivityChange, sessionKey }) {
   const theme = useContext(ThemeContext);
   const activityKey = sessionKey || originalActivity.stableKey || `${chapter}/${section}/${originalActivity.id || originalActivity.title}`;
@@ -41,12 +83,18 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const sourceChapter = activity.originalChapter || chapter;
   const sourceTitle = activity.originalTitle || originalActivity.title;
   const questions = activity.questions || getActivityQuestions(sourceChapter, sourceTitle);
-  const [session, setSession] = useState(() => {
-    const previous = (sessionKey ? playerSessions.get(activityKey) : getCourseState().sessions?.[activityKey]) || { current: 0, answers: {}, flags: [] };
-    // Reopening an activity starts at its first question while retaining work.
-    return { ...previous, current: 0 };
-  });
   const [view, setView] = useState('instructor');
+  const [sessionsByView, setSessionsByView] = useState(() => {
+    const previous = (sessionKey ? playerSessions.get(`${activityKey}/instructor`) || playerSessions.get(activityKey) : getCourseState().sessions?.[activityKey]) || {};
+    const emptySession = { current: 0, answers: {}, flags: [] };
+    // The student preview is intentionally separate and transient: it must not
+    // inherit responses entered or submitted in the instructor preview.
+    return {
+      instructor: { ...emptySession, ...previous, current: 0, answers: previous.answers || {}, flags: previous.flags || [] },
+      student: emptySession,
+    };
+  });
+  const session = sessionsByView[view];
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [tool, setTool] = useState(null);
   const [railOpen, setRailOpen] = useState(true);
@@ -64,14 +112,13 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const hideQuestionAttempts = hideQuestionResources;
   const fields = gradingFields(question);
   const answer = session.answers[question.id] || { text: '', choice: '' };
-  const saveImportedResponse = question.kind === 'webassign' && !fields.some(field => answer.values?.[field.id]?.trim());
   const savedAt = session.savedAt?.[question.id];
   const history = session.grades?.[question.id] || {};
   // An unchanged response is feedback-only: it is not an incorrect answer.
   const invalidFields = [];
   const retryPending = Boolean(session.retryPending?.[question.id]);
   const allAttemptsExhausted = fields.length > 0 && fields.every((field) => fieldComplete(history[field.id]));
-  const gradeActionLabel = hideQuestionResources || saveImportedResponse ? 'Save Answer' : retryPending ? 'Try Again' : 'Grade Answer';
+  const gradeActionLabel = hideQuestionResources ? 'Save Answer' : retryPending ? 'Try Again' : 'Grade Answer';
   const responseFieldIds = question.kind === 'webassign' ? [...new Set(question.fields.map(field => ['radio', 'checkbox'].includes(field.type) ? field.group : field.id)), 'response'] : question.kind === 'math-response'
     ? [...new Set([
       ...(question.inputs || []).map((field) => field.id),
@@ -85,17 +132,18 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
       const value = question.kind === 'greatest-common-factor' ? answer.text : answer.values?.[fieldId];
       return Boolean(value?.trim() && value !== '[]');
     });
-  const gradeUnavailable = hideQuestionResources || saveImportedResponse
+  const gradeUnavailable = hideQuestionResources
     ? !hasResponse
     : allAttemptsExhausted || (!retryPending && (!fields.length || !hasResponse));
   const flagged = session.flags.includes(question.id);
   const answered = questions.filter((item) => isQuestionAnswered(item, session.answers[item.id])).length;
-  const updateSession = (change) => setSession((current) => {
+  const updateSession = (change) => setSessionsByView((currentSessions) => {
+    const current = currentSessions[view];
     const next = { ...current, ...change(current) };
-    playerSessions.set(activityKey, next);
-    return next;
+    playerSessions.set(`${activityKey}/${view}`, next);
+    return { ...currentSessions, [view]: next };
   });
-  useEffect(() => { if (!sessionKey) saveCourseState({ sessions: { ...getCourseState().sessions, [activityKey]: session } }); }, [session, activityKey, sessionKey]);
+  useEffect(() => { if (!sessionKey && view === 'instructor') saveCourseState({ sessions: { ...getCourseState().sessions, [activityKey]: session } }); }, [session, activityKey, sessionKey, view]);
   const updateAnswer = (field, value) => updateSession((current) => ({ answers: { ...current.answers, [question.id]: { ...current.answers[question.id], [field]: value } }, feedback: { ...current.feedback, [question.id]: null } }));
   const goToQuestion = (current) => {
     updateSession(() => ({ current }));
@@ -109,9 +157,9 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     return () => { document.title = previous; };
   }, [activity.title]);
   const back = onBack || (() => { window.location.hash = activityHref(chapter, section, originalActivity.id || originalActivity.originalTitle || originalActivity.title); });
-  const finish = () => { if (!sessionKey) { const completed = { ...session, completedAt: new Date().toISOString() }; playerSessions.set(activityKey, completed); saveCourseState({ sessions: { ...getCourseState().sessions, [activityKey]: completed } }); } back(); };
+  const finish = () => { if (!sessionKey && view === 'instructor') { const completed = { ...session, completedAt: new Date().toISOString() }; playerSessions.set(`${activityKey}/${view}`, completed); saveCourseState({ sessions: { ...getCourseState().sessions, [activityKey]: completed } }); } back(); };
   const gradeQuestion = () => {
-    if (hideQuestionResources || saveImportedResponse) {
+    if (hideQuestionResources) {
       setSavingQuestionId(question.id);
       window.setTimeout(() => {
         updateSession((current) => ({ savedAt: { ...current.savedAt, [question.id]: new Date().toISOString() } }));
@@ -167,7 +215,11 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
         <button className="player-details-button" type="button" aria-expanded={detailsOpen} aria-controls="player-details" onClick={() => setDetailsOpen(!detailsOpen)}>Activity Details<PlayerIcon name="details" /></button>
       </div>
       {detailsOpen && <div className="player-activity-details" id="player-details"><p><strong>Due:</strong> {formatActivityDue(activity)}</p><p><strong>Points possible:</strong> {activity.points ?? '--'}</p><p>{activity.countsTowardsGrade === false ? 'Practice activity' : 'Counts toward grade'} · Scores and responses are kept locally for this session only, not sent to a gradebook.</p></div>}
-      <div className="player-body">
+      <div className={`player-body${view === 'instructor' ? ' player-body--instructor' : ''}`}>
+        {view === 'instructor' ? <section className="instructor-review" aria-label="Instructor answer review">
+          <p className="player-instructor-note">Instructor review · Answers are shown and responses cannot be edited.</p>
+          {questions.map((item, index) => <InstructorQuestionReview key={item.id} activity={activity} question={item} index={index} total={questions.length} />)}
+        </section> : <>
         <div className={`player-question-main${alternativeLayout ? ' player-question-integrated' : ''}${hideQuestionResources ? ' player-question-integrated--test' : ''}`} style={{ '--border': theme.colors.border, '--field-validation-color': theme.colors.danger }}>
           <div className="player-progress"><div ref={headingRef} tabIndex={-1} className="player-question-counter" role="heading" aria-level={2} aria-live="polite"><span>{session.current + 1} of {questions.length}</span><span className="player-counter-divider" aria-hidden="true">|</span><span>{question.points} {question.points === 1 ? 'Point' : 'Points'}</span></div><div className="player-progress-track" role="progressbar" aria-label="Question position" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={session.current + 1}><span style={{ width: `${(session.current + 1) / questions.length * 100}%` }} /></div></div>
           <div className={alternativeLayout ? 'question-surface' : undefined}>
@@ -178,7 +230,6 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
             {view === 'instructor' && <QuestionIdentity question={question} />}
             {question.kind === 'webassign' ? <WebassignQuestion key={question.id} question={question} values={answer.values} instructor={view === 'instructor'} disabled={view === 'instructor' || retryPending} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'choice' ? <ChoiceQuestion question={question} value={answer.selections} disabled={fieldComplete(history.answer) || view === 'instructor' || retryPending} onChange={(value) => updateAnswer('selections', value)} /> : question.kind === 'math-response' ? <MathQuestion key={question.id} question={question} values={answer.values} disabled={view === 'instructor' || retryPending} history={history} lastSubmitted={session.lastSubmitted?.[question.id]} invalidFields={invalidFields} onChange={(id, value) => updateAnswer('values', { ...answer.values, [id]: value })} /> : question.kind === 'greatest-common-factor' ? <FactoringQuestion question={question} value={answer.text || ''} disabled={fieldComplete(history.answer) || view === 'instructor' || retryPending} invalid={invalidFields.includes('answer')} gradeState={gradedAnswerState(answer.text, history.answer, session.lastSubmitted?.[question.id]?.answer)} onChange={(value) => updateAnswer('text', value)} /> : <><div className="player-fill-question"><label htmlFor={`answer-${question.id}`}>{question.opening}</label><input id={`answer-${question.id}`} type="text" aria-label={`Fill in the blank for question ${session.current + 1}`} value={answer.text} onChange={(event) => updateAnswer('text', event.target.value)} autoComplete="off" disabled={view === 'instructor' || retryPending} /><span>{question.ending}</span></div>
             <fieldset className="player-choice-question"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" name={question.id} value={choice} checked={answer.choice === choice} disabled={view === 'instructor' || retryPending} onChange={() => updateAnswer('choice', choice)} /><PlayerIcon name={answer.choice === choice ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
-            {saveImportedResponse && savedAt && <p className="player-instructor-note" role="status">Answer saved.</p>}
             {hideQuestionResources && savedAt && <LearnIt key={question.id} question={question} />}
             {gradeFeedback && (isUnchangedFeedback
               ? <div id={`grade-feedback-${question.id}`} className="player-grade-feedback player-grade-feedback-warning" role="status"><WarningIcon aria-hidden="true" size={theme.iconSizes.small} /><span>{gradeFeedback}</span></div>
@@ -197,15 +248,16 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
           <button type="button" className="player-rail-toggle" aria-label={railOpen ? 'Collapse question tools' : 'Expand question tools'} aria-expanded={railOpen} onClick={() => { setRailOpen(!railOpen); setTool(null); }}><PlayerIcon name="collapse" /></button>
         </aside>
         {tool && <div className="player-tool-panel"><div className="player-tool-heading"><h2>{tool === 'questions' ? 'Questions' : 'Accessibility'}</h2><button type="button" onClick={() => setTool(null)} aria-label="Close question tools panel">×</button></div>{tool === 'questions' ? <><p>{answered} of {questions.length} answered</p><ol>{questions.map((item, index) => <li key={item.id}><button type="button" onClick={() => goToQuestion(index)}>Question {index + 1}{session.flags.includes(item.id) ? ' · Flagged' : ''}{isQuestionAnswered(item, session.answers[item.id]) ? ' · Answered' : ''}</button></li>)}</ol></> : <label className="player-text-size"><input type="checkbox" checked={largeText} onChange={(event) => setLargeText(event.target.checked)} />Larger question text</label>}</div>}
+        </>}
       </div>
     </div>
-      <nav className="player-pagination" aria-label="Question navigation">
+      {view === 'student' && <nav className="player-pagination" aria-label="Question navigation">
         <Button className="rebrand-button player-previous" variant={ButtonVariant.link} disabled={session.current === 0} aria-label="Previous question" onClick={() => goToQuestion(session.current - 1)}><PlayerIcon name="previous" /></Button>
         <select className="player-question-select" aria-label="Go to question" value={session.current} onChange={(event) => goToQuestion(Number(event.target.value))}>
           {questions.map((item, index) => <option key={item.id} value={index}>{index + 1} of {questions.length}{session.flags.includes(item.id) ? ' · Flagged' : ''}</option>)}
         </select>
         <Button className="rebrand-button rebrand-button-primary player-next" onClick={() => session.current < questions.length - 1 ? goToQuestion(session.current + 1) : setFinishOpen(true)}>{session.current === questions.length - 1 ? 'Finish' : 'Next'}<PlayerIcon name="next" /></Button>
-      </nav>
+      </nav>}
     {settingsOpen && <ActivitySettingsModal activity={activity} onSave={(updated) => { if (onActivityChange) onActivityChange(updated); else saveActivity(updated); setSettingsOpen(false); }} onClose={() => setSettingsOpen(false)} />}
     <Modal isOpen={finishOpen} header="Activity preview complete" headerLevel={2} size={ModalSize.medium} onClose={() => setFinishOpen(false)}><p>You have answered {answered} of {questions.length} questions. Your progress is saved in this course preview.</p><Button className="rebrand-button" variant={ButtonVariant.link} onClick={() => setFinishOpen(false)}>Keep reviewing</Button><Button className="rebrand-button rebrand-button-primary" onClick={finish}>{onBack ? backLabel : 'Back to overview'}</Button></Modal>
   </section>;
