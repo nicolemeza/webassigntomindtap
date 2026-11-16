@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, ButtonSize, ButtonVariant, Input, Modal, ModalSize } from 'react-magma-dom';
+import { VpnKeyIcon } from 'react-magma-icons';
 import { GRAPH_RANGE, circleRadius, graphCoordinates, graphScale, readGraph, translateGraphObject, validGraphPoints } from './graphingGeometry';
 import './graphing-pad.css';
 
@@ -14,17 +15,21 @@ function ToolIcon({ name }) {
   const icon = ['ray', 'segment'].includes(name) ? 'line' : name === 'horizontal-parabola' ? 'parabola' : name;
   return <img src={asset(icon)} className={name === 'horizontal-parabola' ? 'graph-pad-horizontal-icon' : undefined} width="40" height="40" alt="" />;
 }
-function CoordinateInput({ value, label, disabled, onCommit }) {
+function CoordinateInput({ value, label, disabled, answerKey = false, onCommit }) {
   const [draft, setDraft] = useState(String(value));
   useEffect(() => setDraft(String(value)), [value]);
-  return <Input type="number" step={0.5} disabled={disabled} labelText={label} isLabelVisuallyHidden value={draft} containerStyle={{ minWidth: 0, width: '100%', margin: 0 }} inputWrapperStyle={{ margin: 0 }} inputStyle={{ height: 40, minWidth: 0, fontFamily: 'Verdana, sans-serif', padding: '4px 8px' }} onChange={event => setDraft(event.target.value)} onBlur={() => {
+  return <div className={`graph-pad-coordinate-input${answerKey ? ' graph-pad-answer-key-input' : ''}`}>
+    <Input type="number" step={0.5} disabled={disabled} labelText={label} isLabelVisuallyHidden value={draft} containerStyle={{ minWidth: 0, width: '100%', margin: 0 }} inputWrapperStyle={{ margin: 0 }} inputStyle={{ height: 40, minWidth: 0, fontFamily: 'Verdana, sans-serif', padding: answerKey ? '4px 40px 4px 8px' : '4px 8px' }} onChange={event => setDraft(event.target.value)} onBlur={() => {
     const number = Number(draft);
     if (!draft.trim() || !Number.isFinite(number) || onCommit(number) === false) setDraft(String(value));
-  }} onKeyDown={event => { if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); } }} />;
+  }} onKeyDown={event => { if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); } }} />
+    {answerKey && <span className="graph-pad-answer-key-icon" role="img" aria-label="Answer key"><VpnKeyIcon aria-hidden="true" /></span>}
+  </div>;
 }
-export default function GraphingPad({ value, onChange, label = 'Graph the circle.', disabled = false }) {
+export default function GraphingPad({ value, onChange, label = 'Graph the circle.', disabled = false, answerKey = false }) {
   const data = readGraph(value);
   const [tool, setTool] = useState('select'), [selected, setSelected] = useState(null);
+  const [collapsedObjectIds, setCollapsedObjectIds] = useState(() => new Set());
   const [pending, setPending] = useState(null), [hover, setHover] = useState(null), [dragPreview, setDragPreview] = useState(null);
   const [helpOpen, setHelpOpen] = useState(false), [size, setSize] = useState(500);
   const [message, setMessage] = useState('Choose a drawing tool. Circle: place its center, then a point on its edge.');
@@ -135,8 +140,8 @@ export default function GraphingPad({ value, onChange, label = 'Graph the circle
     </g>;
   };
   const preview = pending && hover && validGraphPoints(tool, [pending, hover]) ? { type: tool, points: [pending, hover] } : null;
-  return <section className="graph-pad-container" aria-label="Graphing pad">
-    <p>{label}</p>
+  return <section className={`graph-pad-container${answerKey ? ' graph-pad-container--answer-key' : ''}`} aria-label="Graphing pad">
+    {!answerKey && <p>{label}</p>}
     <div className="graph-pad">
       <div className="graph-pad-drawing">
         <div ref={toolbarRef} className="graph-pad-toolbar" role="toolbar" aria-label="Graph drawing tools">
@@ -164,10 +169,19 @@ export default function GraphingPad({ value, onChange, label = 'Graph the circle
       <aside className="graph-pad-objects" aria-label="Graph objects">
         <header><strong>Objects</strong><span>{data.objects.length ? data.objects.length + ' object' + (data.objects.length === 1 ? '' : 's') : 'No objects'}</span></header>
         {!data.objects.length && <p>After you add an object to the graph you can use this panel to view and edit its properties.</p>}
-        <div className="graph-pad-object-list">{data.objects.map((stored, index) => { const object = dragPreview?.id === stored.id ? dragPreview : stored; return <details className="graph-pad-object" key={object.id} open={selected === object.id} onToggle={event => { if (event.currentTarget.open) setSelected(object.id); }}>
+        <div className="graph-pad-object-list">{data.objects.map((stored, index) => { const object = dragPreview?.id === stored.id ? dragPreview : stored; return <details className="graph-pad-object" key={object.id} open={!collapsedObjectIds.has(object.id)} onToggle={event => {
+          const isOpen = event.currentTarget.open;
+          setCollapsedObjectIds(current => {
+            const next = new Set(current);
+            if (isOpen) next.delete(object.id);
+            else next.add(object.id);
+            return next;
+          });
+          if (isOpen) setSelected(object.id);
+        }}>
           <summary><img className="graph-pad-expanded" src={asset('expanded')} width="20" height="20" alt="" /><img className="graph-pad-collapsed" src={asset('collapsed')} width="20" height="20" alt="" />{toolLabel[object.type]} <span>{index + 1}</span></summary>
           <button type="button" className="graph-pad-remove" disabled={disabled} aria-label={'Delete ' + toolLabel[object.type] + ' ' + (index + 1)} onClick={() => remove(object.id)}><img src={asset('delete')} width="20" height="20" alt="" /></button>
-          <div className="graph-pad-properties">{object.points.map((point, pointIndex) => <div key={pointIndex} className="graph-pad-coordinate"><span>{object.type === 'circle' ? pointIndex === 0 ? 'Center' : 'Point on circle' : 'Point ' + (pointIndex + 1)}</span><div><span>(</span>{point.map((coordinate, axis) => <React.Fragment key={axis}><CoordinateInput disabled={disabled} label={toolLabel[object.type] + ' ' + (index + 1) + ', ' + (object.type === 'circle' && pointIndex === 0 ? 'center' : 'point ' + (pointIndex + 1)) + ', ' + (axis ? 'y' : 'x')} value={coordinate} onCommit={number => {
+          <div className="graph-pad-properties">{object.points.map((point, pointIndex) => <div key={pointIndex} className="graph-pad-coordinate"><span>{object.type === 'circle' ? pointIndex === 0 ? 'Center' : 'Point on circle' : 'Point ' + (pointIndex + 1)}</span><div><span>(</span>{point.map((coordinate, axis) => <React.Fragment key={axis}><CoordinateInput disabled={disabled} answerKey={answerKey} label={toolLabel[object.type] + ' ' + (index + 1) + ', ' + (object.type === 'circle' && pointIndex === 0 ? 'center' : 'point ' + (pointIndex + 1)) + ', ' + (axis ? 'y' : 'x')} value={coordinate} onCommit={number => {
             const points = object.points.map((old, index) => index === pointIndex ? old.map((value, dimension) => dimension === axis ? number : value) : old);
             if (!validGraphPoints(object.type, points)) return false;
             update(object.id, { points }); return true;
