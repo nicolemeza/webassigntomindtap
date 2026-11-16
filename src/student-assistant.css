@@ -37,4 +37,22 @@
 .sa-panel h3{margin:0 0 8px;font-size:16px}
 .sa-panel p{margin:0 0 12px}
 .sa-notice{display:flex;gap:8px;align-items:center;padding:8px 24px;color:#707070;font-size:14px;line-height:20px}
+.sa-suggestions{padding:20px 8px 8px}
+.sa-suggestions h3{margin:0 0 4px;font-size:18px;line-height:26px;font-weight:600}
+.sa-suggestions>p{margin:0 0 16px;color:#646464;font-size:14px;line-height:21px}
+.sa-suggestions>div{display:grid;gap:10px}
+.sa-suggestion{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:14px 16px;text-align:left;border:1px solid #d8daf0;border-radius:8px;background:#f8f8ff;color:#292f7c;font:inherit;cursor:pointer;transition:background .15s,border-color .15s}
+.sa-suggestion>span:first-child{display:grid;gap:3px}
+.sa-suggestion strong{font-size:15px;font-weight:600}
+.sa-suggestion strong+span{font-size:13px;line-height:19px;color:#646476}
+.sa-suggestion-arrow{font-size:22px;flex:none}
+.sa-suggestion:hover{background:#eeeeff;border-color:var(--sa-primary)}
+.sa-suggestion:focus-visible,.sa-example-nav h3:focus-visible{outline:2px solid var(--sa-primary);outline-offset:3px}
+.sa-example-nav{flex:none;padding:4px 24px 14px;border-bottom:1px solid #e7e7ed;background:#fff}
+.student-assistant .sa-back-examples{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:4px 0;font-size:14px}
+.sa-example-label{display:block;margin-top:8px;color:#707070;font-size:12px;line-height:18px}
+.sa-example-nav h3{margin:2px 0 0;font-size:16px;line-height:24px;font-weight:600;border-radius:2px}
+.sa-example-end{margin:24px 8px 8px;padding:16px;border:1px solid #d8daf0;border-radius:8px;background:#f8f8ff}
+.sa-example-end p{margin:0 0 4px;font-size:14px}
+.sa-example-end button{padding-inline:0}
 @media(max-width:650px){.student-assistant{right:16px;bottom:16px;max-height:calc(100dvh - 32px)}.sa-header{padding-inline:8px}.sa-brand{gap:8px;padding-inline:4px}.sa-header-tools{gap:0}.sa-brand h2{font-size:16px}}

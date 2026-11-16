@@ -1,5 +1,10 @@
+export function assistantQuestionNumber(activity, question) {
+  const index = activity.questions?.findIndex(item => item.id === question.id) ?? -1;
+  return index >= 0 ? index + 1 : question.id.match(/-(\d+)$/)?.[1];
+}
+
 export function assistantGreeting(activity, question) {
-  const number = question.id.match(/-(\d+)$/)?.[1];
+  const number = assistantQuestionNumber(activity, question);
   return `I see you’re on ${activity.title}${number ? `, question ${number}` : ''}. How can I help you?`;
 }
 
