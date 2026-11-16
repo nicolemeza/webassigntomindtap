@@ -7,7 +7,7 @@
 .player-view-switch .rebrand-button:first-child{border-radius:8px 0 0 8px!important}
 .player-view-switch .rebrand-button:last-child{border-radius:0 8px 8px 0!important;margin-left:-1px}
 .player-view-switch .selected{background:#56667a!important;border-color:#56667a!important;color:white!important}
-.player-view-switch .selected img{filter:brightness(0) invert(1)}
+.player-view-switch .rebrand-button:hover{color:var(--brand-navy)!important}
 .player-icon-button{width:28px!important;padding:5px!important}
 .player-details-button{display:flex;align-items:center;gap:4px;padding:6px 8px;background:white;color:#007085;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.32px;cursor:pointer}
 .player-details-button img{display:block}
@@ -15,7 +15,7 @@
 .player-activity-details p{margin:4px 0}
 .player-body{position:relative;display:flex;flex-shrink:0;gap:17px;min-height:380px}
 .player-body--instructor{display:block;min-height:0}
-.instructor-review{display:flex;flex-direction:column;gap:24px;width:min(1120px,100%);margin:0 auto;padding:24px 0 48px}
+.instructor-review{display:flex;flex-direction:column;gap:24px;width:min(1120px,100%);margin:0;padding:24px 0 48px}
 .instructor-review>.player-instructor-note{margin:0}
 .instructor-review-question{box-sizing:border-box;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 .instructor-review-question-header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 0 12px;padding:16px 24px 0;color:var(--text-subdued)}
@@ -33,6 +33,7 @@
 .instructor-review-question>.activity-resources h3{margin:0;color:var(--text-subdued);font-family:var(--font-ui);font-size:12px;font-weight:600;line-height:20px}
 .instructor-review-question>.activity-resources .activity-resource-actions{justify-content:flex-end;gap:8px}
 .instructor-review-question input:disabled,.instructor-review-question input[readonly]{opacity:1}
+.instructor-review-question .math-answer-input[data-answer-key] input[readonly]{pointer-events:none}
 .instructor-review-question .math-answer-input[data-answer-key] input:is(:disabled,[readonly]){box-sizing:border-box;padding-right:40px;border:2px solid #00844b !important;background:#E7FAEF;color:#00844b;font-weight:500;box-shadow:none !important}
 .instructor-review-question .math-answer-input[data-answer-key],.instructor-review-question .math-answer-input[data-answer-key] input[readonly]{cursor:text!important;user-select:text}
 .instructor-review-question .math-answer-input[data-answer-key]>div{border:0!important;background:transparent!important;box-shadow:none!important;outline:0!important}
@@ -44,6 +45,7 @@
 .instructor-review-question .player-fill-question .math-answer-input{width:192px}
 .instructor-review-question .player-fill-question .math-answer-input input{width:100%;height:40px}
 .player-question-main{flex:1;min-width:0}
+.player-question-main.player-question-integrated{flex:0 1 1120px;width:100%;max-width:1120px;margin-inline:0}
 .player-progress{display:flex;flex-direction:column;gap:4px}
 .player-question-counter{display:flex;align-items:center;min-height:24px;font-size:16px;font-weight:400;line-height:24px}
 .player-question-counter:focus{outline:none}

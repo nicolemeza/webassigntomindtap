@@ -23,14 +23,10 @@ import { gradingFields, fieldComplete, gradedAnswerState, submitQuestion } from 
 import { getCourseState, saveCourseState } from './courseModel';
 
 const playerSessions = new Map();
-const emptyQuestionAnswer = (question) => question.kind === 'choice'
-  ? { selections: [] }
-  : question.kind === 'math-response' || question.kind === 'webassign'
-    ? { values: {} }
-    : { text: '', choice: '' };
 const iconSizes = { selected: [16, 16], print: [16, 16], edit: [16, 16], details: [16, 16], radioChecked: [24, 24], radioUnchecked: [24, 24], accessibility: [24, 26.0321], previous: [20, 20], next: [20, 20], pageMarker: [4.41421, 4.41421] };
 function PlayerIcon({ name }) {
   const [width, height] = iconSizes[name] || [24, 24];
+  if (name === 'selected') return <svg width={width} height={height} viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.33333C4.32 1.33333 1.33333 4.32 1.33333 8C1.33333 11.68 4.32 14.6667 8 14.6667C11.68 14.6667 14.6667 11.68 14.6667 8C14.6667 4.32 11.68 1.33333 8 1.33333ZM6.19333 10.86L3.8 8.46667C3.54 8.20667 3.54 7.78667 3.8 7.52667C4.06 7.26667 4.48 7.26667 4.74 7.52667L6.66667 9.44667L11.2533 4.86C11.5133 4.6 11.9333 4.6 12.1933 4.86C12.4533 5.12 12.4533 5.54 12.1933 5.8L7.13333 10.86C6.88 11.12 6.45333 11.12 6.19333 10.86Z" fill="currentColor" /></svg>;
   return <img src={`/rebrand/player-${name}.svg`} width={width} height={height} alt="" aria-hidden="true" />;
 }
 
@@ -169,9 +165,6 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
     }
     if (retryPending) {
       updateSession((current) => ({
-        answers: { ...current.answers, [question.id]: question.kind === 'webassign'
-          ? { values: Object.fromEntries(Object.entries(current.answers[question.id]?.values || {}).filter(([id]) => !fields.some(field => field.id === id))) }
-          : emptyQuestionAnswer(question) },
         feedback: { ...current.feedback, [question.id]: null },
         rejoinders: { ...current.rejoinders, [question.id]: null },
         retryPending: { ...current.retryPending, [question.id]: false },

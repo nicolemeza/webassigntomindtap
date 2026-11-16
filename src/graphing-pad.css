@@ -46,7 +46,8 @@
 .graph-pad-coordinate label{margin:0}
 .graph-pad-coordinate div:has(>input){min-width:0}
 .graph-pad-coordinate-input{position:relative;min-width:0;width:100%}
-.graph-pad-container--answer-key .graph-pad-answer-key-input input:disabled{box-sizing:border-box;border:2px solid #00844b!important;background:#fff;color:var(--brand-navy);box-shadow:none!important;opacity:1;cursor:text!important}
+.graph-pad-container--answer-key .graph-pad-answer-key-input input:disabled{box-sizing:border-box;border:2px solid #00844b!important;background:#E7FAEF!important;color:#00844b;box-shadow:none!important;opacity:1;cursor:text!important;user-select:text;-webkit-text-fill-color:#00844b}
+.graph-pad-container--answer-key .graph-pad-answer-key-input input:disabled:focus,.graph-pad-container--answer-key .graph-pad-answer-key-input input:disabled:focus-visible{outline:0!important;box-shadow:none!important}
 .graph-pad-container--answer-key .graph-pad-answer-key-input>div>div{border:0!important;background:transparent!important;box-shadow:none!important}
 .graph-pad-answer-key-icon{position:absolute;right:14px;inset-block:0;display:flex;align-items:center;justify-content:center;width:20px;height:20px;margin-block:auto;color:#00844b;line-height:0;pointer-events:none}
 .graph-pad-answer-key-icon svg{display:block;width:20px;height:20px}
