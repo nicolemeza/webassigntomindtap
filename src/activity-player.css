@@ -60,7 +60,10 @@
 .player-radio{display:flex;position:relative;align-items:center;gap:8px;margin:0 0 24px 13px;min-height:24px;color:var(--brand-navy);font-family:var(--font-ui);line-height:24px;cursor:pointer}
 .player-radio input{position:absolute;width:24px;height:24px;margin:0;opacity:0}
 .player-radio>img{display:block;flex-shrink:0}
-.player-radio input:focus-visible+img{outline:2px solid var(--brand-teal);outline-offset:3px;border-radius:50%}
+.player-radio-icon{display:block;flex-shrink:0;color:#007085}
+.instructor-review-question .player-choice-question--answer-key .player-radio input:checked+.player-radio-icon{color:#00844b;opacity:1;filter:none}
+.instructor-review-question .player-choice-question--answer-key .player-radio{cursor:default}
+.player-radio input:focus-visible+:is(img,.player-radio-icon){outline:2px solid var(--brand-teal);outline-offset:3px;border-radius:50%}
 .player-question-content.large-text{font-size:20px;line-height:34px}
 #app .player-grade-question,#app .player-grade-question-magma{margin-bottom:32px}
 #app .player-grade-question{box-sizing:border-box;display:inline-flex;height:40px;min-height:40px;margin-top:32px;padding:8px 16px;border:1px solid #8b91da;border-radius:8px;background:white;color:#3942b0;font-family:'Work Sans',var(--font-ui);font-size:16px;font-weight:500;line-height:24px;letter-spacing:0;text-transform:uppercase;box-shadow:none}

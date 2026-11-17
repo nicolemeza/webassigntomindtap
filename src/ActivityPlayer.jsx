@@ -27,6 +27,7 @@ const iconSizes = { selected: [16, 16], print: [16, 16], edit: [16, 16], details
 function PlayerIcon({ name }) {
   const [width, height] = iconSizes[name] || [24, 24];
   if (name === 'selected') return <svg width={width} height={height} viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.33333C4.32 1.33333 1.33333 4.32 1.33333 8C1.33333 11.68 4.32 14.6667 8 14.6667C11.68 14.6667 14.6667 11.68 14.6667 8C14.6667 4.32 11.68 1.33333 8 1.33333ZM6.19333 10.86L3.8 8.46667C3.54 8.20667 3.54 7.78667 3.8 7.52667C4.06 7.26667 4.48 7.26667 4.74 7.52667L6.66667 9.44667L11.2533 4.86C11.5133 4.6 11.9333 4.6 12.1933 4.86C12.4533 5.12 12.4533 5.54 12.1933 5.8L7.13333 10.86C6.88 11.12 6.45333 11.12 6.19333 10.86Z" fill="currentColor" /></svg>;
+  if (name === 'radioChecked') return <svg className="player-radio-icon" width={width} height={height} viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E7FAEF" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="12" r="5" fill="currentColor" /></svg>;
   return <img src={`/rebrand/player-${name}.svg`} width={width} height={height} alt="" aria-hidden="true" />;
 }
 
@@ -60,12 +61,12 @@ function InstructorQuestionReview({ activity, question, index, total }) {
       {question.kind === 'webassign'
         ? <WebassignQuestion question={question} values={expectedValues} instructor disabled answerKeyVisible answerKeyMode onChange={() => {}} />
         : question.kind === 'choice'
-          ? <ChoiceQuestion question={question} value={choiceValues} disabled onChange={() => {}} />
+          ? <ChoiceQuestion question={question} value={choiceValues} disabled answerKeyMode onChange={() => {}} />
           : question.kind === 'math-response'
             ? <MathQuestion question={question} values={expectedValues} disabled answerKeyMode onChange={() => {}} />
             : question.kind === 'greatest-common-factor'
               ? <FactoringQuestion question={question} value={expectedValues.answer || ''} disabled answerKeyMode onChange={() => {}} />
-              : <><div className="player-fill-question"><span>{question.opening}</span><MathAnswerInput type="text" label={`Answer for question ${index + 1}`} value={question.answerKey || ''} readOnly answerKey /><span>{question.ending}</span></div><fieldset className="player-choice-question" disabled><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" checked={choice === question.statementAnswer} readOnly /><PlayerIcon name={choice === question.statementAnswer ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
+              : <><div className="player-fill-question"><span>{question.opening}</span><MathAnswerInput type="text" label={`Answer for question ${index + 1}`} value={question.answerKey || ''} readOnly answerKey /><span>{question.ending}</span></div><fieldset className="player-choice-question player-choice-question--answer-key" aria-disabled="true"><legend>{question.statement}</legend>{question.choices.map((choice) => <label className="player-radio" key={choice}><input type="radio" checked={choice === question.statementAnswer} aria-disabled="true" tabIndex={-1} onChange={() => {}} onClick={(event) => event.preventDefault()} /><PlayerIcon name={choice === question.statementAnswer ? 'radioChecked' : 'radioUnchecked'} /><span>{choice}</span></label>)}</fieldset></>}
     </div>
     <ActivityResources activity={activity} question={question} variant="integrated" />
   </article>;
@@ -100,10 +101,9 @@ export default function ActivityPlayer({ chapter, section, activity: originalAct
   const [savingQuestionId, setSavingQuestionId] = useState(null);
   const headingRef = useRef(null);
   const question = questions[session.current];
-  const alternativeLayout = question.kind === 'webassign' || question.kind === 'math-response' || question.id.startsWith('r5-factoring-question-') ||
-    question.kind === 'choice' ||
-    (sourceChapter === 'Chapter 2. Functions and Graphs' && sourceTitle === '2.5 HW Graphs of Equations & Circles') ||
-    (sourceChapter === 'Chapter R. A Review of Basic Algebra' && sourceTitle === 'Chapter R Test');
+  // The integrated card is the common player treatment for every activity.
+  // The Chapter R Test retains its exam-specific resource and attempt exclusions below.
+  const alternativeLayout = true;
   const hideQuestionResources = sourceChapter === 'Chapter R. A Review of Basic Algebra' && sourceTitle === 'Chapter R Test';
   const hideQuestionAttempts = hideQuestionResources;
   const fields = gradingFields(question);
