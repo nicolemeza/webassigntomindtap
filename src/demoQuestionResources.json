@@ -1,0 +1,3883 @@
+{
+  "verifiedAt": "2026-11-06",
+  "sourceQuestionId": "5352779",
+  "sourceQuestionCode": "GHColAlg13 1.1.065.EP.",
+  "readIt": {
+    "title": "1.1 Linear Equations and Rational Equations",
+    "sourceUrl": "https://ng.cengage.com/static/nb/ui/evo/index.html?eISBN=9780357723890&id=1605180119&snapshotId=3144103&",
+    "isbn": "9780357723890",
+    "nodeId": "1599962609",
+    "contentId": "FMBWTG6NSLJLY1AE1453",
+    "pages": [
+      {
+        "id": "FMBWTG6NSLJLY1AE1453_content",
+        "title": "1.1 Linear Equations and Rational Equations",
+        "content": [
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "learningObjectives"
+            },
+            "children": [
+              {
+                "tag": "ol",
+                "attrs": {
+                  "class": "decimal learnObjList"
+                },
+                "children": [
+                  {
+                    "tag": "p",
+                    "children": [
+                      "In this section, we will learn to"
+                    ]
+                  },
+                  {
+                    "tag": "li",
+                    "attrs": {
+                      "class": "learnObj"
+                    },
+                    "children": [
+                      "Use vocabulary related to solving equations and recognize types of equations."
+                    ]
+                  },
+                  {
+                    "tag": "li",
+                    "attrs": {
+                      "class": "learnObj"
+                    },
+                    "children": [
+                      "Solve linear equations in one variable."
+                    ]
+                  },
+                  {
+                    "tag": "li",
+                    "attrs": {
+                      "class": "learnObj"
+                    },
+                    "children": [
+                      "Solve rational equations."
+                    ]
+                  },
+                  {
+                    "tag": "li",
+                    "attrs": {
+                      "class": "learnObj"
+                    },
+                    "children": [
+                      "Solve formulas for a specific variable."
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "media nbannotation prerendered nbid_6822366eb52fde53948f5abd rs_skip"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "cluimedia_viewer_image rs_skip"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "nb_media image unnumbered"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "imageContainer"
+                        },
+                        "children": [
+                          {
+                            "tag": "img",
+                            "attrs": {
+                              "src": "https://college.cengage.com/nextbook/shared/mathematics/gustafson_9780357723654/images/23654_01_unf02-t2.jpg",
+                              "alt": " ",
+                              "width": 291
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "mediaCredit"
+                        },
+                        "children": [
+                          "Oliveromg/ ",
+                          {
+                            "tag": "span",
+                            "attrs": {
+                              "class": "external"
+                            },
+                            "children": [
+                              "Shutterstock.com"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "It’s been said that “weddings today are as beautiful as they are expensive.” Suppose a couple budgets ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mi mathvariant=\"normal\" class=\"mathML-Unit\">$</m:mi><m:mn>5000</m:mn></m:math>"
+              },
+              " for their wedding reception at a historic home. If ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mi mathvariant=\"normal\" class=\"mathML-Unit\">$</m:mi><m:mn>800</m:mn></m:math>"
+              },
+              " is charged for renting the home and there is a ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi mathvariant=\"normal\" class=\"mathML-Unit\">$</m:mi><m:mn>42</m:mn></m:mrow></m:math>"
+              },
+              "-per-person fee for food and beverages, how many guests can the couple accommodate at their reception?"
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "If we let the ",
+              {
+                "tag": "strong",
+                "children": [
+                  "variable"
+                ]
+              },
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mi>x</m:mi></m:math>"
+              },
+              " represent the number of guests, the expression ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>800</m:mn><m:mo>+</m:mo><m:mn>42</m:mn><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " represents the cost for the reception. That is, ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi mathvariant=\"normal\" class=\"MathML-Unit\">$</m:mi><m:mn>800</m:mn></m:mrow></m:math>"
+              },
+              " for the home rental plus ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi mathvariant=\"normal\" class=\"MathML-Unit\">$</m:mi><m:mn>42</m:mn></m:mrow></m:math>"
+              },
+              " times the number of guests, ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " We want to know the value of ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " that makes the expression equal ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi mathvariant=\"normal\" class=\"MathML-Unit\">$</m:mi><m:mn>5000</m:mn></m:mrow></m:math>"
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "We can write the statement ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>800</m:mn><m:mo>+</m:mo><m:mn>42</m:mn><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>5000</m:mn></m:mrow></m:math>"
+              },
+              " to indicate that the two quantities are equal. A statement indicating that two quantities are equal is called an ",
+              {
+                "tag": "strong",
+                "children": [
+                  "equation"
+                ]
+              },
+              ". In this section, we will learn how to solve equations of this type."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "If ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>100</m:mn></m:mrow></m:math>"
+              },
+              ", the equation is true because when we substitute ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>100</m:mn></m:mrow></m:math>"
+              },
+              " for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              ", we obtain a true statement. "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>800</m:mn><m:mo>+</m:mo><m:mn>42</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mn mathcolor=\"#C4008C\">100</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>5000</m:mn></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>800</m:mn><m:mo>+</m:mo><m:mn>4200</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>5000</m:mn></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>5000</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>5000</m:mn></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "The couple can accommodate ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>100</m:mn></m:mrow></m:math>"
+              },
+              " guests at their wedding reception."
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "footnotes"
+            }
+          }
+        ],
+        "expectedMath": 16,
+        "capturedMath": 16
+      },
+      {
+        "id": "KGXK66HHVJU3YDLF7150_content",
+        "title": "1. Use Vocabulary Related to Solving Equations and Recognize Types of Equations",
+        "content": [
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "media nbannotation nbid_63e26f0a1a35222a4d46d610 nbdeletable annotation clui_models_annotation_63e26f0a1a35222a4d46d610 rs_skip"
+            },
+            "children": [
+              {
+                "tag": "source-video",
+                "title": "Video: Develop additional properties of real numbers"
+              },
+              {
+                "tag": "div"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "An equation can be either true or false. For example, the equation ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn><m:mo>+</m:mo><m:mn>2</m:mn><m:mo>=</m:mo><m:mn>4</m:mn></m:mrow></m:math>"
+              },
+              " is true, and the equation ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn><m:mo>+</m:mo><m:mn>3</m:mn><m:mo>=</m:mo><m:mn>6</m:mn></m:mrow></m:math>"
+              },
+              " is false. An equation such as ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn><m:mo>=</m:mo><m:mn>10</m:mn></m:mrow></m:math>"
+              },
+              " can be true or false depending on the value of ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "If ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>100</m:mn></m:mrow></m:math>"
+              },
+              ", the equation is true, because ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>4</m:mn></m:mrow></m:math>"
+              },
+              " satisfies the equation. "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>10</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mn mathcolor=\"#C4008C\">4</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>10</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Substitute</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>4</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>for</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>x</m:mi><m:mo>.</m:mo><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>Read</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>as</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mo>“</m:mo><m:mi>is possibly equal to</m:mi><m:mo>.</m:mo><m:mo>”</m:mo><m:mi></m:mi></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>12</m:mn><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>10</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>10</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>10</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "This equation is false for all other values of ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "Any number that satisfies an equation is called a ",
+              {
+                "tag": "strong",
+                "children": [
+                  "solution"
+                ]
+              },
+              " or ",
+              {
+                "tag": "strong",
+                "children": [
+                  "root"
+                ]
+              },
+              " of the equation. The set of all solutions of an equation is called its ",
+              {
+                "tag": "strong",
+                "children": [
+                  "solution set"
+                ]
+              },
+              ". We have seen that the solution set of ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn><m:mo>=</m:mo><m:mn>10</m:mn></m:mrow></m:math>"
+              },
+              ". is ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>{</m:mo><m:mn>4</m:mn><m:mo>}</m:mo></m:mrow></m:math>"
+              },
+              " To ",
+              {
+                "tag": "strong",
+                "children": [
+                  "solve"
+                ]
+              },
+              " an equation means to find its solution set."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "There can be restrictions on the values of a variable. For example, in the fraction"
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "There can be restrictions on the values of a variable. For example, in the fraction "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup><m:mo>+</m:mo><m:mn>4</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "we cannot replace ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " with ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              ", because that would make the denominator equal to ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              ".",
+              {
+                "tag": "span"
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Finding the Restrictions on the Values of a Variable"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "Find the restrictions on the values of ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                  },
+                  " in the equation: ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>7</m:mn><m:mi>x</m:mi></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>6</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                  },
+                  "."
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "We will identify the real numbers that make each denominator zero."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "For ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>7</m:mn><m:mi>x</m:mi></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>6</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      },
+                      " to be a real number, ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      " cannot be ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mn>6</m:mn></m:mrow></m:math>"
+                      },
+                      " because that would make the denominator ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+                      },
+                      ". For ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      },
+                      " to be a real number, ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      " cannot be ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>1</m:mn></m:mrow></m:math>"
+                      },
+                      " because that would make the denominator ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+                      },
+                      ". Thus, the values of ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      " are restricted and ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>≠</m:mo><m:mn>1</m:mn></m:mrow></m:math>"
+                      },
+                      " or ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mn>6</m:mn></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 1"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Find the restrictions on ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo lspace=\"0\" rspace=\"0\">:</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>5</m:mn><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>5</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>≠</m:mo><m:mn>2</m:mn></m:mrow></m:math>"
+                      },
+                      " or ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mn>5</m:mn></m:mrow></m:math>"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 19"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "There are three types of equations: identities, contradictions, and conditional equations. These are defined and illustrated in the following table. "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "table rs_skip"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "maintable narrowtable widetable"
+                },
+                "children": [
+                  {
+                    "tag": "table",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "children": [
+                          {
+                            "tag": "span"
+                          },
+                          {
+                            "tag": "span"
+                          },
+                          {
+                            "tag": "span"
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "thead",
+                        "children": [
+                          {
+                            "tag": "tr",
+                            "children": [
+                              {
+                                "tag": "th",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "Type of Equation"
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "th",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "Definition"
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "th",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "Example"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "tbody",
+                        "children": [
+                          {
+                            "tag": "tr",
+                            "attrs": {
+                              "class": "odd"
+                            },
+                            "children": [
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      {
+                                        "tag": "strong",
+                                        "children": [
+                                          "Identity"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "Every acceptable real number replacement for the variable is a solution."
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup><m:mo>-</m:mo><m:mn>9</m:mn><m:mo>=</m:mo><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                                      },
+                                      " Every real number ",
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                                      },
+                                      " is a solution."
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "tag": "tr",
+                            "attrs": {
+                              "class": "even"
+                            },
+                            "children": [
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      {
+                                        "tag": "strong",
+                                        "children": [
+                                          "Contradiction"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "No real number is a solution."
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math>"
+                                      },
+                                      " The equation has no solution. No real number can be ",
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>1</m:mn></m:mrow></m:math>"
+                                      },
+                                      " greater than itself."
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "tag": "tr",
+                            "attrs": {
+                              "class": "odd"
+                            },
+                            "children": [
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      {
+                                        "tag": "strong",
+                                        "children": [
+                                          "Conditional Equation"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "Solution set contains some but not all real numbers."
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "td",
+                                "attrs": {
+                                  "class": "alignleft valigntop"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn><m:mo>=</m:mo><m:mn>10</m:mn></m:mrow></m:math>"
+                                      },
+                                      " The equation has one solution, the number ",
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>4</m:mn></m:mrow></m:math>"
+                                      },
+                                      "."
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "fadediv_tall"
+                    }
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "fadediv_wide"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "Two equations with the same solution set are called ",
+              {
+                "tag": "strong",
+                "children": [
+                  "equivalent equations"
+                ]
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "There are certain properties of equality that we can use to transform equations into equivalent but less complicated equations. If we use these properties, the resulting equations will be equivalent and will have the same solution set."
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "container dependent narrative  rs_skip"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "containerHeading"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Properties of Equality"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "sidebarContent"
+                },
+                "children": [
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "The Addition and Subtraction Properties"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "If ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>a</m:mi></m:mrow></m:math>"
+                      },
+                      ", ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>b</m:mi></m:mrow></m:math>"
+                      },
+                      ", and ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>c</m:mi></m:mrow></m:math>"
+                      },
+                      " are real numbers and ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>a</m:mi><m:mo>=</m:mo><m:mi>b</m:mi></m:mrow></m:math>"
+                      },
+                      ", then "
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mi>a</m:mi><m:mo>+</m:mo><m:mi>c</m:mi><m:mo>=</m:mo><m:mi>b</m:mi><m:mo>+</m:mo><m:mi>c</m:mi><m:mspace width=\"2em\"></m:mspace><m:mi>and</m:mi><m:mspace width=\"2em\"></m:mspace><m:mi>a</m:mi><m:mo>-</m:mo><m:mi>c</m:mi><m:mo>=</m:mo><m:mi>b</m:mi><m:mo>-</m:mo><m:mi>c</m:mi></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "The Multiplication and Division Properties"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "If ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>a</m:mi></m:mrow></m:math>"
+                      },
+                      ", ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>b</m:mi></m:mrow></m:math>"
+                      },
+                      ", and ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>c</m:mi></m:mrow></m:math>"
+                      },
+                      " are real numbers and ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>a</m:mi><m:mo>=</m:mo><m:mi>b</m:mi></m:mrow></m:math>"
+                      },
+                      ", then "
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mi>a</m:mi><m:mi>c</m:mi><m:mo>=</m:mo><m:mi>b</m:mi><m:mi>c</m:mi><m:mspace width=\"2em\"></m:mspace><m:mi>and</m:mi><m:mspace width=\"2em\"></m:mspace><m:mstyle displaystyle=\"true\"><m:mfrac><m:mi>a</m:mi><m:mi>c</m:mi></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mi>b</m:mi><m:mi>c</m:mi></m:mfrac></m:mstyle><m:mspace width=\"2em\"></m:mspace><m:mo stretchy=\"false\">(</m:mo><m:mi>c</m:mi><m:mo>≠</m:mo><m:mn>0</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "The Substitution Property"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "In an equation, a quantity may be substituted for its equal without changing the truth of the equation."
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "container dependent mt_tip narrative  rs_skip"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "containerHeading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Tip"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "sidebarContent"
+                },
+                "children": [
+                  {
+                    "tag": "ol",
+                    "attrs": {
+                      "class": "decimal"
+                    },
+                    "children": [
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              "The Addition and Subtraction Properties allow the same number to be added to or subtracted from each side of an equation without changing the solution set."
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              "The Multiplication and Division Properties allow each side of an equation to be multiplied by or divided by the same nonzero number without changing the solution set.",
+                              {
+                                "tag": "span"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "footnotes"
+            }
+          }
+        ],
+        "expectedMath": 46,
+        "capturedMath": 46
+      },
+      {
+        "id": "JVJG6WUNEBWW7UHQV229_content",
+        "title": "2. Solve Linear Equation in One Variable",
+        "content": [
+          {
+            "tag": "p",
+            "children": [
+              "The easiest equations to solve are the ",
+              {
+                "tag": "strong",
+                "children": [
+                  "first-degree"
+                ]
+              },
+              " or ",
+              {
+                "tag": "strong",
+                "children": [
+                  "linear equations"
+                ]
+              },
+              ". Since these equations involve first-degree polynomials, they are also called ",
+              {
+                "tag": "strong",
+                "children": [
+                  "first-degree polynomial equations"
+                ]
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "container dependent narrative  rs_skip"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "containerHeading"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Linear Equations"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "sidebarContent"
+                },
+                "children": [
+                  {
+                    "tag": "p",
+                    "children": [
+                      "A ",
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "linear equation in one variable"
+                        ]
+                      },
+                      " (say, ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      ") is any equation that can be written in the form "
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mi>a</m:mi><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>b</m:mi><m:mo>=</m:mo><m:mn>0</m:mn><m:mspace width=\"2em\"></m:mspace><m:mo stretchy=\"false\">(</m:mo><m:mi>a</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>and</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>b</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>are real numbers and</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>a</m:mi><m:mo>≠</m:mo><m:mn>0</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "To solve the linear equation ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              ", we subtract ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn></m:mrow></m:math>"
+              },
+              " from both sides of the equation and divide both sides by ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              ". "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>0</m:mn><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>To undo the addition of</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>3</m:mn><m:mo>,</m:mo><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>subtract</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>3</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>from both sides</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mrow><m:mn mathcolor=\"#000000\">2</m:mn><m:mi mathcolor=\"#000000\">x</m:mi></m:mrow><m:mn mathcolor=\"#C4008C\">2</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mn mathcolor=\"#000000\">3</m:mn><m:mn mathcolor=\"#C4008C\">2</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>To undo the multiplication by</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>2</m:mn><m:mo>,</m:mo><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>divide both sides by</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>2</m:mn><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mi>x</m:mi></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "To verify that ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle></m:mrow></m:math>"
+              },
+              " satisfies the equation, we substitute ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle></m:mrow></m:math>"
+              },
+              " for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " and simplify: "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>2</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>2</m:mn><m:mrow><m:mo>(</m:mo><m:mrow><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle></m:mrow><m:mo>)</m:mo></m:mrow><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Substitute</m:mi><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle><m:mi>for</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>x</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mo>-</m:mo><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mn>2</m:mn><m:mrow><m:mo>(</m:mo><m:mrow><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle></m:mrow><m:mo>)</m:mo></m:mrow><m:mo>=</m:mo><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "Since both sides of the equation are equal, the solution checks. ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              " is a conditional equation."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "In ",
+              {
+                "tag": "span",
+                "children": [
+                  "Exercise 74"
+                ]
+              },
+              ", you will be asked to solve the general linear equation ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>a</m:mi><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>b</m:mi><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              " for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              ", thereby showing that every conditional linear equation has exactly one solution."
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "2"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Solving a Linear Equation"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "Find the solution set: ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>=</m:mo><m:mn>5</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow></m:math>"
+                  },
+                  "."
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "We will use the Distributive Property to remove parentheses, isolate the variable terms on the left side and the constants on the right side, and then divide to solve for ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>5</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"right\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>6</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>5</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Use the Distributive Property and remove parentheses</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">3</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>+</m:mo><m:mn>6</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>5</m:mn><m:mi>x</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">3</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Subtract</m:mtext><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>3</m:mn><m:mi>x</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mtext>from both sides</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mn>6</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Combine like terms</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>6</m:mn><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">2</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Subtract</m:mtext><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>2</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mtext>from both sides</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mn>4</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>2</m:mn><m:mi>x</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mn mathcolor=\"#000000\">4</m:mn><m:mn mathcolor=\"#C4008C\">2</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mrow><m:mn mathcolor=\"#000000\">2</m:mn><m:mi mathcolor=\"#000000\">x</m:mi></m:mrow><m:mn mathcolor=\"#C4008C\">2</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Divide both sides by</m:mtext><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>2</m:mn><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mn>2</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mi>x</m:mi></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "span"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Since all of the above equations are equivalent, the solution set of the original equation is ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>{</m:mo><m:mn>2</m:mn><m:mo>}</m:mo></m:mrow></m:math>"
+                      },
+                      ". The equation is a conditional equation. Verify that ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+                      },
+                      " satisfies the equation."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 2"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Find the solution set: ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>4</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>=</m:mo><m:mn>7</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>{</m:mo><m:mo>-</m:mo><m:mn>3</m:mn><m:mo>}</m:mo></m:mrow></m:math>"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 49"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "media nbannotation nbid_63e26f0a1a35222a4d46d611 nbdeletable annotation clui_models_annotation_63e26f0a1a35222a4d46d611 rs_skip"
+            },
+            "children": [
+              {
+                "tag": "source-video",
+                "title": "Video: Solve a Fractional Linear Equation"
+              },
+              {
+                "tag": "div"
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "3"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Solving a Linear Equation with Fractions"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "Find the solution set: ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle><m:mi>y</m:mi><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mn>3</m:mn></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>y</m:mi></m:mrow></m:math>"
+                  },
+                  "."
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "To clear the equation of fractions, we multiply both sides by the least common denominator (LCD) of ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+                      },
+                      ", ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn></m:mrow></m:math>"
+                      },
+                      ", and ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>5</m:mn></m:mrow></m:math>"
+                      },
+                      ", which is ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>30</m:mn></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle><m:mi>y</m:mi><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mn>3</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>y</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mo></m:mo><m:mn mathcolor=\"#C4008C\">30</m:mn><m:mrow><m:mo mathcolor=\"#C4008C\">(</m:mo><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle><m:mi>y</m:mi><m:mo>-</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mn>3</m:mn></m:mfrac></m:mstyle></m:mrow><m:mo mathcolor=\"#C4008C\">)</m:mo></m:mrow></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn mathcolor=\"#C4008C\">30</m:mn><m:mrow><m:mo mathcolor=\"#C4008C\">(</m:mo><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle></m:mrow><m:mi>y</m:mi><m:mo mathcolor=\"#C4008C\">)</m:mo></m:mrow></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Multiply both sides by</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>30</m:mn><m:mo>,</m:mo><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>the LCD of</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>2</m:mn></m:mfrac></m:mstyle><m:mo>,</m:mo><m:mo rspace=\"0.28em\">⁢</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mn>3</m:mn></m:mfrac></m:mstyle><m:mo>,</m:mo><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>and</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>45</m:mn><m:mi>y</m:mi><m:mo>-</m:mo><m:mn>20</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>6</m:mn><m:mi>y</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Remove parentheses and simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>45</m:mn><m:mi>y</m:mi><m:mo>-</m:mo><m:mn>20</m:mn><m:mo mathcolor=\"#C4008C\">+</m:mo><m:mn mathcolor=\"#C4008C\">20</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>6</m:mn><m:mi>y</m:mi><m:mo mathcolor=\"#C4008C\">+</m:mo><m:mn mathcolor=\"#C4008C\">20</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Add</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>20</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>to both sides</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>45</m:mn><m:mi>y</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>6</m:mn><m:mi>y</m:mi><m:mo>+</m:mo><m:mn>20</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>45</m:mn><m:mi>y</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">6</m:mn><m:mi mathcolor=\"#C4008C\">y</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>6</m:mn><m:mi>y</m:mi><m:mo>-</m:mo><m:mn mathcolor=\"#C4008C\">6</m:mn><m:mi mathcolor=\"#C4008C\">y</m:mi><m:mo>+</m:mo><m:mn>20</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Subtract</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>6</m:mn><m:mi>y</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>from both sides</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>39</m:mn><m:mi>y</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>20</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Combine like terms</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mrow><m:mn mathcolor=\"#000000\">39</m:mn><m:mi mathcolor=\"#000000\">y</m:mi></m:mrow><m:mrow><m:mn mathcolor=\"#C4008C\">39</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mrow><m:mn mathcolor=\"#000000\">20</m:mn></m:mrow><m:mrow><m:mn mathcolor=\"#C4008C\">39</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Divide both sides by</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>39</m:mn><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mi>y</m:mi></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>20</m:mn></m:mrow><m:mrow><m:mn>39</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "container dependent mt_takenote narrative  rs_skip"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "containerHeading"
+                        },
+                        "children": [
+                          {
+                            "tag": "span",
+                            "attrs": {
+                              "class": "label"
+                            },
+                            "children": [
+                              "Take Note"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "sidebarContent"
+                        },
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              "Equations without fractions are always easier to solve. We can eliminate the fractions by multiplying by the LCD of the fractions."
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "The solution set is ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mrow><m:mo>{</m:mo> <m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>20</m:mn></m:mrow><m:mrow><m:mn>39</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow> <m:mo>}</m:mo></m:mrow></m:mrow></m:math>"
+                      },
+                      ". The equation is a conditional equation. Verify that ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>20</m:mn></m:mrow><m:mrow><m:mn>39</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      },
+                      " satisfies the equation."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 3"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Find the solution set: ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mn>3</m:mn></m:mfrac></m:mstyle><m:mi>p</m:mi><m:mo>-</m:mo><m:mn>3</m:mn><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mi>p</m:mi><m:mn>6</m:mn></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>{</m:mo><m:mn>6</m:mn><m:mo>}</m:mo></m:mrow></m:math>"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 63"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "4"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Classifying Linear Equations"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "Solve and classify as an identity, a conditional equation, or a contradiction: "
+                ]
+              },
+              {
+                "tag": "ol",
+                "attrs": {
+                  "class": "latin"
+                },
+                "children": [
+                  {
+                    "tag": "li",
+                    "children": [
+                      {
+                        "tag": "p",
+                        "children": [
+                          {
+                            "tag": "math",
+                            "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>5</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>=</m:mo><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mn>1</m:mn><m:mo>+</m:mo><m:mi>x</m:mi><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "li",
+                    "children": [
+                      {
+                        "tag": "p",
+                        "children": [
+                          {
+                            "tag": "math",
+                            "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>5</m:mn><m:mo>+</m:mo><m:mn>5</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>-</m:mo><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:math>"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "We will solve each equation using the properties of equality and use the definitions of identity, conditional equation, and contradiction to classify each equation.",
+                      {
+                        "tag": "span"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "ol",
+                    "attrs": {
+                      "class": "latin"
+                    },
+                    "children": [
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "div",
+                            "attrs": {
+                              "class": "math"
+                            },
+                            "children": [
+                              {
+                                "tag": "span",
+                                "attrs": {
+                                  "class": "equation"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "div",
+                                    "children": [
+                                      {
+                                        "tag": "div",
+                                        "attrs": {
+                                          "class": "MathJax_SVG_Display"
+                                        }
+                                      },
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>5</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>3</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mn>1</m:mn><m:mo>+</m:mo><m:mi>x</m:mi><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>3</m:mn><m:mi>x</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Remove parentheses</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">3</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>3</m:mn><m:mi>x</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">3</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Subtract</m:mtext><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>3</m:mn><m:mi>x</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mtext>from both sides</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>3</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Combine like terms</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "tag": "p",
+                            "children": [
+                              "Since ",
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>15</m:mn><m:mo>=</m:mo><m:mn>3</m:mn></m:mrow></m:math>"
+                              },
+                              " is false, the equation has no roots. Its solution set is the empty set, which is denoted as ",
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mo>∅</m:mo></m:math>"
+                              },
+                              " This equation is a contradiction."
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "div",
+                            "attrs": {
+                              "class": "math"
+                            },
+                            "children": [
+                              {
+                                "tag": "span",
+                                "attrs": {
+                                  "class": "equation"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "div",
+                                    "children": [
+                                      {
+                                        "tag": "div",
+                                        "attrs": {
+                                          "class": "MathJax_SVG_Display"
+                                        }
+                                      },
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>5</m:mn><m:mo>+</m:mo><m:mn>5</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>-</m:mo><m:mn>2</m:mn><m:mi>x</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>5</m:mn><m:mo>+</m:mo><m:mn>5</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>10</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:mi>x</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Remove parentheses</m:mtext><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>0</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Subtract</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>3</m:mn><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>15</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>from both sides</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "tag": "p",
+                            "children": [
+                              " Because both sides of the final equation are identical, every value of ",
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                              },
+                              " will make the equation true. The solution set is the set of all real numbers. This equation is an identity."
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "container dependent mt_takenote narrative  rs_skip"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "containerHeading"
+                        },
+                        "children": [
+                          {
+                            "tag": "span",
+                            "attrs": {
+                              "class": "label"
+                            },
+                            "children": [
+                              "Take Note"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "sidebarContent"
+                        },
+                        "children": [
+                          {
+                            "tag": "ol",
+                            "attrs": {
+                              "class": "decimal"
+                            },
+                            "children": [
+                              {
+                                "tag": "li",
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "If solving leads to a false statement, the equation is a contradiction."
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "li",
+                                "children": [
+                                  {
+                                    "tag": "p",
+                                    "children": [
+                                      "If solving leads to a true statement such as ",
+                                      {
+                                        "tag": "math",
+                                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn><m:mo>=</m:mo><m:mn>0</m:mn></m:mrow></m:math>"
+                                      },
+                                      ", the equation is an identity."
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 4"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Solve and classify as an identity, a conditional equation, or a contradiction:"
+                    ]
+                  },
+                  {
+                    "tag": "ol",
+                    "attrs": {
+                      "class": "latin"
+                    },
+                    "children": [
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>4</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>+</m:mo><m:mn>6</m:mn><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>4</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>+</m:mo><m:mn>4</m:mn><m:mo>=</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "ol",
+                    "attrs": {
+                      "class": "latin"
+                    },
+                    "children": [
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              "no solution; contradiction"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "li",
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              "all real numbers; identity"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 35"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "footnotes"
+            }
+          }
+        ],
+        "expectedMath": 40,
+        "capturedMath": 40
+      },
+      {
+        "id": "SJBA13P9D86CKJQC2577_content",
+        "title": "3. Solve Rational Equations",
+        "content": [
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "media nbannotation nbid_63e26f0a1a35222a4d46d60e nbdeletable annotation clui_models_annotation_63e26f0a1a35222a4d46d60e rs_skip"
+            },
+            "children": [
+              {
+                "tag": "source-video",
+                "title": "Video: Solve Rational Equations"
+              },
+              {
+                "tag": "div"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              {
+                "tag": "strong",
+                "children": [
+                  "Rational equations"
+                ]
+              },
+              " are equations that contain rational expressions. Some examples of rational equations are "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>2</m:mn><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mn>7</m:mn><m:mo>,</m:mo><m:mspace width=\"2em\"></m:mspace><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>,</m:mo><m:mspace width=\"2em\"></m:mspace><m:mi>and</m:mi><m:mspace width=\"2em\"></m:mspace><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>+</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mrow><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup><m:mo>+</m:mo><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "When solving these equations, we will multiply both sides by a quantity containing a variable. When we do this, we could inadvertently multiply both sides of an equation by ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              " and obtain a solution that makes the denominator of a fraction ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              ". In this case, we have found a false solution, called an ",
+              {
+                "tag": "strong",
+                "children": [
+                  "extraneous solution"
+                ]
+              },
+              ". These solutions do not satisfy the equation and must be discarded."
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "container dependent mt_caution narrative  rs_skip"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "containerHeading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Caution"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "sidebarContent"
+                },
+                "children": [
+                  {
+                    "tag": "p",
+                    "children": [
+                      "A common error made when solving rational equations with variables in the denominator is to forget to check the proposed solution. Always “trash” or reject any proposed solution that makes any denominator ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "media nbannotation prerendered nbid_6822366eb52fde53948f5abe rs_skip"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "cluimedia_viewer_image rs_skip"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "attrs": {
+                              "class": "nb_media image unnumbered"
+                            },
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "imageContainer"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "img",
+                                    "attrs": {
+                                      "src": "https://college.cengage.com/nextbook/shared/mathematics/gustafson_9780357723654/images/23654_01_unf03-t2.jpg",
+                                      "alt": " ",
+                                      "width": 193
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "mediaCredit"
+                                },
+                                "children": [
+                                  "3Dalia/ ",
+                                  {
+                                    "tag": "span",
+                                    "attrs": {
+                                      "class": "external"
+                                    },
+                                    "children": [
+                                      "Shutterstock.com"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "The following equation has an extraneous solution. "
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "math"
+            },
+            "children": [
+              {
+                "tag": "span",
+                "attrs": {
+                  "class": "equation"
+                },
+                "children": [
+                  {
+                    "tag": "div",
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "MathJax_SVG_Display"
+                        }
+                      },
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mo stretchy=\"false\" mathcolor=\"#C4008C\">(</m:mo><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">2</m:mn><m:mo stretchy=\"false\" mathcolor=\"#C4008C\">)</m:mo><m:mrow><m:mo mathcolor=\"#C4008C\">(</m:mo><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow><m:mo mathcolor=\"#C4008C\">)</m:mo></m:mrow></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mo stretchy=\"false\" mathcolor=\"#C4008C\">(</m:mo><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo mathcolor=\"#C4008C\">-</m:mo><m:mn mathcolor=\"#C4008C\">2</m:mn><m:mo stretchy=\"false\" mathcolor=\"#C4008C\">)</m:mo><m:mrow><m:mo mathcolor=\"#C4008C\">(</m:mo><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow><m:mo mathcolor=\"#C4008C\">)</m:mo></m:mrow></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mtext>Multiply both sides by</m:mtext><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>3</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mi>x</m:mi></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>2</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Subtract</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>1</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>from both sides</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "If we check by substituting ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              " for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              ", we obtain ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              "’s in the denominator. Thus, ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              " is not a root. The solution set is ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mo>∅</m:mo></m:math>"
+              },
+              " and the equation is a contradiction."
+            ]
+          },
+          {
+            "tag": "p",
+            "children": [
+              "By checking the proposed solution ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              ", we knew to reject ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              " as a solution because we obtained ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+              },
+              "’s in the denominators. Another approach is to initially note any restrictions on the variables. In this case, we note that ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " cannot be ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              ". Thus, if ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+              },
+              " surfaces as our answer for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+              },
+              " when we solve the equation, we “trash” or reject it.",
+              {
+                "tag": "span"
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "5"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Solving a Rational Equation"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "Solve: ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>+</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mrow><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup><m:mo>+</m:mo><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>"
+                  },
+                  "."
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "We identify the restrictions on the variable ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      ", multiple both sides by the LCD, and then solve the equation."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Note that ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      " cannot be ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:math>"
+                      },
+                      ", because that would cause the denominator of the first fraction to be ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+                      },
+                      ". To find other restrictions, we factor the trinomial in the denominator of the second fraction. "
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup><m:mo>+</m:mo><m:mn>2</m:mn><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn><m:mo>=</m:mo><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo stretchy=\"false\">(</m:mo><m:mi>x</m:mi><m:mo>-</m:mo><m:mn>1</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Since the denominator will be ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>0</m:mn></m:mrow></m:math>"
+                      },
+                      " when ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:math>"
+                      },
+                      " or ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>"
+                      },
+                      ", ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      " cannot be ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:math>"
+                      },
+                      " or ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>1</m:mn></m:mrow></m:math>"
+                      },
+                      ". "
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "media nbannotation prerendered nbid_6822366eb52fde53948f5abf rs_skip"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "cluimedia_viewer_image rs_skip"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "attrs": {
+                              "class": "nb_media image unnumbered wide"
+                            },
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "imageContainer image-container--enlarge"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "img",
+                                    "attrs": {
+                                      "src": "https://college.cengage.com/nextbook/shared/mathematics/gustafson_9780357723654/images/23654_01_ueq16-t2.png",
+                                      "alt": " ",
+                                      "width": 595
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Because ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+                      },
+                      " is a meaningful replacement for ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>x</m:mi></m:mrow></m:math>"
+                      },
+                      ", it is a root. However, it is a good idea to check it. "
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow><m:mrow><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>+</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mrow><m:msup><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mn>2</m:mn></m:msup><m:mo>+</m:mo><m:mn>2</m:mn><m:mi mathcolor=\"#C4008C\">x</m:mi><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>1</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn mathcolor=\"#C4008C\">2</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow><m:mrow><m:mn mathcolor=\"#C4008C\">2</m:mn><m:mo>+</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>+</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mrow><m:msup><m:mn mathcolor=\"#C4008C\">2</m:mn><m:mn>2</m:mn></m:msup><m:mo>+</m:mo><m:mn>2</m:mn><m:mo stretchy=\"false\">(</m:mo><m:mn mathcolor=\"#C4008C\">2</m:mn><m:mo stretchy=\"false\">)</m:mo><m:mo>-</m:mo><m:mn>3</m:mn></m:mrow></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mn>1</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Substitute</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>2</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>for</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>x</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>4</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mo>+</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>1</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mover><m:mo>=</m:mo><m:mstyle scriptsizemultiplier=\"0.8\"><m:mo>?</m:mo></m:mstyle></m:mover></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mn>1</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mn>1</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mn>1</m:mn></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Since ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>2</m:mn></m:mrow></m:math>"
+                      },
+                      " satisfies the equation, it is a root. The equation is a conditional equation."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 5"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Solve: ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>3</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mo>+</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>7</m:mn><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mn>2</m:mn></m:mrow></m:mfrac></m:mstyle><m:mo>=</m:mo><m:mn>2</m:mn></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mn>3</m:mn></m:mrow></m:math>"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 81"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "media nbannotation nbid_63e26f0a1a35222a4d46d60f nbdeletable annotation clui_models_annotation_63e26f0a1a35222a4d46d60f rs_skip"
+            },
+            "children": [
+              {
+                "tag": "source-video",
+                "title": "Video: Solve rational equations- 2nd degree"
+              },
+              {
+                "tag": "div"
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "footnotes"
+            }
+          }
+        ],
+        "expectedMath": 35,
+        "capturedMath": 35
+      },
+      {
+        "id": "MXNVFWBMMQA2MGREH123_content",
+        "title": "4. Solve Formulas for a Specific Variable",
+        "content": [
+          {
+            "tag": "p",
+            "children": [
+              "Many equations, called ",
+              {
+                "tag": "strong",
+                "children": [
+                  "formulas"
+                ]
+              },
+              ", contain several variables. For example, the formula that converts degrees Celsius to degrees Fahrenheit is ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>F</m:mi><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>9</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>C</m:mi><m:mo>+</m:mo><m:mn>32</m:mn></m:mrow></m:math>"
+              },
+              ". If we want to",
+              {
+                "tag": "span"
+              },
+              " change a large number of Fahrenheit readings to degrees Celsius, it would be tedious to substitute each value of ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>F</m:mi></m:mrow></m:math>"
+              },
+              " into the formula and then repeatedly solve it for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi></m:mrow></m:math>"
+              },
+              ". It is better to solve the formula for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi></m:mrow></m:math>"
+              },
+              ", substitute the values for ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>F</m:mi></m:mrow></m:math>"
+              },
+              ", and evaluate ",
+              {
+                "tag": "math",
+                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi></m:mrow></m:math>"
+              },
+              " directly."
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "6"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Solving a Formula for a Specific Variable"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "Solve ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>F</m:mi><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>9</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>C</m:mi><m:mo>+</m:mo><m:mn>32</m:mn></m:mrow></m:math>"
+                  },
+                  " for ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi></m:mrow></m:math>"
+                  },
+                  "."
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "We will focus on ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi></m:mrow></m:math>"
+                      },
+                      " as if it is the only variable and then use properties of equality to isolate it on one side."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "math"
+                    },
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "equation"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "MathJax_SVG_Display"
+                                }
+                              },
+                              {
+                                "tag": "math",
+                                "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><m:mrow><m:mtable columnalign=\"left\" columnspacing=\"0.3em\"><m:mtr><m:mtd columnalign=\"right\"><m:mi>F</m:mi></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>9</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>C</m:mi><m:mo>+</m:mo><m:mn>32</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mrow></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mi>F</m:mi><m:mo>-</m:mo><m:mn>32</m:mn></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>9</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>C</m:mi></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Subtract</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mn>32</m:mn><m:mo rspace=\"0.28em\">⁢</m:mo><m:mi>from both sides</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mn>5</m:mn><m:mn>9</m:mn></m:mfrac></m:mstyle><m:mo stretchy=\"false\" mathcolor=\"#C4008C\">(</m:mo><m:mi>F</m:mi><m:mo>-</m:mo><m:mn>32</m:mn><m:mo stretchy=\"false\" mathcolor=\"#C4008C\">)</m:mo></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac mathcolor=\"#C4008C\"><m:mn>5</m:mn><m:mn>9</m:mn></m:mfrac></m:mstyle><m:mrow><m:mo mathcolor=\"#C4008C\">(</m:mo><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>9</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>C</m:mi></m:mrow><m:mo mathcolor=\"#C4008C\">)</m:mo></m:mrow></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Multiply both sides by</m:mi><m:mo rspace=\"0.28em\">⁢</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>5</m:mn><m:mn>9</m:mn></m:mfrac></m:mstyle><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr><m:mtr><m:mtd columnalign=\"right\"><m:mrow><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>5</m:mn><m:mn>9</m:mn></m:mfrac></m:mstyle><m:mo stretchy=\"false\">(</m:mo><m:mi>F</m:mi><m:mo>-</m:mo><m:mn>32</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:mtd><m:mtd columnalign=\"left\"><m:mo>=</m:mo></m:mtd><m:mtd columnalign=\"left\"><m:mi>C</m:mi></m:mtd><m:mtd columnalign=\"left\"><m:mspace width=\"2em\"></m:mspace><m:mrow class=\"MathML-Annotation\"><m:mi>Simplify</m:mi><m:mo>.</m:mo></m:mrow></m:mtd></m:mtr></m:mtable></m:mrow></m:math>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "This result can also be written in the form ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mn>5</m:mn><m:mi>F</m:mi><m:mo>-</m:mo><m:mn>160</m:mn></m:mrow><m:mn>9</m:mn></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 6"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Solve: ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>C</m:mi><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>5</m:mn><m:mn>9</m:mn></m:mfrac></m:mstyle><m:mo stretchy=\"false\">(</m:mo><m:mi>F</m:mi><m:mo>-</m:mo><m:mn>32</m:mn><m:mo stretchy=\"false\">)</m:mo></m:mrow></m:math>"
+                      },
+                      " for ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>F</m:mi></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>F</m:mi><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mn>9</m:mn><m:mn>5</m:mn></m:mfrac></m:mstyle><m:mi>C</m:mi><m:mo>+</m:mo><m:mn>32</m:mn></m:mrow></m:math>"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 99"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "mtexample"
+            },
+            "children": [
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "heading"
+                },
+                "children": [
+                  {
+                    "tag": "span",
+                    "attrs": {
+                      "class": "label"
+                    },
+                    "children": [
+                      "Example ",
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "ordinal"
+                        },
+                        "children": [
+                          "7"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "h3",
+                    "children": [
+                      "Solving a Formula for a Specific Variable"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "p",
+                "children": [
+                  "The formula ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>A</m:mi><m:mo>=</m:mo><m:mi>P</m:mi><m:mo>+</m:mo><m:mi mathvariant=\"italic\">Prt</m:mi></m:mrow></m:math>"
+                  },
+                  " is used to find the amount of money in a savings account at the end of a specified time. ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>A</m:mi></m:mrow></m:math>"
+                  },
+                  " represents the amount, ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>P</m:mi></m:mrow></m:math>"
+                  },
+                  " represents the principal (the original deposit), ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>r</m:mi></m:mrow></m:math>"
+                  },
+                  " represents the rate of simple interest per unit of time, and ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>t</m:mi></m:mrow></m:math>"
+                  },
+                  " represents the number of units of time. Solve this formula for ",
+                  {
+                    "tag": "math",
+                    "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>P</m:mi></m:mrow></m:math>"
+                  },
+                  "."
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Strategy"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "We will factor ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>P</m:mi></m:mrow></m:math>"
+                      },
+                      " from both terms on the right side of the equation then solve the formula for ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>P</m:mi></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Solution"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "media nbannotation prerendered nbid_6822366eb52fde53948f5ac0 rs_skip"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "cluimedia_viewer_image rs_skip"
+                        },
+                        "children": [
+                          {
+                            "tag": "div",
+                            "attrs": {
+                              "class": "nb_media image unnumbered"
+                            },
+                            "children": [
+                              {
+                                "tag": "div",
+                                "attrs": {
+                                  "class": "imageContainer"
+                                },
+                                "children": [
+                                  {
+                                    "tag": "img",
+                                    "attrs": {
+                                      "src": "https://college.cengage.com/nextbook/shared/mathematics/gustafson_9780357723654/images/23654_01_ueq19-t2.png",
+                                      "alt": " ",
+                                      "width": 362
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "div",
+                    "attrs": {
+                      "class": "container dependent mt_tip narrative  rs_skip"
+                    },
+                    "children": [
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "containerHeading"
+                        },
+                        "children": [
+                          {
+                            "tag": "span",
+                            "attrs": {
+                              "class": "label"
+                            },
+                            "children": [
+                              "Tip"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "div",
+                        "attrs": {
+                          "class": "sidebarContent"
+                        },
+                        "children": [
+                          {
+                            "tag": "p",
+                            "children": [
+                              "Placing a circle around the variable you are solving for in a formula can help you focus on the specific variable you are isolating."
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "div",
+                "attrs": {
+                  "class": "pageSection"
+                },
+                "children": [
+                  {
+                    "tag": "h3",
+                    "children": [
+                      {
+                        "tag": "span",
+                        "attrs": {
+                          "class": "headingText"
+                        },
+                        "children": [
+                          "Self Check 7"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      "Solve: ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>p</m:mi><m:mi>q</m:mi><m:mo>=</m:mo><m:mi>f</m:mi><m:mi>q</m:mi><m:mo>+</m:mo><m:mi>f</m:mi><m:mi>p</m:mi></m:mrow></m:math>"
+                      },
+                      " for ",
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>f</m:mi></m:mrow></m:math>"
+                      },
+                      "."
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Answer:"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "math",
+                        "mml": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><m:mrow><m:mi>f</m:mi><m:mo>=</m:mo><m:mstyle displaystyle=\"true\"><m:mfrac><m:mrow><m:mi>p</m:mi><m:mi>q</m:mi></m:mrow><m:mrow><m:mi>q</m:mi><m:mo>+</m:mo><m:mi>p</m:mi></m:mrow></m:mfrac></m:mstyle></m:mrow></m:math>"
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "children": [
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "Now Try"
+                        ]
+                      },
+                      {
+                        "tag": "span",
+                        "children": [
+                          "Exercise 105"
+                        ]
+                      },
+                      {
+                        "tag": "strong",
+                        "children": [
+                          "."
+                        ]
+                      },
+                      {
+                        "tag": "span"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "media nbannotation nbid_63e26f0a1a35222a4d46d612 nbdeletable annotation clui_models_annotation_63e26f0a1a35222a4d46d612 rs_skip"
+            },
+            "children": [
+              {
+                "tag": "source-video",
+                "title": "Video: Solving Formulas for a Variable"
+              },
+              {
+                "tag": "div"
+              }
+            ]
+          },
+          {
+            "tag": "div",
+            "attrs": {
+              "class": "footnotes"
+            }
+          }
+        ],
+        "expectedMath": 25,
+        "capturedMath": 25
+      }
+    ],
+    "sourceCorrections": [
+      "Corrected 800 + 45x to 800 + 42x in the introductory cost expression to match the stated $42 fee and the worked example."
+    ]
+  },
+  "watchIt": {
+    "status": "available",
+    "title": "Solving and classifying equations",
+    "description": "Review a worked example of simplifying an equation and determining whether it has a solution.",
+    "url": "https://college.cengage.com/geyser/cengage_9780538738101/html/watchit_player/?asset=gfcolalg9_01_01_026&prod=gfcolalg9",
+    "mediaUrl": "https://wowzahttp.cengage.com/geyser//cengage_9780538738101/video/gfcolalg9/gfcolalg9_01_01_026/gfcolalg9_01_01_026_med.mp4",
+    "transcriptUrl": "https://college.cengage.com/geyser/cengage_9780538738101/video/gfcolalg9/gfcolalg9_01_01_026/gfcolalg9_01_01_026.txt",
+    "sourceQuestionId": "5312321",
+    "sourceQuestionCode": "GHColAlg13 1.1.032.",
+    "sourceUrl": "https://www.webassign.net/v4cgi/questions/preview.tpl?qid=5312321",
+    "durationSeconds": 108.615385,
+    "verifiedAt": "2026-11-06",
+    "origin": "related-question"
+  }
+}

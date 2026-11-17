@@ -6,7 +6,7 @@
 .overview-content{display:flex;flex-direction:column;align-items:center;gap:48px;width:100%;max-width:1372px;margin:0 auto;padding:0 24px 48px}
 .overview-review-header{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
 .overview-review-header h2{margin:0;font-size:24px;font-weight:600;line-height:32px;text-align:center}
-.overview-stats{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;column-gap:16px;row-gap:16px;width:775px;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
+.overview-stats{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;column-gap:16px;row-gap:16px;width:max-content;max-width:100%;margin:0;padding:16px;border:1px solid var(--border);border-radius:8px;background:white}
 .overview-stat{display:flex;align-items:center;gap:4px;flex-shrink:0}
 .overview-stat>img{display:block;flex-shrink:0}
 .overview-stat dt,.overview-stat dd{margin:0;font-size:12px;line-height:16px;letter-spacing:.32px;white-space:nowrap}

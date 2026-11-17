@@ -90,6 +90,15 @@ test('display references use verified GHCol codes, including the authored factor
   assert.equal(getQuestionCode({ id: 'algebra-r5-factoring-select' }), 'GHColAlg13 R.5.024.');
   assert.equal(getQuestionCode({ id: 'r5-factoring-question-13' }), 'GHColAlg13 R.5.050.EP.');
   assert.equal(getQuestionCode({ id: 'r5-factoring-question-28' }), 'GHColAlg13 R.5.143.FI.');
-  assert.ok(questionBank.every(question => /^GHColAlg13 /.test(getQuestionCode(question))));
+  assert.ok(questionBank.filter(question => question.sourceId !== '4260657').every(question => /^GHColAlg13 /.test(getQuestionCode(question))));
   assert.equal(getQuestionCode({ id: 'unmapped-prototype', sourceId: '1234567' }), undefined);
+});
+
+test('the supplemental Explore It is searchable with its verified source identity and response parts', () => {
+  const [question] = filterQuestions(questionBank, emptyBankFilters, 'Explore It');
+  assert.equal(question.sourceId, '4260657');
+  assert.equal(getQuestionCode(question), 'ExploreIt PreCalculus');
+  assert.equal(question.chapter, 'Chapter 3. Functions');
+  assert.match(question.exploration.url, /^https:\/\/college\.cengage\.com\/mathematics\/precalculus\/explore_it\//);
+  assert.deepEqual(questionResponseFields(question).map(field => field.id), ['function', 'horizontal', 'vertical']);
 });

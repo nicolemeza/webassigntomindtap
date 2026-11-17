@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { mergeDemoActivities } from './demoActivities.js';
 
 const storageKey = 'mindtap-prototype-created-activities-v1';
 const draftKey = 'mindtap-prototype-activity-draft-v1';
@@ -6,8 +7,7 @@ const listeners = new Set();
 function read(key, fallback) {
   try { return JSON.parse(window.localStorage.getItem(key)) || fallback; } catch { return fallback; }
 }
-let activities = read(storageKey, []);
-if (!Array.isArray(activities)) activities = [];
+let activities = mergeDemoActivities(read(storageKey, []));
 export function getCreatedActivities() { return activities; }
 export function useCreatedActivities() {
   return useSyncExternalStore((listener) => { listeners.add(listener); return () => listeners.delete(listener); }, getCreatedActivities);

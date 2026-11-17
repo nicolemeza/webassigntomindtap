@@ -5,27 +5,34 @@ import './activity-resources.css';
 import StudentAssistant from './StudentAssistant';
 import { ResourceDialog } from './CourseResources';
 import { useCourseState } from './courseModel';
+import LearnIt from './LearnIt.jsx';
+import { hasLearnIt } from './learnItCatalog';
+import { getVerifiedQuestionResources } from './questionResources';
 
-export default function ActivityResources({ activity, question, variant, rejoinder = null }) {
+export default function ActivityResources({ activity, question, variant, rejoinder = null, learningAccess = false }) {
   const { settings } = useCourseState();
   const headingId = useId();
   const [resource, setResource] = useState(null);
   const assistantId = useId();
   const assistantTrigger = useRef(null);
+  const standaloneLearning = learningAccess && !rejoinder && hasLearnIt(question);
+  const verifiedResources = getVerifiedQuestionResources(question);
+  const watchIt = verifiedResources?.watchIt?.status === 'available' ? verifiedResources.watchIt : null;
   return <>
-    <section className={`activity-resources${rejoinder ? ' activity-resources--with-rejoinder' : ''}`} aria-labelledby={headingId}>
+    <section className={`activity-resources${rejoinder || standaloneLearning ? ' activity-resources--with-rejoinder' : ''}`} aria-labelledby={headingId}>
       {rejoinder && <div className="activity-resource-rejoinder">{rejoinder}</div>}
+      {standaloneLearning && <div className="activity-resource-rejoinder"><LearnIt key={question.id} question={question} /></div>}
       <div className="activity-resources-main">
         <h3 id={headingId}>Resources</h3>
         {variant === 'sidebar' && <p className="activity-resource-intro">Review the reading or get guided help.</p>}
         <div className={`activity-resource-actions${variant === 'sidebar' || variant === 'integrated' ? ' activity-resource-actions-magma' : ''}`}>
           <IconButton className="activity-resource-read" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoStoriesIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('reading')}>Read it</IconButton>
-          {question?.hasWatchIt && <IconButton className="activity-resource-watch" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<PlayCircleOutlineIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('video')}>Watch it</IconButton>}
+          {(watchIt || question?.hasWatchIt) && <IconButton className="activity-resource-watch" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<PlayCircleOutlineIcon />} iconPosition={ButtonIconPosition.left} onClick={() => setResource('video')}>Watch it</IconButton>}
           {settings.studentAssistant && activity.settings?.studentAssistant !== false && <IconButton ref={assistantTrigger} className="activity-resource-assistant" color={variant === 'integrated' ? ButtonColor.subtle : ButtonColor.secondary} variant={ButtonVariant.solid} size={ButtonSize.small} icon={<AutoAwesomeIcon />} iconPosition={ButtonIconPosition.left} aria-haspopup="dialog" aria-expanded={resource === 'assistant'} aria-controls={resource === 'assistant' ? assistantId : undefined} onClick={() => setResource('assistant')}>Ask Student assistant</IconButton>}
         </div>
       </div>
     </section>
     <StudentAssistant key={question.id} open={resource === 'assistant'} id={assistantId} activity={activity} question={question} onClose={() => { setResource(null); assistantTrigger.current?.focus(); }} />
-    {(resource === 'reading' || resource === 'video') && <ResourceDialog title={activity.title} video={resource === 'video'} onClose={() => setResource(null)} />}
+    {(resource === 'reading' || resource === 'video') && <ResourceDialog title={activity.title} reading={verifiedResources?.readIt} watchIt={watchIt} video={resource === 'video'} onClose={() => setResource(null)} />}
   </>;
 }

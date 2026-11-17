@@ -7,6 +7,9 @@ const factoringCodes = [
   '120.', '126.', '136.', '143.FI.', '146.',
 ];
 const legacyQuestionCodes = new Map(factoringCodes.map((code, index) => [`r5-factoring-question-${index + 1}`, `GHColAlg13 R.5.${code}`]));
+// Matched by source sequence and prompt against the Chapter R Test preview.
+const chapterRTestCodes = ['002.', '006.', '008.', '010.', '012.', '014.', '015.', '018.', '020.', '021.', '024.', '025.', '028.', '032.', '034.', '036.', '038.', '040.', '043.', '045.', '048.', '050.'];
+chapterRTestCodes.forEach((code, index) => legacyQuestionCodes.set(`chapter-r-test-question-${index + 1}`, `GHColAlg13 R.T.${code}`));
 // Authored choice variants use the same source exercise as their math version.
 legacyQuestionCodes.set('algebra-r5-common-factor-choice', legacyQuestionCodes.get('r5-factoring-question-1'));
 legacyQuestionCodes.set('algebra-r5-factoring-select', legacyQuestionCodes.get('r5-factoring-question-6'));

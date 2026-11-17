@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { migrateDemoSchedule } from './demoCourseSchedule.js';
+import { mergeDemoFolders, migrateDemoActivity } from './demoActivities.js';
 
 export const courseChapters = [
   'Chapter R. A Review of Basic Algebra', 'Chapter 1. Equations and Inequalities',
@@ -17,7 +18,7 @@ const defaults = {
 };
 let saved;
 try { saved = JSON.parse(localStorage.getItem(key)); } catch { /* Start with course defaults if storage is unavailable. */ }
-let state = migrateDemoSchedule({ ...defaults, ...saved, settings: { ...defaults.settings, ...saved?.settings } });
+let state = migrateDemoSchedule({ ...defaults, ...saved, activities: Object.fromEntries(Object.entries(saved?.activities || {}).map(([key, activity]) => [key, migrateDemoActivity(activity)])), folders: mergeDemoFolders(saved?.folders), settings: { ...defaults.settings, ...saved?.settings } });
 const listeners = new Set();
 export const getCourseState = () => state;
 export function useCourseState() { return useSyncExternalStore((fn) => { listeners.add(fn); return () => listeners.delete(fn); }, getCourseState); }

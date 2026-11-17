@@ -3,6 +3,7 @@ import { getActivityQuestions } from './activityQuestions.js';
 import { webassignAssignments, webassignQuestionMetadata } from './webassignCourse.js';
 import { courseChapters } from './courseModel.js';
 import { getQuestionCode } from './questionCodes.js';
+import { exploreItQuestions } from './exploreItQuestions.js';
 
 export const questionTypes = ['Multiple choice', 'Multiple select', 'Cloze with Drop-Down', 'Cloze with text', 'Cloze with drag & drop', 'Choice Matrix', 'Match List', 'Order List', 'Classification List', 'Essay', 'Essay (with rich text)', 'Label Image (drop down)', 'Label Image (drag & drop)', 'Label Image (text)', 'Label Image (math)', 'Other (file upload)', 'Highlight', 'Hotspot', 'Math', 'Math (with rich text)', 'Math (with image)', 'Cloze math'];
 export const questionSources = ['Test Bank', 'Test Prep.', 'A&R'];
@@ -34,7 +35,7 @@ for (const activity of webassignAssignments) {
     else importedBank.set(question.id, webassignQuestionMetadata(question, chapterTitle, activity.title));
   }
 }
-export const questionBank = [...existingQuestions, ...importedBank.values()];
+export const questionBank = [...existingQuestions, ...importedBank.values(), ...exploreItQuestions];
 export function getSubchapters(chapterTitle) {
   return chapterAssignments[chapterTitle.slice(0, chapterTitle.indexOf('. '))] || [];
 }
