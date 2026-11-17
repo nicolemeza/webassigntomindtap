@@ -13,13 +13,14 @@ const labels = { select: 'Select', open: 'Open endpoint', closed: 'Closed endpoi
 const icons = { select: '↖', open: '○', closed: '●', segment: '━', left: '←', right: '→', erase: '⌫', 'no-solution': 'NS', help: '?' };
 const toX = (number) => 4 + ((number + 10) / 20) * 92;
 
-export default function NumberLinePad({ value, onChange, label = 'Use the number line to enter your answer.' }) {
+export default function NumberLinePad({ value, onChange, label = 'Use the number line to enter your answer.', disabled = false, answerKey = false }) {
   const data = readLine(value);
+  const answerColor = answerKey ? '#00844b' : '#006298';
   const [tool, setTool] = useState('select');
   const [pending, setPending] = useState(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const [message, setMessage] = useState(label);
-  const save = (next) => onChange(JSON.stringify(next));
+  const save = (next) => { if (!disabled) onChange(JSON.stringify(next)); };
   const selectTool = (next) => { setTool(next); setPending(null); setMessage(labels[next] === 'Select' ? 'Select a drawing tool, then click the number line.' : `${labels[next]} selected.`); };
   const add = (object) => save({ ...data, noSolution: false, objects: [...data.objects, { id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, ...object }] });
   const eraseAt = (number) => {
@@ -30,6 +31,7 @@ export default function NumberLinePad({ value, onChange, label = 'Use the number
     setMessage('Object erased.');
   };
   const place = (event) => {
+    if (disabled) return;
     if (tool === 'select') return;
     const rect = event.currentTarget.getBoundingClientRect();
     const number = Math.max(-10, Math.min(10, Math.round(((event.clientX - rect.left) / rect.width) * 20 - 10)));
@@ -41,26 +43,26 @@ export default function NumberLinePad({ value, onChange, label = 'Use the number
   const renderObject = (object) => {
     const [first, second] = object.points;
     const x = toX(first);
-    const endpoint = (point, open = false, key) => <circle key={key} cx={`${toX(point)}%`} cy="50%" r="7" fill={open ? 'white' : '#006298'} stroke="#006298" strokeWidth="2" />;
+    const endpoint = (point, open = false, key) => <circle key={key} cx={`${toX(point)}%`} cy="50%" r="7" fill={open ? 'white' : answerColor} stroke={answerColor} strokeWidth="2" />;
     if (object.type === 'segment') return <g key={object.id}><line x1={`${toX(first)}%`} y1="50%" x2={`${toX(second)}%`} y2="50%" className="number-line-object" />{endpoint(first, false, 'first')}{endpoint(second, false, 'second')}</g>;
     if (object.type === 'left' || object.type === 'right') {
       const edge = object.type === 'left' ? -10 : 10;
-      return <g key={object.id}><line x1={`${toX(edge)}%`} y1="50%" x2={`${x}%`} y2="50%" className="number-line-object" markerStart={object.type === 'left' ? 'url(#number-line-arrow-left)' : undefined} markerEnd={object.type === 'right' ? 'url(#number-line-arrow-right)' : undefined} />{endpoint(first, false, 'endpoint')}</g>;
+      return <g key={object.id}><line x1={`${toX(edge)}%`} y1="50%" x2={`${x}%`} y2="50%" className="number-line-object" markerStart={object.type === 'left' ? 'url(#number-line-arrow-left)' : undefined} markerEnd={object.type === 'right' ? 'url(#number-line-arrow-right)' : undefined} />{endpoint(first, Boolean(object.open), 'endpoint')}</g>;
     }
     return <g key={object.id}>{endpoint(first, object.type === 'open', 'point')}</g>;
   };
-  const button = (name) => <button key={name} type="button" className={`number-line-tool${tool === name ? ' is-active' : ''}`} aria-label={labels[name]} aria-pressed={['select', 'open', 'closed', 'segment', 'left', 'right', 'erase'].includes(name) ? tool === name : name === 'no-solution' ? data.noSolution : undefined} onClick={() => {
+  const button = (name) => <button key={name} type="button" className={`number-line-tool${tool === name ? ' is-active' : ''}`} aria-label={labels[name]} aria-pressed={['select', 'open', 'closed', 'segment', 'left', 'right', 'erase'].includes(name) ? tool === name : name === 'no-solution' ? data.noSolution : undefined} disabled={disabled && name !== 'help'} onClick={() => {
     if (name === 'help') setHelpOpen(true);
     else if (name === 'clear') { save(emptyLine); setPending(null); setMessage('Number line cleared.'); }
     else if (name === 'no-solution') { save({ objects: [], noSolution: !data.noSolution }); setPending(null); setMessage(data.noSolution ? 'No solution cleared.' : 'No solution selected.'); }
     else selectTool(name);
   }}><span aria-hidden="true">{name === 'clear' ? '⌫' : icons[name]}</span></button>;
-  return <section className="number-line-pad" aria-label="Number line tool">
+  return <section className={`number-line-pad${answerKey ? ' number-line-pad--answer-key' : ''}`} aria-label={answerKey ? 'Number line answer key' : 'Number line tool'}>
     <p className="number-line-status" role="status">{message}</p>
     <div className="number-line-pad-frame">
       <div className="number-line-canvas" onClick={place}>
         <svg viewBox="0 0 1000 150" preserveAspectRatio="none" role="img" aria-label={`Number line from negative 10 to 10 with ${data.objects.length} object${data.objects.length === 1 ? '' : 's'}`}>
-          <defs><marker id="number-line-arrow-right" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#006298" strokeWidth="1.5" /></marker><marker id="number-line-arrow-left" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M10,0 L0,5 L10,10" fill="none" stroke="#006298" strokeWidth="1.5" /></marker></defs>
+          <defs><marker id="number-line-arrow-right" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke={answerColor} strokeWidth="1.5" /></marker><marker id="number-line-arrow-left" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M10,0 L0,5 L10,10" fill="none" stroke={answerColor} strokeWidth="1.5" /></marker></defs>
           <line x1="0" y1="50%" x2="1000" y2="50%" className="number-line-axis" />
           <path d="M18,64 L0,75 L18,86 M982,64 L1000,75 L982,86" className="number-line-axis" />
           {Array.from({ length: 21 }, (_, index) => { const number = index - 10; return <g key={number}><line x1={`${toX(number)}%`} y1="38%" x2={`${toX(number)}%`} y2="62%" className="number-line-tick" />{number % 2 === 0 && <text x={`${toX(number)}%`} y="84%" textAnchor="middle">{number}</text>}</g>; })}

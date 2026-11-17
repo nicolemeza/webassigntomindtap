@@ -33,6 +33,9 @@ function PlayerIcon({ name }) {
 function InstructorQuestionReview({ activity, question, index, total }) {
   const fields = gradingFields(question);
   const expectedValues = Object.fromEntries(fields.filter((field) => field.expected).map((field) => [field.id, field.expected]));
+  for (const [fieldId, answer] of Object.entries(question.instructorAnswerKey || {})) {
+    if (typeof answer === 'string' && answer.trim()) expectedValues[fieldId] = answer;
+  }
   if (question.kind === 'webassign') {
     for (const field of question.fields || []) {
       if (typeof field.expected === 'string' && field.expected.trim()) expectedValues[field.id] = field.expected;
@@ -42,9 +45,6 @@ function InstructorQuestionReview({ activity, question, index, total }) {
         const current = expectedValues[field.group] ? expectedValues[field.group].split('\u001f') : [];
         expectedValues[field.group] = [...current, field.value].filter(Boolean).sort().join('\u001f');
       }
-    }
-    for (const [fieldId, answer] of Object.entries(question.instructorAnswerKey || {})) {
-      if (typeof answer === 'string' && answer.trim()) expectedValues[fieldId] = answer;
     }
   }
   const choiceValues = question.kind === 'choice' ? question.correctChoices || [] : [];

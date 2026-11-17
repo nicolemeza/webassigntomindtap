@@ -27,7 +27,7 @@ export default function MathQuestion({ question, values = {}, onChange, history 
       {!answerKeyMode && <IconButton className="player-math-keyboard-button" type="button" disabled={disabled} aria-label={`${activeInput === part.input ? 'Close' : 'Open'} math keyboard for ${part.label}`} aria-expanded={activeInput === part.input} aria-controls={activeInput === part.input ? padId : undefined} variant={ButtonVariant.link} size={ButtonSize.small} icon={<KeyboardIcon />} onClick={() => { if (activeInput === part.input) { setActiveInput(null); inputRefs.current[part.input]?.focus(); } else setActiveInput(part.input); }} />}
     </fieldset>;
   };
-  return <div className="r5-question">
+  return <div className={`r5-question${answerKeyMode ? ' r5-question--answer-key' : ''}`}>
     {question.blocks.map((block, index) => {
       if (block.type === 'text') return <p key={index}>{block.text}</p>;
       if (block.type === 'notice') return <p className="r5-sequence-notice" key={index}>{block.text}</p>;
@@ -43,7 +43,7 @@ export default function MathQuestion({ question, values = {}, onChange, history 
           const optionDisplay = block.mathOptions ? <MathExpression expression={optionText} /> : optionText;
           const isSelected = block.multiple ? selected.includes(optionIndex) : values[block.id] === String(optionIndex);
           return <div className="question-selection-option" data-grade-state={isSelected ? gradeState : undefined} key={optionText}>{block.multiple
-            ? <Checkbox labelText={optionDisplay} aria-label={optionText} name={`${question.id}-${block.id}`} checked={isSelected} disabled={isLocked} containerStyle={{ margin: '8px 0' }} onChange={() => onChange(block.id, JSON.stringify(isSelected ? selected.filter(value => value !== optionIndex) : [...selected, optionIndex]))} />
+            ? <Checkbox labelText={optionDisplay} aria-label={optionText} name={`${question.id}-${block.id}`} checked={isSelected} disabled={isLocked} color={answerKeyMode ? '#00844b' : undefined} containerStyle={{ margin: '8px 0' }} onChange={() => onChange(block.id, JSON.stringify(isSelected ? selected.filter(value => value !== optionIndex) : [...selected, optionIndex]))} />
             : <label><input type="radio" name={`${question.id}-${block.id}`} checked={isSelected} disabled={isLocked} onChange={() => onChange(block.id, String(optionIndex))} />{optionDisplay}</label>}<span className="graded-answer-indicator" aria-hidden="true">{isSelected && <GradedAnswerIcon state={gradeState} />}</span></div>;
         })}</fieldset>;
       }
@@ -55,7 +55,7 @@ export default function MathQuestion({ question, values = {}, onChange, history 
         })}</div></fieldset>;
       }
       if (block.type === 'graph-pad') return <GraphingPad key={index} disabled={isLocked} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
-      if (block.type === 'number-line') return <NumberLinePad key={index} value={values[block.id]} label={block.label} onChange={value => onChange(block.id, value)} />;
+      if (block.type === 'number-line') return <NumberLinePad key={index} value={values[block.id]} label={block.label} disabled={isLocked} answerKey={answerKeyMode} onChange={value => onChange(block.id, value)} />;
       if (block.type === 'fix-it') return <section className="r5-fix-it" key={index} aria-label="Fix It">
         <h3>{block.title}</h3>{block.notice && <p className="r5-sequence-notice">{block.notice}</p>}<p>{block.prompt}</p><div className="r5-incorrect-solution"><p>{block.solutionPrompt || 'Factor completely.'}</p>{block.expression && <MathExpression expression={block.expression} />}<ol>{block.steps.map((step, stepIndex) => <li key={step}><span>STEP {stepIndex + 1}: </span><MathExpression expression={step} /></li>)}</ol></div>
         <Button className="rebrand-button" variant={ButtonVariant.outline} onClick={() => setBegun(true)}>Click here to begin</Button>

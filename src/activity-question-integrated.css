@@ -6,7 +6,9 @@
 .question-surface .question-attempt-score strong{padding:4px 8px;color:var(--brand-navy);font-size:14px;line-height:20px}
 .question-surface .question-attempt-indicators{gap:4px}
 .question-surface>.player-question-content{box-sizing:border-box;max-width:none;margin:0;padding:20px var(--question-card-inset);border:1px solid var(--border);border-bottom:0;border-radius:8px 8px 0 0;background:var(--surface)}
-.player-question-integrated--test .question-surface>.player-question-content{border:0}
+/* Tests have no resources, attempts, or grading footer to complete the card,
+   so the question content owns the full bordered surface. */
+.player-question-integrated--test .question-surface>.player-question-content{border:1px solid var(--border);border-radius:8px}
 .question-surface .question-attempt-table :is(th,td):first-child{padding-left:var(--question-card-inset)!important}
 .question-surface .question-attempt-table :is(th,td):last-child{padding-right:var(--question-card-inset)!important}
 .question-surface .player-question-grading-footer{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin:24px calc(-1 * var(--question-card-inset)) -12px;padding:16px var(--question-card-inset);border-top:1px solid var(--border);border-radius:0 0 7px 7px}

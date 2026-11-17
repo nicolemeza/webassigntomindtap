@@ -40,6 +40,8 @@
 .question-selection-option .graded-answer-icon.is-correct{color:#16803f}
 .question-selection-option .graded-answer-icon.is-incorrect{color:var(--field-validation-color)}
 .question-selection-option .graded-answer-icon svg{display:block;width:20px;height:20px}
+.r5-question--answer-key .question-selection-option:has(input:checked){color:#00844b}
+.r5-question--answer-key .question-selection-option:has(input:checked) :is(svg,path){color:#00844b!important;fill:#00844b!important;stroke:#00844b!important}
 .question-graph-choices>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .question-graph-choices label{box-sizing:border-box;min-width:0;padding:8px;border:1px solid var(--border);border-radius:8px;background:white;cursor:pointer}
 .question-graph-choices label.is-selected{outline:2px solid var(--brand-teal);outline-offset:-2px}
