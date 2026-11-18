@@ -25,7 +25,8 @@
 .question-surface .activity-resource-actions{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
 .question-surface .activity-resource-actions button{flex:0 1 auto;max-width:100%}
 .question-surface .activity-resource-actions .activity-resource-assistant{margin-left:0}
-.question-surface .activity-resources--with-rejoinder{padding-top:20px}
+.question-surface>.player-question-content:has(+.activity-resources--with-rejoinder){padding-bottom:8px}
+.question-surface .activity-resources--with-rejoinder{padding-top:12px}
 .question-surface .activity-resource-rejoinder .question-rejoinder{margin:0;padding:0;border:0;border-radius:0;background:transparent}
 .question-surface .activity-resource-rejoinder+.activity-resources-main{margin-top:16px}
 .question-surface>.player-question-grading-footer{margin:0;padding:16px var(--question-card-inset);border:1px solid var(--border);border-radius:0 0 8px 8px}

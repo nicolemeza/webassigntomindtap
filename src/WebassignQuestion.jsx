@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tooltip } from 'react-magma-dom';
+import { Button, ButtonColor, ButtonSize, ButtonVariant, Tooltip } from 'react-magma-dom';
 import MathAnswerInput, { GradedAnswerIcon } from './MathAnswerInput';
 import GraphingPad from './GraphingPad';
 import NumberLinePad from './NumberLinePad';
@@ -16,7 +16,7 @@ function safeStyle(value = '') {
     return [rule.slice(0, colon).trim().replace(/-([a-z])/g, (_, c) => c.toUpperCase()), rule.slice(colon + 1).trim()];
   }).filter(([key, value]) => /^(fontStyle|fontWeight|verticalAlign|textAlign|borderTop|borderBottom|borderLeft|borderRight|paddingLeft|paddingRight|display|width|height)$/.test(key) && !/url|expression/i.test(value)));
 }
-export default function WebassignQuestion({ question: originalQuestion, values = {}, onChange, instructor = false, disabled = false, showWrittenResponse = true, history = {}, lastSubmitted = {}, solutionAvailable = false, answerKeyVisible = false, answerKeyMode = false }) {
+export default function WebassignQuestion({ question: originalQuestion, values = {}, onChange, instructor = false, disabled = false, showWrittenResponse = true, history = {}, lastSubmitted = {}, solutionAvailable = false, answerKeyVisible = false, answerKeyMode = false, renderAnswerActions }) {
   const [showAnswers, setShowAnswers] = useState(answerKeyVisible);
   const [randomizedPreview, setRandomizedPreview] = useState(null);
   const canRandomize = instructor && supportsQuestionRandomization(originalQuestion);
@@ -91,10 +91,13 @@ export default function WebassignQuestion({ question: originalQuestion, values =
       </Tooltip>
     ) : renderedNode;
   };
+  const answerToggle = answersAvailable && !answerKeyVisible && (renderAnswerActions
+    ? <Button className="learn-it-solution-toggle" type="button" color={ButtonColor.subtle} variant={ButtonVariant.solid} size={ButtonSize.small} aria-pressed={showAnswers} onClick={() => setShowAnswers(!showAnswers)}>{solutionAvailable ? showAnswers ? 'Hide solution' : 'Show solution' : showAnswers ? 'Hide answer key' : 'Show answer key'}</Button>
+    : <button type="button" className="author-text-button" aria-pressed={showAnswers} onClick={() => setShowAnswers(!showAnswers)}>{solutionAvailable ? showAnswers ? 'Hide solution' : 'Show solution' : showAnswers ? 'Hide answer key' : 'Show answer key'}</button>);
   return <div className="webassign-question">
-    {answersAvailable && !answerKeyVisible && <div className="imported-key-toolbar">
+    {answersAvailable && !answerKeyVisible && !renderAnswerActions && <div className="imported-key-toolbar">
       {canRandomize && <button type="button" className="author-text-button" onClick={() => setRandomizedPreview(current => nextQuestionRandomization(current || question))}>See new randomization</button>}
-      <button type="button" className="author-text-button" aria-pressed={showAnswers} onClick={() => setShowAnswers(!showAnswers)}>{solutionAvailable ? showAnswers ? 'Hide solution' : 'Show solution' : showAnswers ? 'Hide answer key' : 'Show answer key'}</button>
+      {answerToggle}
     </div>}
     {canRandomize && <span className="visually-hidden" role="status">{randomizedPreview ? 'New randomization shown. Randomized values have a dotted underline.' : ''}</span>}
     {question.exploration?.url === 'https://college.cengage.com/mathematics/precalculus/explore_it/topic7/stretching.html' && <section className="imported-exploration" aria-label="Explore It">
@@ -104,5 +107,6 @@ export default function WebassignQuestion({ question: originalQuestion, values =
     </section>}
     <div className="imported-question-content">{question.content.map((node, index) => render(node, String(index)))}</div>
     {showWrittenResponse && !question.fields.length && <label className="imported-written-response">Your response<textarea value={values.response || ''} disabled={disabled} onChange={event => onChange('response', event.target.value)} /></label>}
+    {renderAnswerActions?.(answerToggle)}
   </div>;
 }
